@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  service_array_comma_separated: MyText
+  created_at: MyText
+  updated_at: MyText
+  flow_id: 
+
+two:
+  service_array_comma_separated: MyText
+  created_at: MyText
+  updated_at: MyText
+  flow_id: 

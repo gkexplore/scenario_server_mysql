@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  route_type: MyText
+  path: MyText
+  request_body: MyText
+  fixture: MyText
+  created_at: MyText
+  updated_at: MyText
+  status: 1
+  scenario_id: 
+
+two:
+  route_type: MyText
+  path: MyText
+  request_body: MyText
+  fixture: MyText
+  created_at: MyText
+  updated_at: MyText
+  status: 1
+  scenario_id: 
