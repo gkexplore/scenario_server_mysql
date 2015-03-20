@@ -1,0 +1,5 @@
+rails generate model feature feature_name:string
+rails generate model flow flow_name:string feature:references
+rails generate model scenario scenario_name:string flow:references
+rails generate model route route_type:string path:string query:text request_body:text fixture:text status:string scenario:references
+rails generate model device device_ip:string scenario:references
