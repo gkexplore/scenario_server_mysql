@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  put 'scenario/:scenario_name/:device_ip' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
+  resources :devices
+  resources :scenarios
+  get '*path'=>'devices#respond_to_CMA_client'
+  post '*path'=>'devices#respond_to_CMA_client'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
