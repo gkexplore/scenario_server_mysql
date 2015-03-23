@@ -1,4 +1,6 @@
 <p>
   <strong>Feature:</strong>
   <%= @feature.feature_name %>
+  <%= link_to 'Edit', edit_feature_path(@feature) %> |
+  <%= link_to 'Back', features_path %>
 </p>

@@ -1,0 +1,25 @@
+<%= form_for @feature do |f| %>
+ <% if @feature.errors.any? %>
+    <div id="field_with_errors">
+      <h2>
+        <%= pluralize(@feature.errors.count, "error") %> prohibited
+        this feature from being saved:
+      </h2>
+      <ul>
+        <% @feature.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= f.label :feature_name %><br>
+    <%= f.text_field :feature_name %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+
+  </p>
+<% end %>

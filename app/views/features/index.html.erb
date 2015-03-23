@@ -8,6 +8,8 @@
   <% @features.each do |feature| %>
     <tr>
       <td><%= feature.feature_name %></td>
+      <td><%= link_to 'Show', feature_path(feature) %></td>
+      <td><%= link_to 'Edit', edit_feature_path(feature) %></td>
     </tr>
   <% end %>
   <%= link_to 'New Feature', new_feature_path %>
