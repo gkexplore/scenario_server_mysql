@@ -2,15 +2,19 @@ class CreateRoutes < ActiveRecord::Migration
   def change
     create_table :routes do |t|
       t.string :route_type
-      t.string :path
+      t.text :path
       t.text :query
       t.text :request_body
-      t.string :fixture
+      t.text :fixture
       t.string :status
       t.references :scenario, index: true
 
       t.timestamps null: false
     end
     add_foreign_key :routes, :scenarios
+    change_column :routes, :fixture, :text, :limit => 4294967295
+    change_column :routes, :query, :text, :limit => 4294967295
+    change_column :routes, :request_body, :text, :limit => 4294967295
+    change_column :routes, :path, :text, :limit => 4294967295
   end
 end
