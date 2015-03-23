@@ -5,7 +5,7 @@ class CreateRoutes < ActiveRecord::Migration
       t.string :path
       t.text :query
       t.text :request_body
-      t.text :fixture
+      t.string :fixture
       t.string :status
       t.references :scenario, index: true
 
