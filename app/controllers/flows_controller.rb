@@ -3,7 +3,9 @@ class FlowsController < ApplicationController
 
 	end
 	def create
-
+		 @feature = Feature.find(params[:feature_id])
+    	 @comment = @feature.flows.create(flow_params)
+    	 redirect_to feature_path(@feature)
 	end
 	def new
 
@@ -18,6 +20,13 @@ class FlowsController < ApplicationController
 		
 	end
 	def destroy
-
+		@feature = Feature.find(params[:feature_id])
+    	@flow = @feature.flows.find(params[:id])
+   		@flow.destroy
+    	redirect_to feature_path(@feature)
 	end
+	private
+    def flow_params
+      params.require(:flow).permit(:flow_name)
+    end
 end

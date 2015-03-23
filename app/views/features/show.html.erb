@@ -1,6 +1,11 @@
 <p>
   <strong>Feature:</strong>
   <%= @feature.feature_name %>
+  <h2>Flows</h2>
+	<%= render @feature.flows %>
+ 
+	<h2>Add a flow:</h2>
+	<%= render 'flows/form' %>
   <%= link_to 'Edit', edit_feature_path(@feature) %> |
   <%= link_to 'Back', features_path %>
 </p>
