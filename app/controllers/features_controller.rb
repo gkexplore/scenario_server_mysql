@@ -5,11 +5,14 @@ class FeaturesController < ApplicationController
 	end
 	def create
 		@feature = Feature.new(feature_params)
-  		@feature.save
-  		redirect_to @feature
+  		if @feature.save
+  			redirect_to @feature
+  		else
+  			render 'new'
+  		end
 	end
 	def new
-
+		@feature = Feature.new
 	end
 	def edit
 
