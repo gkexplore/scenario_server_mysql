@@ -1,5 +1,5 @@
 require 'socket' 
-
+require 'cgi'
 class DevicesController < ApplicationController
 #To eliminate authentication token error
 skip_before_filter :verify_authenticity_token
@@ -13,7 +13,13 @@ skip_before_filter :verify_authenticity_token
 				ip_address = remote_ip
 			end
 
-			received_path = params[:path]
+			u = URI.parse(request.url)
+			query = u.query
+			if query.to_s.strip.length != 0
+				query = "?"<<query
+			end
+			received_path = "/#{params[:path]}#{query}"
+			puts received_path
 			@device = Device.find_by(:device_ip=>ip_address)
 			@route = @device.scenario.routes.find_by(:path=>received_path,:route_type=>request.method)
 			if @route.blank?
