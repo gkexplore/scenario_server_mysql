@@ -1,0 +1,13 @@
+<h1>Listing features</h1>
+ 
+<table>
+  <tr>
+    <th>Feature</th>
+  </tr>
+ 
+  <% @features.each do |feature| %>
+    <tr>
+      <td><%= feature.feature_name %></td>
+    </tr>
+  <% end %>
+</table>

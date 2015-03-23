@@ -1,0 +1,10 @@
+<%= form_for :feature, url: features_path do |f| %>
+  <p>
+    <%= f.label :feature_name %><br>
+    <%= f.text_field :feature_name %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
