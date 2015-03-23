@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/'=>'features#index'
   put 'scenario/:scenario_name/:device_ip' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
   resources :devices
     resources :features do
