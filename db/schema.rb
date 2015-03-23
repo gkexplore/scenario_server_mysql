@@ -39,14 +39,14 @@ ActiveRecord::Schema.define(version: 20150320224556) do
 
   create_table "routes", force: :cascade do |t|
     t.string   "route_type",   limit: 255
-    t.string   "path",         limit: 255
-    t.text     "query",        limit: 65535
-    t.text     "request_body", limit: 65535
-    t.text     "fixture",      limit: 65535
+    t.text     "path",         limit: 4294967295
+    t.text     "query",        limit: 4294967295
+    t.text     "request_body", limit: 4294967295
+    t.text     "fixture",      limit: 4294967295
     t.string   "status",       limit: 255
     t.integer  "scenario_id",  limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   add_index "routes", ["scenario_id"], name: "index_routes_on_scenario_id", using: :btree
