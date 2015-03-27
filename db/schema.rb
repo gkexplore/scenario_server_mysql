@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20150320224556) do
     t.integer  "scenario_id",  limit: 4
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.text     "host",         limit: 4294967295
   end
 
   add_index "routes", ["scenario_id"], name: "index_routes_on_scenario_id", using: :btree
