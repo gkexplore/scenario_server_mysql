@@ -12,14 +12,12 @@ skip_before_filter :verify_authenticity_token
 			else
 				ip_address = remote_ip
 			end
-
-			u = URI.parse(request.url)
-			query = u.query
+			url = URI.parse(request.url)
+			query = url.query
 			if query.to_s.strip.length != 0
 				query = "?"<<query
 			end
 			received_path = "/#{params[:path]}#{query}"
-			puts received_path
 			@device = Device.find_by(:device_ip=>ip_address)
 			@route = @device.scenario.routes.find_by(:path=>received_path,:route_type=>request.method)
 			if @route.blank?
@@ -28,12 +26,13 @@ skip_before_filter :verify_authenticity_token
 				render json: @route.fixture, :status => @route.status
 			end
 		rescue =>e
-			logger.error "An error has been occurred #{e.class.name} : #{e.message}"
+			logger.error "An error has been occurred in respond_to_CMA_client #{e.class.name} : #{e.message}"
 			render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 		end	
 	end
 
 	def set_scenario  
+		begin
 		   @scenario = Scenario.find_by(:scenario_name=>params[:scenario_name])
 		   if @scenario.blank?
 		   		logger.debug "Invalid scenario: #{params[:scenario_name]}"
@@ -43,6 +42,10 @@ skip_before_filter :verify_authenticity_token
 		  		@device.update(scenario: @scenario)
 			  	render :json => { :status => 'Ok', :message => 'Received'}, :status => 200 
 		    end
+		    rescue =>e
+				logger.error "An error has been occurred in Set_Scenario #{e.class.name} : #{e.message}"
+				render :json => { :status => '404', :message => 'Not Found'}, :status => 404
+			end	
 	end
 
 	def local_ip
