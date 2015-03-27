@@ -8,7 +8,6 @@ class CreateRoutes < ActiveRecord::Migration
       t.text :fixture
       t.string :status
       t.references :scenario, index: true
-
       t.timestamps null: false
     end
     add_foreign_key :routes, :scenarios
@@ -16,5 +15,6 @@ class CreateRoutes < ActiveRecord::Migration
     change_column :routes, :query, :text, :limit => 4294967295
     change_column :routes, :request_body, :text, :limit => 4294967295
     change_column :routes, :path, :text, :limit => 4294967295
+    add_column :routes, :host, :text, :limit => 4294967295
   end
 end
