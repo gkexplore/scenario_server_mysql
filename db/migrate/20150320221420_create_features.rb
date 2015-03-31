@@ -5,5 +5,6 @@ class CreateFeatures < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+    add_index :features, [:feature_name], :unique => true
   end
 end

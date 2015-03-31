@@ -7,5 +7,6 @@ class CreateScenarios < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :scenarios, :flows
+    add_index :scenarios, [:scenario_name], :unique => true
   end
 end

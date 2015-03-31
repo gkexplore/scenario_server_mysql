@@ -33,6 +33,7 @@ class FeaturesController < ApplicationController
 
 	end
 	def export
+			@features = Feature.where(:id=>params[:feature_ids]).includes({:flows =>{:scenarios => :routes}}).joins({:flows =>{:scenarios => :routes}})
 			file_name = Time.now.to_s<<".json"
 			send_data @features.as_json.to_json, :type=>'json', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
 	end
