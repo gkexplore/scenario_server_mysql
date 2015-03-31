@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20150320224556) do
     t.datetime "updated_at",               null: false
   end
 
+  add_index "features", ["feature_name"], name: "index_features_on_feature_name", unique: true, using: :btree
+
   create_table "flows", force: :cascade do |t|
     t.string   "flow_name",  limit: 255
     t.integer  "feature_id", limit: 4
@@ -36,6 +38,7 @@ ActiveRecord::Schema.define(version: 20150320224556) do
   end
 
   add_index "flows", ["feature_id"], name: "index_flows_on_feature_id", using: :btree
+  add_index "flows", ["flow_name"], name: "index_flows_on_flow_name", unique: true, using: :btree
 
   create_table "routes", force: :cascade do |t|
     t.string   "route_type",   limit: 255
@@ -60,6 +63,7 @@ ActiveRecord::Schema.define(version: 20150320224556) do
   end
 
   add_index "scenarios", ["flow_id"], name: "index_scenarios_on_flow_id", using: :btree
+  add_index "scenarios", ["scenario_name"], name: "index_scenarios_on_scenario_name", unique: true, using: :btree
 
   add_foreign_key "devices", "scenarios"
   add_foreign_key "flows", "features"
