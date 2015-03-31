@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<body>
+
+		<div class="upload_manual"><a href="/">Home</a> 
+	
+		<div class="manual_upload">
+			<%= form_tag({action: :import_json}, multipart: true) do %>
+			 Please select a file here: <%= file_field 'upload', 'datafile' %></p>
+			  <%= submit_tag "Upload" %>
+			<% end %>
+		</div>
+	</body>
+</html>
