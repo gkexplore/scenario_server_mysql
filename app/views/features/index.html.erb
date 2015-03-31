@@ -3,14 +3,25 @@
 <table>
   <tr>
     <th>Feature</th>
+    <th></th>
+    <th></th>
+    <th>Export</th>
   </tr>
- 
+<form name="features_export" action="features/export" method="post">
   <% @features.each do |feature| %>
     <tr>
       <td><%= feature.feature_name %></td>
       <td><%= link_to 'Show', feature_path(feature) %></td>
       <td><%= link_to 'Edit', edit_feature_path(feature) %></td>
+      <td> <%= check_box_tag "feature_ids[]", feature.id %></td>
     </tr>
   <% end %>
+  <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><input type="submit" value="Export"></td>
+  </tr>   
+<form/>
   <%= link_to 'New Feature', new_feature_path %>
 </table>

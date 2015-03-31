@@ -1,5 +1,6 @@
 class FeaturesController < ApplicationController
 	#http_basic_authenticate_with name: "dhh", password: "secret", only: :index
+	 skip_before_filter :verify_authenticity_token
 	def index
 		@features = Feature.all
 	end
@@ -30,6 +31,10 @@ class FeaturesController < ApplicationController
 	end
 	def destroy
 
+	end
+	def export
+			file_name = Time.now.to_s<<".json"
+			send_data @features.as_json.to_json, :type=>'json', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
 	end
 	private
 	 def feature_params
