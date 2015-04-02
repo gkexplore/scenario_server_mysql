@@ -1,12 +1,10 @@
 module FeaturesHelper
 	def store_json(file)
-		directory ="public"
+	directory ="public"
 		path = File.join(directory,file['datafile'].original_filename)
 		File.open(path,"wb"){|f| f.write(file['datafile'].read)}
-		json_string = File.read("#{directory}/#{file['datafile'].original_filename}")
-		proper_json = json_string.gsub('\"', '"')
-		logs = JSON.parse(proper_json)
-		logs.each do |feature|
+		yaml_string = YAML.load_file("#{directory}/#{file['datafile'].original_filename}")
+		yaml_string.each do |feature|
 			feature_model = Feature.find_or_initialize_by(:id=>feature['id'],:feature_name=>feature['feature_name'])
 			feature_model.update(:id=>feature['id'],:feature_name=>feature['feature_name'])
 			feature['flows'].each do |flow|

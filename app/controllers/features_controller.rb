@@ -5,6 +5,7 @@ class FeaturesController < ApplicationController
 	def index
 		@features = Feature.all
 	end
+
 	def create
 		@feature = Feature.new(feature_params)
   		if @feature.save
@@ -13,15 +14,19 @@ class FeaturesController < ApplicationController
   			render 'new'
   		end
 	end
+	
 	def new
 		@feature = Feature.new
 	end
+	
 	def edit
 		@feature = Feature.find(params[:id])
 	end
+	
 	def show
 		@feature = Feature.find(params[:id])
 	end
+	
 	def update
 		@feature = Feature.find(params[:id])
 		  if @feature.update(feature_params)
@@ -30,13 +35,16 @@ class FeaturesController < ApplicationController
 		    render 'edit'
 		  end
 	end
+	
 	def destroy
 
 	end
+	
 	def export
 			@features = Feature.where(:id=>params[:feature_ids]).includes({:flows =>{:scenarios => :routes}}).joins({:flows =>{:scenarios => :routes}})
-			file_name = Time.now.to_s<<".json"
-			send_data @features.as_json.to_json, :type=>'json', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+			file_name = Time.now.to_s<<".yaml"
+			@features.as_json.to_yaml
+			send_data @features.as_json.to_yaml, :type=>'yaml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
 	end
 
 	def import_json_index
