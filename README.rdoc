@@ -1,28 +1,44 @@
-== README
+Step1: Clone the new scenario server from github
+                  git clone https://github.com/gkexplore/scenario_server_mysql.git
+Step 2: Make sure you have rvm 2.2.0 version. One can check that by running rvm list command 
+                   rvm install 2.2.0
+Step 3: Install rails 
+                   gem install rails
+                    if above command fails due to missing command line tools, then run : xcode-select —install  to install command line tools
+                    Run the below command again and it would take around 10mins
+                   gem install rails 
+Step 4: Navigate to cloned scenario server code base and run the following commands
+                   To install MySQL server
+                   brew install mysql    
+                   To install all the required gems for scenario server
+                   bundle install
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Step 5: Setup mysql
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+                   To Start MySQL
+ 
+                    mysql.server start
+                    
+                    To set root password, run
+                    mysql_secure_installation
+                               Enter current password for root (enter for none): simply press enter
+                               Set root password? [Y/n]  - type y
+                               New password: auto@123
+                               Re-enter new password: auto@123
+                               Password updated successfully!
+                               Remove anonymous users? [Y/n] - type n
+                               Disallow root login remotely? [Y/n] - type n
+                               Remove test database and access to it? [Y/n] - type n
+                               Reload privilege tables now? [Y/n] - type y
+                     To create db 
+                               Login into mysql 
+                                        mysql -uroot -pauto@123
+                               Run below command to create database
+                                        create database stubs;
+                       Create tables by running the below command from scenario_server folder
+                                        bin/rake db:migrate RAILS_ENV=development
+Step 6: To start scenario server on port 9090
+                  rails s -p 9090
+                  Open any browser and access the below URL
+                  http://localhost:9090
+Now you should be able to see the home screen of scenario server in your machine
