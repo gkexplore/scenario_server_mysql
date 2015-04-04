@@ -9,15 +9,18 @@ development:
   username: root
   password: auto@123
   host: localhost
+  encoding: utf8
 test:
   adapter: mysql
   database: stubs
   username: root
   password: auto@123
   host: localhost
+  encoding: utf8
 production:
   adapter: mysql
   database: stubs
   username: root
   password: auto@123
   host: localhost
+  encoding: utf8
