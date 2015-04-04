@@ -46,10 +46,10 @@ ActiveRecord::Schema.define(version: 20150320224556) do
     t.text     "query",        limit: 4294967295
     t.text     "request_body", limit: 4294967295
     t.text     "fixture",      limit: 4294967295
-    t.string   "status",       limit: 255
+    t.string   "status",       limit: 255,        default: "200"
     t.integer  "scenario_id",  limit: 4
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.text     "host",         limit: 4294967295
   end
 

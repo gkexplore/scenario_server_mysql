@@ -6,7 +6,7 @@ class CreateRoutes < ActiveRecord::Migration
       t.text :query
       t.text :request_body
       t.text :fixture
-      t.string :status
+      t.string :status , :default => '200'
       t.references :scenario, index: true
       t.timestamps null: false
     end
@@ -16,6 +16,5 @@ class CreateRoutes < ActiveRecord::Migration
     change_column :routes, :request_body, :text, :limit => 4294967295
     change_column :routes, :path, :text, :limit => 4294967295
     add_column :routes, :host, :text, :limit => 4294967295
-     change_column :routes, :status, :default => "200"
   end
 end
