@@ -23,7 +23,7 @@ skip_before_filter :verify_authenticity_token
 			if @route.blank?
 				render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 			else
-				render json: @route.fixture, :status => @route.status
+				render json: @route.fixture, :status => 200
 			end
 		rescue =>e
 			logger.error "An error has been occurred in respond_to_CMA_client #{e.class.name} : #{e.message}"
