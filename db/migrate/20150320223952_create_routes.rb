@@ -16,5 +16,6 @@ class CreateRoutes < ActiveRecord::Migration
     change_column :routes, :request_body, :text, :limit => 4294967295
     change_column :routes, :path, :text, :limit => 4294967295
     add_column :routes, :host, :text, :limit => 4294967295
+     change_column :routes, :status, :default => "200"
   end
 end

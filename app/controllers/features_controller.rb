@@ -1,4 +1,5 @@
 class FeaturesController < ApplicationController
+
 	#http_basic_authenticate_with name: "dhh", password: "secret", only: :index
 	 skip_before_filter :verify_authenticity_token
 	 include FeaturesHelper
@@ -42,9 +43,9 @@ class FeaturesController < ApplicationController
 	
 	def export
 			@features = Feature.where(:id=>params[:feature_ids]).includes({:flows =>{:scenarios => :routes}}).joins({:flows =>{:scenarios => :routes}})
-			file_name = Time.now.to_s<<".yaml"
-			@features.as_json.to_yaml
-			send_data @features.as_json.to_yaml, :type=>'yaml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+			file_name = Time.now.to_s<<".xml"
+			response_xml = @features.to_xml(:include => {:flows => {:include => {:scenarios =>{:include =>:routes}}}})
+			send_data response_xml, :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
 	end
 
 	def import_json_index
