@@ -1,0 +1,31 @@
+<p>
+  <strong>Route:</strong>
+  <%= @route.path %>
+  <table width="100%">
+  	 <thead>
+ 		 <tr>
+        <th width="50%">
+          Fixture
+        </th>
+        <th>
+          Route Type
+        </th>
+        <th>  
+          Host
+        </th>
+    	</tr>
+    </thead>
+    <tbody>
+		<tr>
+      <td>
+       <textarea rows="25" cols="100"><%= @route.fixture %></textarea>
+      </td>
+      <td align="center">
+        <%= @route.route_type %>
+      </td>
+      <td align="center">
+        <%= @route.host %>
+      </td>
+	</tbody>
+</table>
+</p>

@@ -1,0 +1,21 @@
+<p>
+  <strong>Flow:</strong>
+  <%= @flow.flow_name %>
+  <table>
+  	 <thead>
+ 		 <tr>
+    		<th>
+    			<h2>Scenarios</h2>
+    		</th>
+    	</tr>
+    </thead>
+    <tbody>
+		<% @flow.scenarios.each do |scenario| %>
+		<tr>
+			<td>
+				<a href="/features/<%= @flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>"><%= scenario[:scenario_name] %></a>
+			</td>
+		<% end %>
+	</tbody>
+</table>
+</p>

@@ -1,11 +1,21 @@
 <p>
   <strong>Feature:</strong>
   <%= @feature.feature_name %>
-  <h2>Flows</h2>
-	<%= render @feature.flows %>
- 
-	<h2>Add a flow:</h2>
-	<%= render 'flows/form' %>
-  <%= link_to 'Edit', edit_feature_path(@feature) %> |
-  <%= link_to 'Back', features_path %>
+  <table>
+  	 <thead>
+ 		 <tr>
+    		<th>
+    			<h2>Flows</h2>
+    		</th>
+    	</tr>
+    </thead>
+    <tbody>
+		<% @feature.flows.each do |flow| %>
+		<tr>
+			<td>
+				<a href="/features/<%= flow[:feature_id] %>/flows/<%=flow[:id]%>"><%=flow[:flow_name]%></a>
+			</td>
+		<% end %>
+	</tbody>
+</table>
 </p>
