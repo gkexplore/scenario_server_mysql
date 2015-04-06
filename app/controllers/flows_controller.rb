@@ -4,7 +4,7 @@ class FlowsController < ApplicationController
 	end
 	def create
 		 @feature = Feature.find(params[:feature_id])
-    	 @comment = @feature.flows.create(flow_params)
+    	 @flow = @feature.flows.create(flow_params)
     	 redirect_to feature_path(@feature)
 	end
 	def new
@@ -14,6 +14,8 @@ class FlowsController < ApplicationController
 
 	end
 	def show
+		@feature = Feature.find(params[:feature_id])
+		@flow = @feature.flows.find(params[:id])
 
 	end
 	def update

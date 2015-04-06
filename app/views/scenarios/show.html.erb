@@ -1,0 +1,21 @@
+<p>
+  <strong>Scenario:</strong>
+  <%= @scenario.scenario_name %>
+  <table>
+  	 <thead>
+ 		 <tr>
+    		<th>
+    			<h2>Routes</h2>
+    		</th>
+    	</tr>
+    </thead>
+    <tbody>
+		<% @scenario.routes.each do |route| %>
+		<tr>
+			<td>
+				<a href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
+			</td>
+		<% end %>
+	</tbody>
+</table>
+</p>
