@@ -59,9 +59,13 @@ class FeaturesController < ApplicationController
 	def import_json
 		file = params[:upload]
 		begin
-			store_json(file)
-			File.delete("public/#{file['datafile'].original_filename}")
-			render :text => "You report stubs have been uploaded successfully!!!"
+			if file['datafile'].content_type=="text/xml"
+				store_json(file)
+				File.delete("public/#{file['datafile'].original_filename}")
+				render :text => "Yous stubs have been uploaded successfully!!!"
+			else
+				render :text => "Please upload a valid xml file!!!"
+			end
 		rescue=>e
 			render :text => "An error has been occurred while importing the stubs!!! #{e.class.name}: #{e.message}"
 		end
