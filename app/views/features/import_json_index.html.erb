@@ -1,14 +1,21 @@
-<!DOCTYPE html>
-<html>
-	<body>
 
-		<div class="upload_manual"><a href="/">Home</a> 
-	
-		<div class="manual_upload">
-			<%= form_tag({action: :import_json}, multipart: true) do %>
-			 Please select a file here: <%= file_field 'upload', 'datafile' %></p>
-			  <%= submit_tag "Upload" %>
-			<% end %>
+
+<div class="container-fluid">
+	<div class="page-header">
+ 	 <h1>Import Stubs from XML file</h1>
+	</div>
+	<%= form_tag({action: :import_json}, multipart: true) do %>
+		<div class="row" style="padding-bottom:20px">
+	  		<div class="col-md-6 text-right">Please select a file here:</div>
+	  		<div class="col-md-6 text-right"><%= file_field 'upload', 'datafile' %> </div>
+	  		
 		</div>
-	</body>
-</html>
+		<div class="row">
+	  		<div class="col-md-4 text-right"></div>
+	  		<div class="col-md-4 text-center"><input type="submit" name="commit" value="Import Stubs" class="btn btn-primary" /></div>
+	  		<div class="col-md-4 text-left"></div>
+		</div>
+	 <% end %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              features_path, :class => 'btn btn-default'  %>
+ </div>
