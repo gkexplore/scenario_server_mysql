@@ -1,25 +1,31 @@
-<%= form_for @feature do |f| %>
- <% if @feature.errors.any? %>
-    <div id="field_with_errors">
-      <h2>
-        <%= pluralize(@feature.errors.count, "error") %> prohibited
-        this feature from being saved:
-      </h2>
-      <ul>
+<%= form_for @feature, :html => { :class => "form-horizontal feature" } do |f| %>
+
+    <% if @feature.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@feature.errors.count, "error") %> prohibited this feature from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
         <% @feature.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
         <% end %>
-      </ul>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <p>
-    <%= f.label :feature_name %><br>
-    <%= f.text_field :feature_name %>
-  </p>
- 
-  <p>
-    <%= f.submit %>
+  <div class="control-group">
+    <%= f.label :feature_name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :feature_name, :class => 'form-control' %>
+    </div>
+    <%= error_span(@feature[:feature_name]) %>
+  </div>
 
-  </p>
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            features_path, :class => 'btn btn-default' %>
+
 <% end %>

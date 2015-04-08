@@ -1,27 +1,57 @@
-<h1>Listing features</h1>
- <div class="upload_manual"> <a href="features/import_json">Upload Manually</a></div>
-<table>
-  <tr>
-    <th>Feature</th>
-    <th></th>
-    <th></th>
-    <th>Export</th>
-  </tr>
+
+<div class="container-fluid">
+  <%- model_class = Feature -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
 <form name="features_export" action="features/export" method="post">
-  <% @features.each do |feature| %>
+<table class="table table-striped">
+  <thead>
     <tr>
-      <td><%= feature.feature_name %></td>
-      <td><%= link_to 'Show', feature_path(feature) %></td>
-      <td><%= link_to 'Edit', edit_feature_path(feature) %></td>
-      <td> <%= check_box_tag "feature_ids[]", feature.id %></td>
+        <th colspan="3">
+
+        </th>
+        <th class="text-right">
+           <a href="features/import_json" class="btn btn-primary">Upload Feature</a>
+        </th>
     </tr>
-  <% end %>
-  <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td><input type="submit" value="Export"></td>
-  </tr>   
-<form/>
-  <%= link_to 'New Feature', new_feature_path %>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:feature_name) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th> Select Feature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @features.each do |feature| %>
+      <tr>
+        <td><%= link_to feature.id, feature_path(feature) %></td>
+        <td><%= link_to feature.feature_name, feature_path(feature) %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_feature_path(feature), :class => 'btn btn-default btn-xs' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      feature_path(feature),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
+        </td>
+ 
+        <td> <%= check_box_tag "feature_ids[]", feature.id %></td>
+
+      </tr>
+    <% end %>
+      <tr>
+          <td colspan="3">
+          </td>
+          <td>
+              <input type="submit" name="commit" value="Export Feature" class="btn btn-primary" />
+          </td>
+      </tr>
+  </tbody>
 </table>
+</form>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_feature_path,
+            :class => 'btn btn-primary' %>
+  </div>
