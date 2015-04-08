@@ -42,10 +42,14 @@ class FeaturesController < ApplicationController
 	end
 	
 	def export
+		begin
 			@features = Feature.where(:id=>params[:feature_ids]).includes({:flows =>{:scenarios => :routes}}).joins({:flows =>{:scenarios => :routes}})
 			file_name = Time.now.to_s<<".xml"
 			response_xml = @features.to_xml(:include => {:flows => {:include => {:scenarios =>{:include =>:routes}}}})
 			send_data response_xml, :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+		rescue=>e
+			render :text=> "An error has been occurred while exporting the report!!! #{e.class.name}: #{e.message}"
+		end
 	end
 
 	def import_json_index
@@ -57,10 +61,10 @@ class FeaturesController < ApplicationController
 		begin
 			store_json(file)
 			File.delete("public/#{file['datafile'].original_filename}")
+			render :text => "You report stubs have been uploaded successfully!!!"
 		rescue=>e
-			puts "An error has been occurred while importing the data!!! #{e.class.name}: #{e.message}"
+			render :text => "An error has been occurred while importing the stubs!!! #{e.class.name}: #{e.message}"
 		end
-		redirect_to '/'
 	end
 
 	private
