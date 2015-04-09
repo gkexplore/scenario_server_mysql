@@ -1,14 +1,9 @@
+
+<div class="container-fluid">
 <p>
-  <strong>Flow:</strong>
-  <%= @flow.flow_name %>
+  <div class="page-header">
+  <h1> <%= @flow.flow_name %></h1>
   <table>
-  	 <thead>
- 		 <tr>
-    		<th>
-    			<h2>Scenarios</h2>
-    		</th>
-    	</tr>
-    </thead>
     <tbody>
 		<% @flow.scenarios.each do |scenario| %>
 		<tr>
@@ -19,3 +14,4 @@
 	</tbody>
 </table>
 </p>
+</div>

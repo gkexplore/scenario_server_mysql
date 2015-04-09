@@ -1,12 +1,10 @@
+
+<div class="container-fluid">
 <%- model_class = Feature -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+  <h1><%= @feature.feature_name %></h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:feature_name) %>:</strong></dt>
-  <dd><%= @feature.feature_name %></dd>
-</dl>
  <table class="table table-striped text-center">
   	 <thead >
  		 <tr>
@@ -33,4 +31,5 @@
 </p>
 <%= link_to t('.back', :default => t("helpers.links.back")),
               features_path, :class => 'btn btn-default'  %>
+</div>
 

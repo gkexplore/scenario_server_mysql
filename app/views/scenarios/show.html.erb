@@ -1,14 +1,8 @@
+
+<div class="container-fluid">
 <p>
-  <strong>Scenario:</strong>
-  <%= @scenario.scenario_name %>
+ <div class="page-header"><h1> <%= @scenario.scenario_name %></h1></div>
   <table>
-  	 <thead>
- 		 <tr>
-    		<th>
-    			<h2>Routes</h2>
-    		</th>
-    	</tr>
-    </thead>
     <tbody>
 		<% @scenario.routes.each do |route| %>
 		<tr>
@@ -19,3 +13,4 @@
 	</tbody>
 </table>
 </p>
+</div>
