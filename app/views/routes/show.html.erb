@@ -22,10 +22,15 @@
 		<tr>
       <td>
        <textarea rows="25" cols="130"><%=
-       hash = JSON.parse @route.fixture
-  
+       begin
+        json_object = JSON.parse @route.fixture
+        JSON.pretty_generate(json_object)
+      rescue
+        "Invalid json #{@route.fixture}"
+      end
+         %></textarea>
+        
 
-        JSON.pretty_generate(hash) %></textarea>
       </td>
       <td align="center">
         <%= @route.route_type %>
