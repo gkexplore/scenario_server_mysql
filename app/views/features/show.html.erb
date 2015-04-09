@@ -5,6 +5,20 @@
   <h1><%= @feature.feature_name %></h1>
 </div>
 
+
+<h2>Add a flow:</h2>
+<%= form_for([@feature, @feature.flows.build]) do |f| %>
+
+  <p>
+    <%= f.label :flow_name %><br>
+    <%= f.text_field :flow_name %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
+
  <table class="table table-striped text-center">
   	 <thead >
  		 <tr>
