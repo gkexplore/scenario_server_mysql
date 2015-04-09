@@ -10,6 +10,9 @@
 			<td>
 				<a href="/features/<%= @flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>"><%= scenario[:scenario_name] %></a>
 			</td>
+			<td>
+     		   <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/features/<%= @flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>">Delete</a>
+      		</td>
 		<% end %>
 	</tbody>
 </table>

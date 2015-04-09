@@ -20,6 +20,10 @@ class ScenariosController < ApplicationController
 		
 	end
 	def destroy
-
+		@feature = Feature.find(params[:feature_id])
+		@flow = @feature.flows.find(params[:flow_id])
+		@scenario = @flow.scenarios.find(params[:id])
+		@scenario.destroy
+		render "flows/show"
 	end
 end
