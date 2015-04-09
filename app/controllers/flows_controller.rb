@@ -25,7 +25,7 @@ class FlowsController < ApplicationController
 		@feature = Feature.find(params[:feature_id])
     	@flow = @feature.flows.find(params[:id])
    		@flow.destroy
-    	redirect_to feature_path(@feature)
+   		render "features/show"
 	end
 	private
     def flow_params
