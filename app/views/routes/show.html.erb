@@ -1,16 +1,19 @@
+<div class="container-fluid">
 <p>
+  <div class="page-header">
   <strong>Route:</strong>
   <%= @route.path %>
+</div>
   <table width="100%">
   	 <thead>
  		 <tr>
         <th width="50%">
           Fixture
         </th>
-        <th>
+        <th class="text-center">
           Route Type
         </th>
-        <th>  
+        <th class="text-center">  
           Host
         </th>
     	</tr>
@@ -18,7 +21,11 @@
     <tbody>
 		<tr>
       <td>
-       <textarea rows="25" cols="100"><%= @route.fixture %></textarea>
+       <textarea rows="25" cols="130"><%=
+       hash = JSON.parse @route.fixture
+  
+
+        JSON.pretty_generate(hash) %></textarea>
       </td>
       <td align="center">
         <%= @route.route_type %>
@@ -29,3 +36,4 @@
 	</tbody>
 </table>
 </p>
+</div>
