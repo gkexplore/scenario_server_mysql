@@ -3,7 +3,11 @@ class RoutesController < ApplicationController
 
 	end
 	def create
-
+		@feature = Feature.find(params[:feature_id])
+    	@flow = @feature.flows.find(params[:flow_id])
+    	@scenario = @flow.scenarios.find(params[:scenario_id])
+    	@route = @scenario.routes.create(route_params)
+    	render "scenarios/show"
 	end
 	def new
 
@@ -28,4 +32,8 @@ class RoutesController < ApplicationController
 		@route.destroy
 		render "scenarios/show"
 	end
+	private
+	 def route_params
+		params.require(:route).permit(:route_type,:path,:query,:request_body,:fixture,:status,:host)
+	 end
 end

@@ -3,7 +3,10 @@ class ScenariosController < ApplicationController
 
 	end
 	def create
-
+		@feature = Feature.find(params[:feature_id])
+    	@flow = @feature.flows.find(params[:flow_id])
+    	@scenario = @flow.scenarios.create(scenario_params)
+    	render "flows/show"
 	end
 	def new
 
@@ -26,4 +29,9 @@ class ScenariosController < ApplicationController
 		@scenario.destroy
 		render "flows/show"
 	end
+
+	private
+	 def scenario_params
+		params.require(:scenario).permit(:scenario_name)
+	 end
 end

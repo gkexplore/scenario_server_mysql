@@ -1,5 +1,42 @@
 
 <div class="container-fluid">
+	 <div class="page-header">
+	<h1>Add a route:</h1>
+    </div>
+<form class="new_route" id="new_route" action="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=@scenario[:id]%>/routes" accept-charset="UTF-8" method="post">
+	<input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="pWdvo+npH0P1yK39qBcKacH6aljcMzH4ze8z13XeZAIMqSQuafMWWhR/FC01VwJ7Z9apTq5FeIS+Zqg9yGC6PA==" />
+	 <p>
+	    <label for="route_type">Route Type</label><br>
+	    <input type="text" name="route[route_type]" id="route_type" value="Get"/>
+	  </p>
+	  <p>
+	    <label for="route_path">Path</label><br>
+	    <input type="text" name="route[path]" id="route_path" />
+	  </p>
+	   <p>
+	    <label for="query">Query</label><br>
+	    <input type="text" name="route[query]" id="query" />
+	  </p>
+	   <p>
+	    <label for="request_body">Request Body</label><br>
+	    <input type="text" name="route[request_body]" id="request_body" />
+	  </p>
+	  <p>
+	    <label for="fixture">Fixture</label><br>
+	    <input type="text" name="route[fixture]" id="fixture" />
+	  </p>
+	  <p>
+	    <label for="status">Status</label><br>
+	    <input type="text" name="route[status]" id="status" value="200"/>
+	  </p>
+	  <p>
+	    <label for="host">Host</label><br>
+	    <input type="text" name="route[host]" id="host" />
+	  </p>
+	  <p>
+	    <input type="submit" name="commit" value="Create Route" class="btn btn-primary"/>
+	  </p>
+</form>
 <p>
  <div class="page-header"><h1> <%= @scenario.scenario_name %></h1></div>
   <table>
