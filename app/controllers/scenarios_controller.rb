@@ -1,4 +1,5 @@
 class ScenariosController < ApplicationController
+	skip_before_action :verify_authenticity_token
 	def index
 
 	end
@@ -22,7 +23,14 @@ class ScenariosController < ApplicationController
 		@scenario = @flow.scenarios.find(params[:id])
 	end
 	def update
-		
+		@feature = Feature.find(params[:feature_id])
+		@flow = @feature.flows.find(params[:flow_id])
+		@scenario = @flow.scenarios.find(params[:id])
+		  if @scenario.update(scenario_params)
+		    render "flows/show"
+		  else
+		    render 'scenarios/edit'
+		  end
 	end
 	def destroy
 		@feature = Feature.find(params[:feature_id])
