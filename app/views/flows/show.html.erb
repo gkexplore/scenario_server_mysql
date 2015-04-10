@@ -1,34 +1,43 @@
 
 <div class="container-fluid">
 	 <div class="page-header">
-	<h1>Add a flow:</h1>
+		<h1>Add a flow:</h1>
     </div>
-<form class="new_flow" id="new_flow" action="/features/<%= @flow[:feature_id] %>/flows/<%= @flow[:id]%>/scenarios" accept-charset="UTF-8" method="post">
-	<input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="pWdvo+npH0P1yK39qBcKacH6aljcMzH4ze8z13XeZAIMqSQuafMWWhR/FC01VwJ7Z9apTq5FeIS+Zqg9yGC6PA==" />
-	  <p>
-	    <label for="scenario_scenario_name">Scenario name</label><br>
-	    <input type="text" name="scenario[scenario_name]" id="scenario_scenario_name" />
-	  </p>
-	  <p>
-	    <input type="submit" name="commit" value="Create Scenario" class="btn btn-primary"/>
-	  </p>
-</form>
-<p>
-  <div class="page-header">
-  <h1> <%= @flow.flow_name %></h1>
-</div>
-  <table>
-    <tbody>
-		<% @flow.scenarios.each do |scenario| %>
-		<tr>
-			<td>
-				<a href="/features/<%= @flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>"><%= scenario[:scenario_name] %></a>
-			</td>
-			<td>
-     		   <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/features/<%= @flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>">Delete</a>
-      		</td>
-		<% end %>
-	</tbody>
-</table>
-</p>
+	<form class="new_flow" id="new_flow" action="/features/<%= @flow[:feature_id] %>/flows/<%= @flow[:id]%>/scenarios" accept-charset="UTF-8" method="post">
+		<input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="pWdvo+npH0P1yK39qBcKacH6aljcMzH4ze8z13XeZAIMqSQuafMWWhR/FC01VwJ7Z9apTq5FeIS+Zqg9yGC6PA==" />
+		  <p>
+		    <label for="scenario_scenario_name">Scenario name</label><br>
+		    <input type="text" name="scenario[scenario_name]" id="scenario_scenario_name" />
+		  </p>
+		  <p>
+		    <input type="submit" name="commit" value="Create Scenario" class="btn btn-primary"/>
+		  </p>
+	</form>
+	<div class="page-header">
+		<h1> <%= @flow.flow_name %></h1>
+	</div>
+   <table class="table table-striped">
+	   	<thead>
+	   		<tr>
+	   			<th>
+	   				Scenario Name
+	   			</th>
+	   			<th>
+	   				Actions
+	   			</th>
+	   		</tr>
+	   	</thead>
+	    <tbody>
+			<% @flow.scenarios.each do |scenario| %>
+			<tr>
+				<td>
+					<a href="/features/<%= @flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>"><%= scenario[:scenario_name] %></a>
+				</td>
+				<td>
+	     		   <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/features/<%= @flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>">Delete</a>
+	      		</td>
+	      	
+			<% end %>
+		</tbody>
+	</table>
 </div>

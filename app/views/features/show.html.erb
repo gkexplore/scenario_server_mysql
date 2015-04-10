@@ -1,9 +1,6 @@
 
 <div class="container-fluid">
 <%- model_class = Feature -%>
-<div class="page-header">
-  <h1><%= @feature.feature_name %></h1>
-</div>
 
 
 <h2>Add a flow:</h2>
@@ -14,10 +11,13 @@
     <%= f.text_field :flow_name %>
   </p>
   <p>
-    <%= f.submit %>
+    <%= f.submit nil, :class => 'btn btn-primary' %>
   </p>
 <% end %>
 
+<div class="page-header">
+  <h1><%= @feature.feature_name %></h1>
+</div>
 
  <table class="table table-striped text-center">
   	 <thead >
