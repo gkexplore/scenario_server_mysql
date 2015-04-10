@@ -11,7 +11,8 @@ class FlowsController < ApplicationController
 
 	end
 	def edit
-
+		@feature = Feature.find(params[:feature_id])
+		@flow = @feature.flows.find(params[:id])
 	end
 	def show
 		@feature = Feature.find(params[:feature_id])

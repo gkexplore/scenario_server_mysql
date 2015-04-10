@@ -40,6 +40,7 @@
 				<a href="/features/<%= flow[:feature_id] %>/flows/<%=flow[:id]%>"><%=flow[:flow_name]%></a>
 			</td>
       <td>
+        <a class="btn btn-default btn-xs" href="/features/<%= flow[:feature_id] %>/flows/<%=flow[:id]%>/edit">Edit</a>
         <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/features/<%= flow[:feature_id] %>/flows/<%=flow[:id]%>">Delete</a>
       </td>
 		<% end %>
