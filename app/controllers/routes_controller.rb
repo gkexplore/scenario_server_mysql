@@ -4,45 +4,65 @@ class RoutesController < ApplicationController
 
 	end
 	def create
-		@feature = Feature.find(params[:feature_id])
-    	@flow = @feature.flows.find(params[:flow_id])
-    	@scenario = @flow.scenarios.find(params[:scenario_id])
-    	@route = @scenario.routes.create(route_params)
-    	render "scenarios/show"
+		begin
+			@feature = Feature.find(params[:feature_id])
+	    	@flow = @feature.flows.find(params[:flow_id])
+	    	@scenario = @flow.scenarios.find(params[:scenario_id])
+	    	@route = @scenario.routes.create(route_params)
+	    	render "scenarios/show"
+	    rescue=>e
+			render :text => "An error has been occurred while creating the route #{e.class.name}: #{e.message}"
+		end
 	end
 	def new
 
 	end
 	def edit
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:scenario_id])
-		@route = @scenario.routes.find(params[:id])
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:scenario_id])
+			@route = @scenario.routes.find(params[:id])
+		rescue=>e
+			render :text => "An error has been occurred while editing the route #{e.class.name}: #{e.message}"
+		end
 	end
 	def show
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:scenario_id])
-		@route = @scenario.routes.find(params[:id])
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:scenario_id])
+			@route = @scenario.routes.find(params[:id])
+		rescue=>e
+			render :text => "An error has been occurred while retrieving the route #{e.class.name}: #{e.message}"
+		end
 	end
 	def update
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:scenario_id])
-		@route = @scenario.routes.find(params[:id])
-		  if @route.update(route_params)
-		    render "scenarios/show"
-		  else
-		    render 'routes/edit'
-		  end
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:scenario_id])
+			@route = @scenario.routes.find(params[:id])
+			  if @route.update(route_params)
+			    render "scenarios/show"
+			  else
+			    render 'routes/edit'
+			  end
+		rescue=>e
+			render :text => "An error has been occurred while updating the route #{e.class.name}: #{e.message}"
+		end
 	end
 	def destroy
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:scenario_id])
-		@route = @scenario.routes.find(params[:id])
-		@route.destroy
-		render "scenarios/show"
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:scenario_id])
+			@route = @scenario.routes.find(params[:id])
+			@route.destroy
+			render "scenarios/show"
+		rescue=>e
+			render :text => "An error has been occurred while deleting the route #{e.class.name}: #{e.message}"
+		end
 	end
 	private
 	 def route_params

@@ -4,40 +4,60 @@ class ScenariosController < ApplicationController
 
 	end
 	def create
-		@feature = Feature.find(params[:feature_id])
-    	@flow = @feature.flows.find(params[:flow_id])
-    	@scenario = @flow.scenarios.create(scenario_params)
-    	render "flows/show"
+		begin
+			@feature = Feature.find(params[:feature_id])
+	    	@flow = @feature.flows.find(params[:flow_id])
+	    	@scenario = @flow.scenarios.create(scenario_params)
+	    	render "flows/show"
+	    rescue=>e
+			render :text => "An error has been occurred while creating the scenario #{e.class.name}: #{e.message}"
+		end
 	end
 	def new
 
 	end
 	def edit
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:id])
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:id])
+		rescue=>e
+			render :text => "An error has been occurred while editing the scenario #{e.class.name}: #{e.message}"
+		end
 	end
 	def show
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:id])
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:id])
+		rescue=>e
+			render :text => "An error has been occurred while retrieving the scenario #{e.class.name}: #{e.message}"
+		end
 	end
 	def update
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:id])
-		  if @scenario.update(scenario_params)
-		    render "flows/show"
-		  else
-		    render 'scenarios/edit'
-		  end
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:id])
+			  if @scenario.update(scenario_params)
+			    render "flows/show"
+			  else
+			    render 'scenarios/edit'
+			  end
+		rescue=>e
+			render :text => "An error has been occurred while updating the scenario #{e.class.name}: #{e.message}"
+		end
 	end
 	def destroy
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:flow_id])
-		@scenario = @flow.scenarios.find(params[:id])
-		@scenario.destroy
-		render "flows/show"
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:flow_id])
+			@scenario = @flow.scenarios.find(params[:id])
+			@scenario.destroy
+			render "flows/show"
+		rescue=>e
+			render :text => "An error has been occurred while deleting the scenario #{e.class.name}: #{e.message}"
+		end
 	end
 
 	private
