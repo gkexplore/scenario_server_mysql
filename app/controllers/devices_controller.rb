@@ -1,7 +1,7 @@
 require 'socket' 
 require 'cgi'
 class DevicesController < ApplicationController
-#To eliminate authentication token error
+
 skip_before_filter :verify_authenticity_token
 
 	def respond_to_CMA_client
