@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="page-header">
-    <h3>Route:</h3>
+    <h3>Route</h3>
     <%= @route.path %>
   </div>
   <table width="100%">
@@ -26,7 +26,7 @@
           json_object = JSON.parse @route.fixture
           JSON.pretty_generate(json_object)
         rescue
-          "Invalid json: #{@route.fixture}"
+          @route.fixture
         end
          %>
        </textarea>

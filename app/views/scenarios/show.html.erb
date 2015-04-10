@@ -1,7 +1,7 @@
 
 <div class="container-fluid">
 	<div class="page-header">
-		<h3>Add a route:</h3>
+		<h3>Add a route</h3>
     </div>
 	<form class="new_route" id="new_route" action="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=@scenario[:id]%>/routes" accept-charset="UTF-8" method="post">
 	<input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="pWdvo+npH0P1yK39qBcKacH6aljcMzH4ze8z13XeZAIMqSQuafMWWhR/FC01VwJ7Z9apTq5FeIS+Zqg9yGC6PA==" />
@@ -59,12 +59,12 @@
 		</tr>
     </table>
 </form>
- <div class="page-header"><h1> <%= @scenario.scenario_name %></h1></div>
+ <div class="page-header"><h3> <%= @scenario.scenario_name %></h3></div>
 <table class="table-striped table-bordered table-hover table-condensed">
 	<thead>
 		<tr>
 			<th>Path</th>
-			<th>Actions</th>
+			<th >Actions</th>
 		</tr>
 	</thead>
     <tbody>
