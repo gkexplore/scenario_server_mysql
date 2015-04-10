@@ -5,41 +5,86 @@
     </div>
 <form class="new_route" id="new_route" action="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=@scenario[:id]%>/routes" accept-charset="UTF-8" method="post">
 	<input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="pWdvo+npH0P1yK39qBcKacH6aljcMzH4ze8z13XeZAIMqSQuafMWWhR/FC01VwJ7Z9apTq5FeIS+Zqg9yGC6PA==" />
-	 <p>
-	    <label for="route_type">Route Type</label><br>
-	    <input type="text" name="route[route_type]" id="route_type" value="Get"/>
-	  </p>
-	  <p>
-	    <label for="route_path">Path</label><br>
-	    <input type="text" name="route[path]" id="route_path" />
-	  </p>
-	   <p>
-	    <label for="query">Query</label><br>
-	    <input type="text" name="route[query]" id="query" />
-	  </p>
-	   <p>
-	    <label for="request_body">Request Body</label><br>
-	    <input type="text" name="route[request_body]" id="request_body" />
-	  </p>
-	  <p>
-	    <label for="fixture">Fixture</label><br>
-	    <input type="text" name="route[fixture]" id="fixture" />
-	  </p>
-	  <p>
-	    <label for="status">Status</label><br>
-	    <input type="text" name="route[status]" id="status" value="200"/>
-	  </p>
-	  <p>
-	    <label for="host">Host</label><br>
-	    <input type="text" name="route[host]" id="host" />
-	  </p>
-	  <p>
-	    <input type="submit" name="commit" value="Create Route" class="btn btn-primary"/>
-	  </p>
+	 <table class="table-hover table-condensed">
+	 	<tr>
+		  <td>
+		    <label for="route_type">Route Type</label>
+		  </td>
+		
+		  <td>
+		    <label for="route_path">Path</label>
+		  </td>
+		  
+		   <td>
+		    <label for="query">Query</label>
+		  </td>
+		 
+		   <td>
+		    <label for="request_body">Request Body</label>
+		  </td>
+		 
+		  <td>
+		    <label for="fixture">Fixture</label>
+		  </td>
+		 
+		  <td>
+		    <label for="status">Status</label>
+		  </td>
+		  <td>
+		    <label for="host">Host</label>
+		  </td>
+		</tr>
+		
+	 	<tr>
+		  <td>
+
+		    <input type="text" name="route[route_type]" id="route_type" value="Get"/>
+		  </td>
+		
+		  <td>
+
+		    <input type="text" name="route[path]" id="route_path" />
+		  </td>
+		  
+		   <td>
+
+		    <textarea name="route[query]" id="query"></textarea>
+		  </td>
+		 
+		   <td>
+
+		    <input type="text" name="route[request_body]" id="request_body" />
+		  </td>
+		 
+		  <td>
+
+		    <textarea name="route[fixture]" id="fixture" col="200"></textarea>
+		  </td>
+		 
+		  <td>
+
+		    <input type="text" name="route[status]" id="status" value="200"/>
+		  </td>
+		  <td>
+
+		    <input type="text" name="route[host]" id="host" />
+		  </td>
+		</tr>
+		<tr>
+			<td colspan="7">
+		   	  <input type="submit" name="commit" value="Create Route" class="btn btn-primary"/>
+			</td>
+		</tr>
+    </table>
 </form>
-<p>
  <div class="page-header"><h1> <%= @scenario.scenario_name %></h1></div>
-  <table>
+<table class="table-striped table-bordered table-hover table-condensed">
+	<thead>
+		<tr>
+			<th>Path</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
     <tbody>
 		<% @scenario.routes.each do |route| %>
 		<tr>
@@ -52,5 +97,5 @@
 		<% end %>
 	</tbody>
 </table>
-</p>
+
 </div>
