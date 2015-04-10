@@ -1,12 +1,11 @@
 <div class="container-fluid">
-<p>
   <div class="page-header">
-  <strong>Route:</strong>
-  <%= @route.path %>
-</div>
+    <h3>Route:</h3>
+    <%= @route.path %>
+  </div>
   <table width="100%">
-  	 <thead>
- 		 <tr>
+  	<thead>
+ 		  <tr>
         <th width="50%">
           Fixture
         </th>
@@ -21,16 +20,16 @@
     <tbody>
 		<tr>
       <td>
-       <textarea rows="25" cols="130"><%=
-       begin
-        json_object = JSON.parse @route.fixture
-        JSON.pretty_generate(json_object)
-      rescue
-        "Invalid json: #{@route.fixture}"
-      end
-         %></textarea>
-        
-
+       <textarea rows="25" cols="130">
+        <%=
+        begin
+          json_object = JSON.parse @route.fixture
+          JSON.pretty_generate(json_object)
+        rescue
+          "Invalid json: #{@route.fixture}"
+        end
+         %>
+       </textarea>
       </td>
       <td align="center">
         <%= @route.route_type %>
@@ -38,7 +37,6 @@
       <td align="center">
         <%= @route.host %>
       </td>
-	</tbody>
-</table>
-</p>
+	 </tbody>
+  </table>
 </div>
