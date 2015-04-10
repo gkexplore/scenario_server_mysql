@@ -38,7 +38,8 @@ class FeaturesController < ApplicationController
 	end
 	
 	def destroy
-
+		@feature = Feature.find(params[:id])
+		@feature.destroy
 	end
 	
 	def export
