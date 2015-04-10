@@ -1,11 +1,7 @@
-
 <div class="container-fluid">
 <%- model_class = Feature -%>
-
-
-<h2>Add a flow:</h2>
+<h3>Add a flow:</h3>
 <%= form_for([@feature, @feature.flows.build]) do |f| %>
-
   <p>
     <%= f.label :flow_name %><br>
     <%= f.text_field :flow_name %>
@@ -16,21 +12,23 @@
 <% end %>
 
 <div class="page-header">
-  <h1><%= @feature.feature_name %></h1>
+  <h3>
+      <%= @feature.feature_name %>
+  </h3>
 </div>
 
- <table class="table table-striped text-center">
-  	 <thead >
- 		 <tr>
-    		<th class="text-center">
-    			Flow Id
-    		</th>
-    		<th class="text-center">
-    			Flow Name
-    		</th>
-    	</tr>
-    </thead>
-    <tbody>
+<table class="table table-striped text-center">
+  <thead >
+ 		<tr>
+    	<th class="text-center">
+    		Flow Id
+    	</th>
+    	<th class="text-center">
+    		Flow Name
+    	</th>
+    </tr>
+  </thead>
+  <tbody>
 		<% @feature.flows.each do |flow| %>
 		<tr>
 			<td>
@@ -46,7 +44,6 @@
 		<% end %>
 	</tbody>
 </table>
-</p>
 <%= link_to t('.back', :default => t("helpers.links.back")),
               features_path, :class => 'btn btn-default'  %>
 </div>

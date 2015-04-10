@@ -5,57 +5,56 @@
 <form class="new_route" id="new_route" action="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=@scenario[:id]%>/routes/<%=@route[:id]%>" accept-charset="UTF-8" method="post">
 	<input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="pWdvo+npH0P1yK39qBcKacH6aljcMzH4ze8z13XeZAIMqSQuafMWWhR/FC01VwJ7Z9apTq5FeIS+Zqg9yGC6PA==" />
 	<input type="hidden" name="_method" value="patch" />
-	 <table class="table-hover table-condensed">
-	 	<tr>
+	<table class="table-hover table-condensed">
+	    <tr>
 		  <td>
-		   <p> <label for="route_type">Route Type</label></p>
-		   <p> <input type="text" name="route[route_type]" id="route_type" value="<%=@route[:route_type]%>" style="width:100%"/></p>
+			   <p> <label for="route_type">Route Type</label></p>
+			   <p> <input type="text" name="route[route_type]" id="route_type" value="<%=@route[:route_type]%>" style="width:100%"/></p>
 		  </td>
 		</tr>
 		<tr>
 		  <td>
-		   <p> <label for="route_path">Path</label></p>
-		   <p> <input type="text" name="route[path]" id="route_path" value="<%=@route[:path]%>" style="width:100%"/></p>
+			   <p> <label for="route_path">Path</label></p>
+			   <p> <input type="text" name="route[path]" id="route_path" value="<%=@route[:path]%>" style="width:100%"/></p>
 		  </td>
-		 </tr>
-		 <tr> 
+		</tr>
+		<tr> 
 		   <td>
-		   <p> <label for="query">Query</label></p>
-		   <p> <textarea name="route[query]" id="query" rows="2" cols="200"><%=@route[:query]%></textarea></p>
+			   <p> <label for="query">Query</label></p>
+			   <p> <textarea name="route[query]" id="query" rows="2" cols="200"><%=@route[:query]%></textarea></p>
 		  </td>
-		 </tr>
-		 <tr>
+		</tr>
+		<tr>
 		   <td>
-		   <p> <label for="request_body">Request Body</label> </p>
-		   <p> <input type="text" name="route[request_body]" id="request_body" value="<%=@route[:request_body]%>" style="width:100%"/></p>
+			   <p> <label for="request_body">Request Body</label> </p>
+			   <p> <input type="text" name="route[request_body]" id="request_body" value="<%=@route[:request_body]%>" style="width:100%"/></p>
 		  </td>
-		 </tr>
-		 <tr>
+		</tr>
+		<tr>
 		  <td>
-		   <p> <label for="fixture">Fixture</label> </p>
-		    <p><textarea name="route[fixture]" id="fixture" rows="10" cols="200"><%= begin
-        json_object = JSON.parse @route[:fixture]
-        JSON.pretty_generate(json_object)
-      rescue
-        "Invalid json: #{@route.fixture}"
-      end
-
-      %></textarea></p>
+		    <p> <label for="fixture">Fixture</label> </p>
+		    <p><textarea name="route[fixture]" id="fixture" rows="10" cols="200">
+		    <%= begin
+       		   json_object = JSON.parse @route[:fixture]
+               JSON.pretty_generate(json_object)
+               rescue
+                 "Invalid json: #{@route.fixture}"
+  			    end%>
+  				</textarea></p>
 		  </td>
-		 </tr>
-		 <tr>
+		</tr>
+		<tr>
 		  <td>
-		   <p> <label for="status">Status</label> </p>
-		   <p> <input type="text" name="route[status]" id="status" value="<%=@route[:status]%>" style="width:100%"/></p>
+		   	<p> <label for="status">Status</label> </p>
+		  	<p> <input type="text" name="route[status]" id="status" value="<%=@route[:status]%>" style="width:100%"/></p>
 		  </td>
-		 </tr>
-		 <tr>
+		</tr>
+		<tr>
 		  <td>
 		    <p><label for="host">Host</label></p>
 		    <p><input type="text" name="route[host]" id="host" value="<%=@route[:host]%>" style="width:100%"/></p>
 		  </td>
 		</tr>
-		
 		<tr>
 			<td colspan="7">
 		   	  <input type="submit" name="commit" value="Update Route" class="btn btn-primary"/>

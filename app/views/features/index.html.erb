@@ -1,25 +1,23 @@
-
 <div class="container-fluid">
   <%- model_class = Feature -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h3><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h3>
 </div>
 <form name="features_export" action="features/export" method="post">
-<table class="table table-striped">
-  <thead>
-    <tr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
         <th colspan="3">
-
         </th>
         <th class="text-right">
            <a href="features/import_json" class="btn btn-primary">Upload Feature</a>
         </th>
-    </tr>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:feature_name) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-      <th> Select Feature</th>
+      </tr>
+      <tr>
+        <th><%= model_class.human_attribute_name(:id) %></th>
+        <th><%= model_class.human_attribute_name(:feature_name) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+        <th>Select Feature</th>
     </tr>
   </thead>
   <tbody>
@@ -36,9 +34,7 @@
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
         </td>
- 
         <td> <%= check_box_tag "feature_ids[]", feature.id %></td>
-
       </tr>
     <% end %>
       <tr>
@@ -48,8 +44,8 @@
               <input type="submit" name="commit" value="Export Feature" class="btn btn-primary" />
           </td>
       </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 </form>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_feature_path,
