@@ -4,24 +4,40 @@ class FeaturesController < ApplicationController
 	 skip_before_filter :verify_authenticity_token
 	 include FeaturesHelper
 	def index
-		@features = Feature.all
+		begin
+			@features = Feature.all
+		rescue=>e
+			render :text =>"An error has been occurred while retrieving all the features #{e.class.name}: #{e.message}"
+		end
 	end
 
 	def create
-		@feature = Feature.new(feature_params)
-  		if @feature.save
-  			redirect_to @feature
-  		else
-  			render 'new'
+		begin
+			@feature = Feature.new(feature_params)
+	  		if @feature.save
+	  			redirect_to @feature
+	  		else
+	  			render 'new'
+	  		end
+  		rescue=>e
+  			render :text =>"An error has been occurred while retrieving the feature #{e.class.name}: #{e.message}" 
   		end
 	end
 	
 	def new
-		@feature = Feature.new
+		begin
+			@feature = Feature.new
+		rescue=>e
+			render :text =>"An error has been occurred while creating new instance for a feature #{e.class.name}: #{e.message}"
+		end
 	end
 	
 	def edit
-		@feature = Feature.find(params[:id])
+		begin
+			@feature = Feature.find(params[:id])
+		rescue=>e
+			render :text => "An error has been occurred while editing the feature #{e.class.name}: #{e.message}"
+		end
 	end
 	
 	def show
@@ -29,17 +45,25 @@ class FeaturesController < ApplicationController
 	end
 	
 	def update
-		@feature = Feature.find(params[:id])
-		  if @feature.update(feature_params)
-		    redirect_to @feature
-		  else
-		    render 'edit'
-		  end
+		begin
+			@feature = Feature.find(params[:id])
+			  if @feature.update(feature_params)
+			    redirect_to @feature
+			  else
+			    render 'edit'
+			  end
+		rescue=>e
+			render :text => "An error has been occurred while updating the feature #{e.class.name}: #{e.message}"
+		end
 	end
 	
 	def destroy
-		@feature = Feature.find(params[:id])
-		@feature.destroy
+		begin
+			@feature = Feature.find(params[:id])
+			@feature.destroy
+		rescue=>e
+			render :text => "An error has been occurred while deleting the feature #{e.class.name}: #{e.message}"
+		end
 	end
 	
 	def export
@@ -58,8 +82,8 @@ class FeaturesController < ApplicationController
 	end
 
 	def import_json
-		file = params[:upload]
 		begin
+			file = params[:upload]
 			if file['datafile'].content_type=="text/xml"
 				store_json(file)
 				File.delete("public/#{file['datafile'].original_filename}")

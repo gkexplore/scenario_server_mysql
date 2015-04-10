@@ -4,36 +4,56 @@ class FlowsController < ApplicationController
 
 	end
 	def create
-		 @feature = Feature.find(params[:feature_id])
-    	 @flow = @feature.flows.create(flow_params)
-    	 redirect_to feature_path(@feature)
+	    begin
+			 @feature = Feature.find(params[:feature_id])
+	    	 @flow = @feature.flows.create(flow_params)
+	    	 redirect_to feature_path(@feature)
+	    rescue=>e
+			render :text => "An error has been occurred while creating the flow #{e.class.name}: #{e.message}"
+		end
 	end
 	def new
 
 	end
 	def edit
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:id])
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:id])
+		 rescue=>e
+			render :text => "An error has been occurred while editing the flow #{e.class.name}: #{e.message}"
+		end
 	end
 	def show
-		@feature = Feature.find(params[:feature_id])
-		@flow = @feature.flows.find(params[:id])
+		begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:id])
+		rescue=>e
+			render :text => "An error has been occurred while retrieving the flow #{e.class.name}: #{e.message}"
+		end
 
 	end
 	def update
-		@feature = Feature.find(params[:id])
-		@flow = @feature.flows.find(params[:id])
-		  if @flow.update(flow_params)
-		    render "features/show"
-		  else
-		    render 'flows/edit'
-		  end
+	    begin
+			@feature = Feature.find(params[:feature_id])
+			@flow = @feature.flows.find(params[:id])
+			  if @flow.update(flow_params)
+			    render "features/show"
+			  else
+			    render 'flows/edit'
+			  end
+		rescue=>e
+			render :text => "An error has been occurred while updating the flow #{e.class.name}: #{e.message}"
+		end
 	end
 	def destroy
-		@feature = Feature.find(params[:feature_id])
-    	@flow = @feature.flows.find(params[:id])
-   		@flow.destroy
-   		render "features/show"
+		begin
+			@feature = Feature.find(params[:feature_id])
+	    	@flow = @feature.flows.find(params[:id])
+	   		@flow.destroy
+	   		render "features/show"
+	   	rescue=>e
+			render :text => "An error has been occurred while destroy the flow #{e.class.name}: #{e.message}"
+		end
 	end
 	private
     def flow_params
