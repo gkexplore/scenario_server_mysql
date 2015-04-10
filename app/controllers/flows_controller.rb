@@ -1,4 +1,5 @@
 class FlowsController < ApplicationController
+	skip_before_action :verify_authenticity_token
 	def index
 
 	end
@@ -20,7 +21,13 @@ class FlowsController < ApplicationController
 
 	end
 	def update
-		
+		@feature = Feature.find(params[:id])
+		@flow = @feature.flows.find(params[:id])
+		  if @flow.update(flow_params)
+		    render "features/show"
+		  else
+		    render 'flows/edit'
+		  end
 	end
 	def destroy
 		@feature = Feature.find(params[:feature_id])
