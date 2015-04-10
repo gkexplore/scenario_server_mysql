@@ -38,7 +38,7 @@
        		   json_object = JSON.parse @route[:fixture]
                JSON.pretty_generate(json_object)
                rescue
-                 "Invalid json: #{@route.fixture}"
+                 @route.fixture
   			    end%>
   				</textarea></p>
 		  </td>
