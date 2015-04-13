@@ -1,5 +1,7 @@
-<%- model_class = Feature -%>
-<div class="page-header">
-  <h3><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h3>
+<div class="container-fluid">
+	<%- model_class = Feature -%>
+	<div>
+	  <h3><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h3>
+	</div>
+	<%= render :partial => 'form' %>
 </div>
-<%= render :partial => 'form' %>

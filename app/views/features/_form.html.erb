@@ -15,13 +15,15 @@
         </div>
     <% end %>
 
-    <div class="control-group">
-      <%= f.label :feature_name, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :feature_name, :class => 'form-control' %>
-      </div>
-      <%= error_span(@feature[:feature_name]) %>
-    </div>
+    <table class="table">
+      <tr>
+          <td>
+            <%= f.label :feature_name, :class => 'control-label' %>
+              <%= f.text_field :feature_name, :class => 'form-control' %>
+            <%= error_span(@feature[:feature_name]) %>
+          </td>
+      </tr>
+    </table>
 
 
     <%= f.submit nil, :class => 'btn btn-primary' %>
