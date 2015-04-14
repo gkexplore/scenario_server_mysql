@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
 
 skip_before_filter :verify_authenticity_token
 
-	def respond_to_CMA_client
+	def respond_to_app_client
 		begin
 			remote_ip = request.remote_ip
 			if remote_ip=="::1"
@@ -13,7 +13,8 @@ skip_before_filter :verify_authenticity_token
 				ip_address = remote_ip
 			end
 			url = URI.parse(request.url)
-			query = url.query
+			sorted_string = Hash[request.query_parameters.sort]
+			query = sorted_string.to_query
 			if query.to_s.strip.length != 0
 				query = "?"<<query
 			end

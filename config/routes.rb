@@ -13,8 +13,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path'=>'devices#respond_to_CMA_client'
-  post '*path'=>'devices#respond_to_CMA_client'
+  get '*path'=>'devices#respond_to_app_client'
+  post '*path'=>'devices#respond_to_app_client'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
