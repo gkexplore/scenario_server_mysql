@@ -1,3 +1,16 @@
+Scenario Server
+
+Scenario Server can be used to setup a quick local api server. 
+PFB the list features available in the scenario server:-
+       1.Eliminate dependency with actual production environment
+            Using actual production/test environment for automation would be cumbersome as there are more chances of false failures due to network latency and change in data setup. Scenario server will help us to run the automation in stable environment and would eliminate  false failures.
+       2. Multiple Device support
+                It has the capability to give response to multiple devices simultaneously
+        3. Export and Import feature
+              Multiple users can work on the same feature without any conflicts
+        4. Refreshing the stubs using the scenario server is easy as the model has been designed to capture  all the required data's for hitting the actual production API.
+        5. Displaying the JSON responses in pretty JSON format
+
 Step1: Clone the new scenario server from github
                   git clone https://github.com/gkexplore/scenario_server_mysql.git
 Step 2: Make sure you have rvm 2.2.0 version. One can check that by running rvm list command 
