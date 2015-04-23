@@ -42,7 +42,9 @@ Step 6: To start scenario server on port 9090
                   Open any browser and access the below URL
                   http://localhost:9090
 Now you should be able to see the home screen of scenario server in your machine
+
 Configuring Rails server in Passenger Apache
+
 Step 1: Install Passenger Gem
              gem install passenger
 Step 2: Install Apache module using passenger
