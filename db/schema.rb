@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320224556) do
+ActiveRecord::Schema.define(version: 20150422194629) do
+
+  create_table "configs", force: :cascade do |t|
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.string   "server_mode", limit: 7, default: "default"
+  end
 
   create_table "devices", force: :cascade do |t|
     t.string   "device_ip",   limit: 255
