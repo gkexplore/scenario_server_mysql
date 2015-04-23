@@ -1,23 +1,24 @@
-<div class="container-fluid" style="text-align:center">
+<div class="container-fluid">
     <%- model_class = Config -%>
     <div>
       <h3><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h3>
     </div>
     <form class="form-horizontal feature" id="edit_feature_1" action="/config/1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="kgt6iGTQxU7mEceMc0Y4/38BCHB+NLg9+N0akjXbk6eUikj5ytr83dhRr/L/C/RMKxgpmoTumvcd4xun9xIbzw==" />
-
         <table class="table">
             <tbody>
             <% @configs.each do |config| %>
               <tr>
-                <td>
-                  <input  name="config[server_mode]" type="radio" value="default" <%= (config.server_mode == "default") ? "checked=\"checked\"" : "" %>/>default
-                  <input  name="config[server_mode]" type="radio" value="record" <%= (config.server_mode == "record") ? "checked=\"checked\"" : "" %>/>record
-                  <input name="config[server_mode]" type="radio" value="refresh" <%= (config.server_mode == "refresh") ? "checked=\"checked\"" : "" %>/>refresh
+                <td style="margin-left:80%">
+                      <input  name="config[server_mode]" type="radio" value="default" <%= (config.server_mode == "default") ? "checked=\"checked\"" : "" %> style="margin-left:-3px"/>default
+                      <input  name="config[server_mode]" type="radio" value="record" <%= (config.server_mode == "record") ? "checked=\"checked\"" : "" %>/>record
+                      <input name="config[server_mode]" type="radio" value="refresh" <%= (config.server_mode == "refresh") ? "checked=\"checked\"" : "" %>/>refresh
                 </td>
               </tr>
             <% end %>
           </tbody>
         </table>
-    </form>
+        
+         <a class="btn btn-default" href="/features">Back</a>
      <input type="submit" name="commit" value="Update" class="btn btn-primary" />
+   </form>
 </div>
