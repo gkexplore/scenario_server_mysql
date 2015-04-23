@@ -1,41 +1,23 @@
-<%- model_class = Config -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+<div class="container-fluid" style="text-align:center">
+    <%- model_class = Config -%>
+    <div>
+      <h3><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h3>
+    </div>
+    <form class="form-horizontal feature" id="edit_feature_1" action="/config/1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="kgt6iGTQxU7mEceMc0Y4/38BCHB+NLg9+N0akjXbk6eUikj5ytr83dhRr/L/C/RMKxgpmoTumvcd4xun9xIbzw==" />
+
+        <table class="table">
+            <tbody>
+            <% @configs.each do |config| %>
+              <tr>
+                <td>
+                  <input  name="config[server_mode]" type="radio" value="default" <%= (config.server_mode == "default") ? "checked=\"checked\"" : "" %>/>default
+                  <input  name="config[server_mode]" type="radio" value="record" <%= (config.server_mode == "record") ? "checked=\"checked\"" : "" %>/>record
+                  <input name="config[server_mode]" type="radio" value="refresh" <%= (config.server_mode == "refresh") ? "checked=\"checked\"" : "" %>/>refresh
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </form>
+     <input type="submit" name="commit" value="Update" class="btn btn-primary" />
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:server_mode) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-
-    <% @configs.each do |config| %>
-      <tr>
-        <td><%= link_to config.id, config_path(config) %></td>
-        <td>
-          <input  name="config[server_mode]" type="radio" value="default" <%= (config.server_mode == "default") ? "checked=\"checked\"" : "" %>/>default
-          <input  name="config[server_mode]" type="radio" value="record" <%= (config.server_mode == "record") ? "checked=\"checked\"" : "" %>/>record
-          <input name="config[server_mode]" type="radio" value="refresh" <%= (config.server_mode == "refresh") ? "checked=\"checked\"" : "" %>/>refresh
-        </td>
-        <td><%= config.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_config_path(config), :class => 'btn btn-default btn-xs' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      config_path(config),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_config_path,
-            :class => 'btn btn-primary' %>
