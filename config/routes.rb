@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   get '*path'=>'devices#respond_to_app_client'
   post '*path'=>'devices#respond_to_app_client'
+  delete '*path'=>'devices#respond_to_app_client'
+  put '*path'=>'devices#respond_to_app_client'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

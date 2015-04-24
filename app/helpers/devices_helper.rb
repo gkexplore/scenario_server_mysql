@@ -1,7 +1,8 @@
 module DevicesHelper
 	module SERVER_MODE
-		Default = 'default'
-		Refresh = 'refresh'
-		Record = 'record'
+		DEFAULT = 'default'
+		REFRESH = 'refresh'
+		RECORD = 'record'
 	end
+	
 end
