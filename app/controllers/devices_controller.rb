@@ -7,21 +7,17 @@ class DevicesController < ApplicationController
 
 use Rack::MethodOverride
 skip_before_filter :verify_authenticity_token
-
 include DevicesHelper
-
 
 	def respond_to_app_client
 
 		config =  Config.all
 
-		puts config[0].server_mode
-
 		case config[0].server_mode
 
 			when SERVER_MODE::REFRESH
 				
-				puts "hello refresh"
+				#add refresh implementation here
 			
 			when SERVER_MODE::RECORD
 			
@@ -29,18 +25,6 @@ include DevicesHelper
 			
 				when "GET"
 			 		
-
-			 		logger.warn "*** BEGIN RAW REQUEST HEADERS ***"
-self.request.env.each do |header|
-  logger.warn "HEADER KEY: #{header[0]}"
-  logger.warn "HEADER VAL: #{header[1]}"
-end
-logger.warn "*** END RAW REQUEST HEADERS ***"
-					  # => Hash
-					 
-					# => http
-
-
 					    puts "** host: " + request.host
 					    puts "** path: " + request.path
 
