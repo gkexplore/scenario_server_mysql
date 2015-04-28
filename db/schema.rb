@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422194629) do
+ActiveRecord::Schema.define(version: 20150428060759) do
 
   create_table "configs", force: :cascade do |t|
     t.datetime "created_at",                                null: false
@@ -70,6 +70,17 @@ ActiveRecord::Schema.define(version: 20150422194629) do
 
   add_index "scenarios", ["flow_id"], name: "index_scenarios_on_flow_id", using: :btree
   add_index "scenarios", ["scenario_name"], name: "index_scenarios_on_scenario_name", unique: true, using: :btree
+
+  create_table "stubs", force: :cascade do |t|
+    t.text     "request_url",  limit: 4294967295
+    t.text     "route_type",   limit: 4294967295
+    t.text     "request_body", limit: 4294967295
+    t.text     "response",     limit: 4294967295
+    t.text     "status",       limit: 4294967295
+    t.text     "host",         limit: 4294967295
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
 
   add_foreign_key "devices", "scenarios"
   add_foreign_key "flows", "features"
