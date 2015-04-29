@@ -64,10 +64,10 @@ Step 2: Install Apache module using passenger
              rvmsudo passenger-install-apache2-module
 Step 3: Modify httpd.conf file of apache
            a) Copy and Paste the below piece of code in /etc/apache2/httpd.conf
-                 LoadModule passenger_module /Users/q9vh/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59/buildout/apache2/mod_passenger.so
+                 LoadModule passenger_module /Users/<username>/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59/buildout/apache2/mod_passenger.so
                 <IfModule mod_passenger.c>
-                    PassengerRoot /Users/q9vh/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59
-                    PassengerDefaultRuby /Users/q9vh/.rvm/gems/ruby-2.2.0/wrappers/ruby
+                    PassengerRoot /Users/<username>/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59
+                    PassengerDefaultRuby /Users/<username>/.rvm/gems/ruby-2.2.0/wrappers/ruby
                 </IfModule>
           b) Uncomment the below line in httpd.conf file
                  Include /private/etc/apache2/extra/httpd-vhosts.conf
@@ -114,14 +114,23 @@ Step 3: Modify httpd.conf file of apache
        SSLCertificateFile /var/www/scenario_server_mysql/cert/server.crt
        SSLCertificateKeyFile /var/www/scenario_server_mysql/cert/server.key
        </VirtualHost>
-Step 4: Clone scenario server in /var/www/  location
-Step 5: Navigate to /var/www/scenario_server_mysql and run the below commands
-               rvmsudo rake assets:precompile    - This would precompile all the static assets(stylesheets/css)
-               Run the below commands to give write permission:
-              chmod 755 /var/www/
-              chmod -R 777 public/assets
-              chmod -R u+w tmp
-Step 6: Start the apache server
+       
+Step 4: Clone scenario server in /var/www/  location. To do this, please follow the below steps
+       Open terminal and run the below commands
+       cd /var
+       sudo mkdir www
+       sudo chmod 777 /var/www/
+       cd www
+       git clone https://github.com/gkexplore/scenario_server_mysql.git
+       cd scenario_server_mysql
+       sudo chmod 777 /var/www/scenario_server_mysql
+       bin/rake db:migrate RAILS_ENV=development
+       rvmsudo rake assets:precompile
+       cd /var/www/scenario_server_mysql
+       chmod -R 777 public/assets
+       chmod -R u+w tmp
+       
+Step 5: Start the apache server
              sudo apachectl start
               To view the log run - tail -f -n+100 /var/log/apache2/error_log
  
