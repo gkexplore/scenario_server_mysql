@@ -3,6 +3,10 @@ class ConfigController < ApplicationController
   def index
 		begin
 			@configs = Config.all
+			if @configs.blank? || @configs.empty? | @configs.nil? 
+				Config.create(:server_mode=>"default")
+				@configs = Config.all
+			end
 		rescue=>e
 			render :text =>"An error has been occurred while retrieving all the features #{e.class.name}: #{e.message}"
 		end

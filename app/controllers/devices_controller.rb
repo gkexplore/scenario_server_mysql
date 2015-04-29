@@ -153,16 +153,3 @@ def make_request_to_actual_api(method)
 	end
 
 end
-
-class Route_R
-	attr_accessor :id, :request_url, :route_type, :request_body, :response, :status, :host
-	def initialize(id = nil, request_url = nil, route_type = nil, request_body = nil, response = nil, status = 200, host = nil)
-		self.id = id
-		self.request_url = request_url
-		self.route_type = route_type
-		self.request_body = request_body
-		self.response =  response
-		self.status = status
-		self.host = host
-	end
-end
