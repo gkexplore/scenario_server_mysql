@@ -131,7 +131,10 @@ Step 4: Clone scenario server in /var/www/  location. To do this, please follow 
        chmod -R u+w tmp
        
 Step 5: Start the apache server
-             sudo apachectl start
-              To view the log run - tail -f -n+100 /var/log/apache2/error_log
+       sudo apachectl start
+       To view the log run (tail -f -n+100 /var/log/apache2/error_log)
+       To stop the scenario server  (sudo apachectl stop)
+       To stop the scenario server  (sudo apachectl restart)
+       
  
    Now you should be able to access the scenario server in both http and https schemes. Also, the server would start during system startup itself. So no need to manually start the server.
