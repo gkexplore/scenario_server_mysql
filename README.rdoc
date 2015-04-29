@@ -11,6 +11,8 @@ PFB the list features available in the scenario server:-
         4. Refreshing the stubs using the scenario server is easy as the model has been designed to capture  all the required data's for hitting the actual production API.
         5. Displaying the JSON responses in pretty JSON format
 
+Section 1: Configure scenario server in webrick server
+
 Step1: Clone the new scenario server from github
                   git clone https://github.com/gkexplore/scenario_server_mysql.git
 Step 2: Make sure you have rvm 2.2.0 version. One can check that by running rvm list command 
@@ -56,8 +58,10 @@ Step 6: To start scenario server on port 9090
                   http://localhost:9090
 Now you should be able to see the home screen of scenario server in your machine
 
-Configuring Rails server in Passenger Apache
-Step 1. Install rvm 2.2.0. Skip this step if you have already installed the same.
+Section 2: Configuring Rails server in Passenger Apache
+
+Step 1. Skip this step if you have already done it
+        Complete the Step 2,3,4 and 5 in Section 1
 Step 2: Install Passenger Gem
              gem install passenger
 Step 3: Install Apache module using passenger
