@@ -57,13 +57,13 @@ Step 6: To start scenario server on port 9090
 Now you should be able to see the home screen of scenario server in your machine
 
 Configuring Rails server in Passenger Apache
-
-Step 1: Install Passenger Gem
+Step 1. Install rvm 2.2.0. Skip this step if you have already installed the same.
+Step 2: Install Passenger Gem
              gem install passenger
-Step 2: Install Apache module using passenger
+Step 3: Install Apache module using passenger
              rvmsudo passenger-install-apache2-module
-Step 3: Modify httpd.conf file of apache
-           a) Copy and Paste the below piece of code in /etc/apache2/httpd.conf
+Step 4: Modify the below mentioned config file of apache
+           a) Copy and Paste the below piece of code in /etc/apache2/httpd.conf.Make sure you replace <username> with your user name and also the passenger version should be the version(passenger-4.0.59) which you installed in your machine
                  LoadModule passenger_module /Users/<username>/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59/buildout/apache2/mod_passenger.so
                 <IfModule mod_passenger.c>
                     PassengerRoot /Users/<username>/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59
@@ -115,7 +115,7 @@ Step 3: Modify httpd.conf file of apache
        SSLCertificateKeyFile /var/www/scenario_server_mysql/cert/server.key
        </VirtualHost>
        
-Step 4: Clone scenario server in /var/www/  location. To do this, please follow the below steps
+Step 5: Clone scenario server in /var/www/  location. To do this, please follow the below steps
        Open terminal and run the below commands
        cd /var
        sudo mkdir www
@@ -130,7 +130,7 @@ Step 4: Clone scenario server in /var/www/  location. To do this, please follow 
        chmod -R 777 public/assets
        chmod -R u+w tmp
        
-Step 5: Start the apache server
+Step 6: Start the apache server
        sudo apachectl start
        To view the log run (tail -f -n+100 /var/log/apache2/error_log)
        To stop the apache server  (sudo apachectl stop)
