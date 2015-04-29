@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
 
+  get 'stub/index'
+
   get '/'=>'features#index'
   put 'scenario/:scenario_name/:device_ip' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
   post 'features/export'=>'features#export'
   get 'features/import_json'=>'features#import_json_index'
   post 'features/import_json'=>'features#import_json'
   resources :devices
+  resources :stubs
   resources :config
     resources :features do
       resources :flows do

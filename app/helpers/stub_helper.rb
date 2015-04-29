@@ -1,0 +1,2 @@
+module StubHelper
+end

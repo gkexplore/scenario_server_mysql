@@ -1,0 +1,66 @@
+<%= form_for @stub, :html => { :class => "form-horizontal stub" } do |f| %>
+
+    <% if @stub.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@stub.errors.count, "error") %> prohibited this stub from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @stub.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :request_url, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :request_url, :class => 'form-control' %>
+    </div>
+    <%= error_span(@stub[:request_url]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :route_type, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :route_type, :class => 'form-control' %>
+    </div>
+    <%= error_span(@stub[:route_type]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :request_body, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :request_body, :class => 'form-control' %>
+    </div>
+    <%= error_span(@stub[:request_body]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :response, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :response, :class => 'form-control' %>
+    </div>
+    <%= error_span(@stub[:response]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :status, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :status, :class => 'form-control' %>
+    </div>
+    <%= error_span(@stub[:status]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :host, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :host, :class => 'form-control' %>
+    </div>
+    <%= error_span(@stub[:host]) %>
+  </div>
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            stubs_path, :class => 'btn btn-default' %>
+
+<% end %>
