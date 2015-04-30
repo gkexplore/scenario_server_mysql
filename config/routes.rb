@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post 'features/export'=>'features#export'
   get 'features/import_json'=>'features#import_json_index'
   post 'features/import_json'=>'features#import_json'
+  get 'stubs/poll_log'=>'stubs#poll_log'
   resources :devices
   resources :stubs
   resources :config
