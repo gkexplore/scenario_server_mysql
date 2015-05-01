@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'features/import_json'=>'features#import_json_index'
   post 'features/import_json'=>'features#import_json'
   get 'stubs/poll_log'=>'stubs#poll_log'
+  delete 'stubs/clear_logs'=>'stubs#clear_logs'
   resources :devices
   resources :stubs
   resources :config
