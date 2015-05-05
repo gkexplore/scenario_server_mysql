@@ -9,6 +9,11 @@ module DevicesHelper
 		RECORD = 'record'
 	end
 
+	module PROXY
+		YES = 'yes'
+		NO = 'no'
+	end
+
 	module METHOD
 		GET = 'GET'
 		POST = 'POST'

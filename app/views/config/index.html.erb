@@ -9,18 +9,55 @@
             <% @configs.each do |config| %>
               <tr>
                 <td style="margin-left:80%">
-                      <input  name="config[server_mode]" type="radio" value="default" <%= (config.server_mode == "default") ? "checked=\"checked\"" : "" %> style="margin-left:-3px"/>default
-                      <input  name="config[server_mode]" type="radio" value="record" <%= (config.server_mode == "record") ? "checked=\"checked\"" : "" %>/>record
-                      <input name="config[server_mode]" type="radio" value="refresh" <%= (config.server_mode == "refresh") ? "checked=\"checked\"" : "" %>/>refresh
+                      <input  name="config[server_mode]" type="radio" value="default" <%= (config.server_mode == "default") ? "checked=\"checked\"" : "" %> onclick="set_proxy('default');" style="margin-left:-3px"/>default
+                      <input  name="config[server_mode]" type="radio" value="record" <%= (config.server_mode == "record") ? "checked=\"checked\"" : "" %> onclick="set_proxy('proxy');"/>proxy
+                      <input name="config[server_mode]" type="radio" value="refresh" <%= (config.server_mode == "refresh") ? "checked=\"checked\"" : "" %> onclick="set_proxy('refresh');"/>refresh
                 </td>
               </tr>
-            <% end %>
           </tbody>
         </table>
-        
+       <input type="hidden" value="<%= config.server_mode%>" id="mode"/>
+        <table id="proxy" style="display:none" class="table">
+            <tbody>
+                <tr>
+                    <td>
+                        Do you want to set proxy?
+                          <input  name="config[isProxyRequired]" type="radio" value="yes" style="margin-left:-3px" <%= (config.isProxyRequired == "yes") ? "checked=\"checked\"" : "" %>/>yes
+                          <input  name="config[isProxyRequired]" type="radio" value="no" <%= (config.isProxyRequired == "no") ? "checked=\"checked\"" : "" %>/>no
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Proxy URL:  <input type="text" name="config[url]" value="<%= config.url%>" size="40%"/>
+                        <!--Port:  <input type="text" name="config[port]" value="<%= config.port%>"/>-->
+                        User name:  <input type="text" name="config[user]" value="<%= config.user%>"/>
+                        Password:  <input type="password" name="config[password]" value="<%= config.password%>"/>
+                    </td>
+                </tr>
+            </tbody>
+
+            <% end %>
+        </table>
          <a class="btn btn-default" href="/features">Back</a>
-     <input type="submit" name="commit" value="Update" class="btn btn-primary" />
+         <input type="submit" name="commit" value="Update" class="btn btn-primary" />
    </form>
 </div>
+<script>
+     $( document ).ready(function() {
+        set_proxy($("#mode").val());
+      });
+      function set_proxy(mode)
+      {
+
+        if(mode=='default' || mode=='refresh' )
+        {
+           $("#proxy").css("display","none");
+        }
+        else{
+           $("#proxy").css("display","block");
+        }
+
+      }
+</script>
 
 

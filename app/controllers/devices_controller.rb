@@ -17,7 +17,7 @@ include DevicesHelper
 				#add refresh implementation here	
 			when SERVER_MODE::RECORD
 				method =  request.method
-				make_request_to_actual_api(method)  
+				make_request_to_actual_api(method,config)  
 			else
 				make_request_to_local_api_server
 		end
@@ -40,7 +40,8 @@ include DevicesHelper
 		end	
 	end
 
-def make_request_to_actual_api(method)
+def make_request_to_actual_api(method, config)
+
    		body = request.body.read
    		host_path = request.host + request.path
 	    query = request.query_string
@@ -48,7 +49,7 @@ def make_request_to_actual_api(method)
 	    path_array.delete_at(0)
 	    host = request.env["rack.url_scheme"]+"://"+path_array[0]
    		path = get_path(host_path)
-	    conn = get_connection(host)	
+	    conn = get_connection(host, config)	
 	    response = ""
 	    case method
 		    when METHOD::GET
@@ -95,12 +96,33 @@ private
     end
 
 private
-	def get_connection(host)
-	  conn = Faraday.new(:url => host) do |c|
-	      c.use Faraday::Request::UrlEncoded  
-	      c.use Faraday::Response::Logger     
-	      c.use Faraday::Adapter::NetHttp     
-	    end
+	def get_connection(host,config)
+		proxy_hash = {
+
+ 		 uri: config[0].url,
+
+  		 user: config[0].user,
+
+  		 password: config[0].password
+
+ 		}
+
+	 conn = nil;
+	 case config[0].isProxyRequired	
+		 when PROXY::NO
+			  conn = Faraday.new(:url => host) do |c|
+			      c.use Faraday::Request::UrlEncoded  
+			      c.use Faraday::Response::Logger     
+			      c.use Faraday::Adapter::NetHttp     
+			   end
+	     when PROXY::YES
+	     	  conn = Faraday.new(:url => host) do |c|
+	    		  c.use Faraday::Request::UrlEncoded  
+	   			  c.use Faraday::Response::Logger     
+	     		  c.use Faraday::Adapter::NetHttp   
+	    		  c.proxy(proxy_hash)  
+	   		end
+	 end
 	  return conn
 	end
 
