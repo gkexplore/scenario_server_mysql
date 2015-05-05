@@ -72,12 +72,13 @@ def make_request_to_actual_api(method)
 
 		@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.status, :host=>host)
 	    if @route.save 
-	  		 puts "saved"
+	  		 logger.debug "Stub has been successfully saved in DB"
 		end
 		
 	  render json: response.body, :status => response.status
 	end
 
+private
 	def form_request_headers_and_hit_api(req,path,query,body)
 	 req.url path<<"?"<<query   
         req.headers["Content-Type"]="application/json"
@@ -93,7 +94,7 @@ def make_request_to_actual_api(method)
         req.body = body
     end
 
-
+private
 	def get_connection(host)
 	  conn = Faraday.new(:url => host) do |c|
 	      c.use Faraday::Request::UrlEncoded  
@@ -103,14 +104,15 @@ def make_request_to_actual_api(method)
 	  return conn
 	end
 
+private
 	def make_request_to_local_api_server
 		begin
 	   		host_path = request.host + request.path
 		    query = request.query_string
 	   		path = get_path(host_path)
 			remote_ip = request.remote_ip
-			if remote_ip=="::1"
-				ip_address = "127.0.0.1"
+			if remote_ip==DEFAULT_LOCALHOST
+				ip_address = LOCALHOST
 			else
 				ip_address = remote_ip
 			end
@@ -138,6 +140,7 @@ def make_request_to_actual_api(method)
 		end	
 	end
 
+private
 	def get_path(host_path)
 			 path_array = host_path.split("/")
 			 path_array.delete_at(0)

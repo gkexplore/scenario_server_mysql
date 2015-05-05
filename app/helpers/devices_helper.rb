@@ -1,4 +1,8 @@
 module DevicesHelper
+
+	DEFAULT_LOCALHOST="::1"
+	LOCALHOST="127.0.0.1"
+	
 	module SERVER_MODE
 		DEFAULT = 'default'
 		REFRESH = 'refresh'
