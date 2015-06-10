@@ -5,21 +5,22 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-    <a class="btn btn-default" href="/features">Back</a>
+    <a class="btn btn-default" href="/">Back</a>
 <div class="text-center">
     <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/clear_logs">Clear Logs</a>
 </div>   
   <div class="result"></div>
 </div>
 <script>
-   $("body").css("display", "none");
-   $("body").fadeIn(2000);
 
+
+   url = '/stubs/poll_log';
+   
     var data_length=0;
     (function worker() {
   
         $.ajax({
-          url: './poll_log', 
+          url: url, 
           success: function(data) {
          
             if(data_length!=data.length)
