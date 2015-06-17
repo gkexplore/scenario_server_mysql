@@ -49,6 +49,7 @@
         </td>
         <td><%= stub.request_url %></td>
         <td><%= stub.route_type %></td>
+        <td> <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/<%= stub.id%>">Delete</a></td>
       </tr>
       <%end%>
     </tbody>
