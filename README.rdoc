@@ -75,6 +75,7 @@ Step 4: Modify the below mentioned config file of apache
                 </IfModule>
           b) Uncomment the below line in httpd.conf file
                  Include /private/etc/apache2/extra/httpd-vhosts.conf
+                 LoadModule ssl_module libexec/apache2/mod_ssl.so
           c) Edit httpd-vhosts.conf file of apache as below
               NameVirtualHost *:80
               NameVirtualHost *:443
@@ -93,7 +94,7 @@ Step 4: Modify the below mentioned config file of apache
                               # This relaxes Apache security settings.
                              AllowOverride None
                              # MultiViews must be turned off.
-                            Order allow,deny
+                             Allow from all
                             RailsEnv production
                  </Directory>
              </VirtualHost>
@@ -111,7 +112,7 @@ Step 4: Modify the below mentioned config file of apache
                     # This relaxes Apache security settings.
                     AllowOverride None
                     # MultiViews must be turned off.
-                   Order allow,deny
+                    Allow from all
                    RailsEnv production
         </Directory>
        SSLEngine on
@@ -132,7 +133,7 @@ Step 5: Clone scenario server in /var/www/  location. To do this, please follow 
        rvmsudo rake assets:precompile
        cd /var/www/scenario_server_mysql
        chmod -R 777 public/assets
-       chmod -R u+w tmp
+       chmod -R 777 tmp
        
 Step 6: Start the apache server
        sudo apachectl start
