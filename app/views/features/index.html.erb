@@ -4,10 +4,10 @@
   <h3><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h3>
 </div>
 <form name="features_export" action="features/export" method="post">
-  <table class="table table-striped">
+  <table class="table table-striped" style="align:center">
     <thead>
       <tr>
-        <th colspan="3">
+        <th colspan="2">
         </th>
         <th class="text-right">
            <a href="stubs/" class="btn btn-primary">Log</a>
@@ -16,7 +16,7 @@
         </th>
       </tr>
       <tr>
-        <th><%= model_class.human_attribute_name(:id) %></th>
+       <!-- <th><%= model_class.human_attribute_name(:id) %></th> -->
         <th><%= model_class.human_attribute_name(:feature_name) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
         <th>Select Feature</th>
@@ -25,9 +25,9 @@
   <tbody>
     <% @features.each do |feature| %>
       <tr>
-        <td><%= link_to feature.id, feature_path(feature) %></td>
-        <td><%= link_to feature.feature_name, feature_path(feature) %></td>
-        <td>
+        <!--<td><%= link_to feature.id, feature_path(feature) %></td> -->
+        <td width="33%"><%= link_to feature.feature_name, feature_path(feature) %></td>
+        <td width="33%">
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_feature_path(feature), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
@@ -40,7 +40,7 @@
       </tr>
     <% end %>
       <tr>
-          <td colspan="3">
+          <td colspan="2">
           </td>
           <td>
               <input type="submit" name="commit" value="Export Feature" class="btn btn-primary" />

@@ -20,9 +20,9 @@
 <table class="table table-striped text-center">
   <thead >
  		<tr>
-    	<th class="text-center">
+    <!--	<th class="text-center">
     		Flow Id
-    	</th>
+    	</th>-->
     	<th class="text-center">
     		Flow Name
     	</th>
@@ -35,9 +35,9 @@
 		<% @feature.flows.each do |flow| %>
     <% unless flow[:flow_name].blank?%>
 		<tr>
-			<td>
+			<!--<td>
 				<%=flow[:id]%>
-			</td>
+			</td>-->
 			<td>
 				<a href="/features/<%= flow[:feature_id] %>/flows/<%=flow[:id]%>"><%=flow[:flow_name]%></a>
 			</td>
