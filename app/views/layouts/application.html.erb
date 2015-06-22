@@ -35,6 +35,7 @@
   			padding-top: 95px;
   		}
   </style>
+  
 	<div class="aadhi-page-header">
 	    <h2>Aadhi <br/><p>Adaptable and creative in responding to new situations</p></h2>      
 	 </div>
@@ -42,6 +43,12 @@
 <body>
 
 <%= yield %>
-
+<script type="text/javascript">
+  $(document).ready(function() {
+  	$(".aadhi-page-header").click(function(){
+  			window.location = "/";
+  		});
+  	});
+  </script>
 </body>
 </html>
