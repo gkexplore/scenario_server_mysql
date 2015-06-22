@@ -9,7 +9,7 @@ class FlowsController < ApplicationController
 	    	 @flow = @feature.flows.create(flow_params)
 	    	 redirect_to feature_path(@feature)
 	    rescue=>e
-			render :text => "An error has been occurred while creating the flow #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while creating the flow #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	def new
@@ -20,7 +20,7 @@ class FlowsController < ApplicationController
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:id])
 		 rescue=>e
-			render :text => "An error has been occurred while editing the flow #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while editing the flow #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	def show
@@ -28,7 +28,7 @@ class FlowsController < ApplicationController
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:id])
 		rescue=>e
-			render :text => "An error has been occurred while retrieving the flow #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the flow #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)
 		end
 
 	end
@@ -41,8 +41,8 @@ class FlowsController < ApplicationController
 			  else
 			    render 'flows/edit'
 			  end
-		rescue=>e
-			render :text => "An error has been occurred while updating the flow #{e.class.name}: #{e.message}"
+		rescue=>e	
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while updating the flow #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	def destroy
@@ -52,7 +52,7 @@ class FlowsController < ApplicationController
 	   		@flow.destroy
 	   		render "features/show"
 	   	rescue=>e
-			render :text => "An error has been occurred while destroy the flow #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while destroy the flow #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	private

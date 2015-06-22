@@ -9,8 +9,8 @@ class ScenariosController < ApplicationController
 	    	@flow = @feature.flows.find(params[:flow_id])
 	    	@scenario = @flow.scenarios.create(scenario_params)
 	    	render "flows/show"
-	    rescue=>e
-			render :text => "An error has been occurred while creating the scenario #{e.class.name}: #{e.message}"
+	    rescue=>e	
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while creating the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
 		end
 	end
 	def new
@@ -21,8 +21,8 @@ class ScenariosController < ApplicationController
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
 			@scenario = @flow.scenarios.find(params[:id])
-		rescue=>e
-			render :text => "An error has been occurred while editing the scenario #{e.class.name}: #{e.message}"
+		rescue=>e	
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while editing the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
 		end
 	end
 	def show
@@ -30,8 +30,8 @@ class ScenariosController < ApplicationController
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
 			@scenario = @flow.scenarios.find(params[:id])
-		rescue=>e
-			render :text => "An error has been occurred while retrieving the scenario #{e.class.name}: #{e.message}"
+		rescue=>e	
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)  
 		end
 	end
 	def update
@@ -45,7 +45,7 @@ class ScenariosController < ApplicationController
 			    render 'scenarios/edit'
 			  end
 		rescue=>e
-			render :text => "An error has been occurred while updating the scenario #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while updating the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)  
 		end
 	end
 	def destroy
@@ -56,7 +56,7 @@ class ScenariosController < ApplicationController
 			@scenario.destroy
 			render "flows/show"
 		rescue=>e
-			render :text => "An error has been occurred while deleting the scenario #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)  
 		end
 	end
 

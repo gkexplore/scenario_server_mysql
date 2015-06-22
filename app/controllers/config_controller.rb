@@ -16,7 +16,7 @@ class ConfigController < ApplicationController
 			@config = Config.find(params[:id])
 			  if @config.update(config_params)
 			  	@configs = Config.all
-			    render action: "index"
+	    		alert(AadhiConstants::ALERT_CONFIRMATION, "The config has been updated successfully!!!", "/config", AadhiConstants::ALERT_BUTTON)
 			   end
 		rescue=>e
 			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while updating the server mode #{e.class.name}: #{e.message}", "/config", AadhiConstants::ALERT_BUTTON)

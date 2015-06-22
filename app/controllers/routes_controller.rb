@@ -12,8 +12,8 @@ class RoutesController < ApplicationController
 			params[:path] = sort_query_parameters(params)
 	    	@route = @scenario.routes.create(params)
 	    	render "scenarios/show"
-	    rescue=>e
-			render :text => "An error has been occurred while creating the route #{e.class.name}: #{e.message}"
+	    rescue=>e	
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while creating the route #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
 		end
 	end
 	def new
@@ -26,7 +26,7 @@ class RoutesController < ApplicationController
 			@scenario = @flow.scenarios.find(params[:scenario_id])
 			@route = @scenario.routes.find(params[:id])
 		rescue=>e
-			render :text => "An error has been occurred while editing the route #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while editing the route #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
 		end
 	end
 	def show
@@ -36,7 +36,7 @@ class RoutesController < ApplicationController
 			@scenario = @flow.scenarios.find(params[:scenario_id])
 			@route = @scenario.routes.find(params[:id])
 		rescue=>e
-			render :text => "An error has been occurred while retrieving the route #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the route #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
 		end
 	end
 	def update
@@ -53,7 +53,7 @@ class RoutesController < ApplicationController
 			    render 'routes/edit'
 			  end
 		rescue=>e
-			render :text => "An error has been occurred while updating the route #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while updating the route #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
 		end
 	end
 	def destroy
@@ -65,7 +65,7 @@ class RoutesController < ApplicationController
 			@route.destroy
 			render "scenarios/show"
 		rescue=>e
-			render :text => "An error has been occurred while deleting the route #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the route #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
 		end
 	end
 	private
