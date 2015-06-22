@@ -132,8 +132,8 @@ Step 5: Clone scenario server in /var/www/  location. To do this, please follow 
        bin/rake db:migrate RAILS_ENV=development
        rvmsudo rake assets:precompile
        cd /var/www/scenario_server_mysql
-       chmod -R 777 public/assets
-       chmod -R 777 tmp
+       sudo chmod -R 777 public/assets
+       sudo chmod -R 777 tmp
        
 Step 6: Start the apache server
        sudo apachectl start

@@ -142,7 +142,7 @@ private
 			sorted_string = Hash[request.query_parameters.sort]
 			query = sorted_string.to_query
 			if query.to_s.strip.length != 0
-				query = "?"+query
+				query = "?"<<query
 			end
 			received_path = "#{path}#{query}"
 			@device = Device.find_by(:device_ip=>ip_address)	
@@ -172,7 +172,7 @@ private
 			 end
 		    final_path =""
 		    path_array.each do |t|
-		      final_path+"/"+t
+		      final_path<<"/"<<t
 		    end
 			path = final_path.gsub("//","/")
 	end
