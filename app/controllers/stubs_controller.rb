@@ -1,5 +1,5 @@
 class StubsController < ApplicationController
-  
+
   def index
   	
   end
@@ -11,17 +11,17 @@ class StubsController < ApplicationController
   def clear_logs
   	begin
   		  Stub.delete_all
-  		  render action: "index"
+        alert(AadhiConstants::ALERT_CONFIRMATION, "All the stubs have been cleared successfully!!!", "/stubs", AadhiConstants::ALERT_BUTTON)
  	  rescue Exception=>e
- 		   render :text => "An error has been occurred while deleting the stubs #{e.class.name}: #{e.message}"
+        alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the stubs #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
   	end
   end
+
   def destroy
     begin
-      @stub = Stub.find(params[:id])
-      @stub.destroy
+        alert(AadhiConstants::ALERT_CONFIRMATION, "The selected stub has been deleted successfully!!!", "/stubs", AadhiConstants::ALERT_BUTTON)
     rescue=>e
-      render :text => "An error has been occurred while deleting the stub #{e.class.name}: #{e.message}"
+        alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the stub #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
     end
   end
 

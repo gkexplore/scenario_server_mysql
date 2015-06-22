@@ -10,15 +10,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation</h4>
+                <h4 class="modal-title"><%=@message_type%></h4>
             </div>
             <div class="modal-body">
-                <p>The selected feature has been deleted successfully</p>
+                <p><%= @message%></p>
             </div>
             <div class="modal-footer">
-               <%= link_to t('.back', :default => t("helpers.links.back")),
-              features_path, :class => 'btn btn-default'  %>
+               <a class="btn btn-default" href="<%= @navigation_url%>"><%= @button%></a>
             </div>
         </div>
     </div>

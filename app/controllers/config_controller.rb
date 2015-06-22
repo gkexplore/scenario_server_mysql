@@ -8,19 +8,18 @@ class ConfigController < ApplicationController
 				@configs = Config.all
 			end
 		rescue=>e
-			render :text =>"An error has been occurred while retrieving the configs #{e.class.name}: #{e.message}"
+			 alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the configs #{e.class.name}: #{e.message}", "/config", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	def update
 		begin
-
 			@config = Config.find(params[:id])
 			  if @config.update(config_params)
 			  	@configs = Config.all
 			    render action: "index"
 			   end
 		rescue=>e
-			render :text => "An error has been occurred while updating the server mode #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while updating the server mode #{e.class.name}: #{e.message}", "/config", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	private

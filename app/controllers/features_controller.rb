@@ -7,7 +7,7 @@ class FeaturesController < ApplicationController
 		begin
 			@features = Feature.all
 		rescue=>e
-			render :text =>"An error has been occurred while retrieving all the features #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving all the features #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 
@@ -20,7 +20,7 @@ class FeaturesController < ApplicationController
 	  			render 'new'
 	  		end
   		rescue=>e
-  			render :text =>"An error has been occurred while retrieving the feature #{e.class.name}: #{e.message}" 
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the feature #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
   		end
 	end
 	
@@ -28,7 +28,7 @@ class FeaturesController < ApplicationController
 		begin
 			@feature = Feature.new
 		rescue=>e
-			render :text =>"An error has been occurred while creating new instance for a feature #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while creating new instance for a feature #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	
@@ -36,7 +36,7 @@ class FeaturesController < ApplicationController
 		begin
 			@feature = Feature.find(params[:id])
 		rescue=>e
-			render :text => "An error has been occurred while editing the feature #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while editing the feature #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	
@@ -53,7 +53,7 @@ class FeaturesController < ApplicationController
 			    render 'edit'
 			  end
 		rescue=>e
-			render :text => "An error has been occurred while updating the feature #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while updating the feature #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	
@@ -61,8 +61,9 @@ class FeaturesController < ApplicationController
 		begin
 			@feature = Feature.find(params[:id])
 			@feature.destroy
-		rescue=>e
-			render :text => "An error has been occurred while deleting the feature #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_CONFIRMATION, "The selected feature has been deleted successfully!!!", "/features", AadhiConstants::ALERT_BUTTON)
+  		rescue=>e
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the feature #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 	
@@ -73,7 +74,7 @@ class FeaturesController < ApplicationController
 			response_xml = @features.to_xml(:include => {:flows => {:include => {:scenarios =>{:include =>:routes}}}})
 			send_data response_xml, :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
 		rescue=>e
-			render :text=> "An error has been occurred while exporting the report!!! #{e.class.name}: #{e.message}"
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while exporting the report!!! #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 
@@ -87,12 +88,12 @@ class FeaturesController < ApplicationController
 			if file['datafile'].content_type=="text/xml"
 				store_json(file)
 				File.delete("public/#{file['datafile'].original_filename}")
-				render :text => "Yous stubs have been uploaded successfully!!!"
+        		alert(AadhiConstants::ALERT_CONFIRMATION, "Your stubs have been uploaded successfully!!!", "/features", AadhiConstants::ALERT_BUTTON)
 			else
-				render :text => "Please upload a valid xml file!!!"
+				alert(AadhiConstants::ALERT_ERROR, "Please upload a valid xml file!!!", "/features", AadhiConstants::ALERT_BUTTON)
 			end
 		rescue=>e
-			render :text => "An error has been occurred while importing the stubs!!! #{e.class.name}: #{e.message}"
+				alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while importing the stubs!!! #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
 	end
 
