@@ -6,6 +6,7 @@ class StubsController < ApplicationController
   
   def poll_log
   	@stubs = Stub.all.reverse
+    render layout: false
   end
  
   def clear_logs

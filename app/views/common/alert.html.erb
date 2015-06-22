@@ -13,7 +13,11 @@
                 <h4 class="modal-title"><%=@message_type%></h4>
             </div>
             <div class="modal-body">
-                <p><%= @message%></p>
+        		<%	if @message.include? "error"%>
+        			<div class="alert alert-danger" role="alert"><%= @message%></div>
+        		<%else%>
+        			<div class="alert alert-success" role="alert"><%= @message%></div>
+        		<%end%>    
             </div>
             <div class="modal-footer">
                <a class="btn btn-default" href="<%= @navigation_url%>"><%= @button%></a>
