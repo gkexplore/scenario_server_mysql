@@ -71,7 +71,7 @@ def make_request_to_actual_api(method, config)
 		    end
 	    end
 
-		@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.status, :host=>host)
+		@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.status, :host=>host, :remote_ip=>request.remote_ip)
 	    if @route.save 
 	  		 logger.debug "Stub has been successfully saved in DB"
 		end
@@ -142,7 +142,7 @@ private
 			sorted_string = Hash[request.query_parameters.sort]
 			query = sorted_string.to_query
 			if query.to_s.strip.length != 0
-				query = "?"<<query
+				query = "?"+query
 			end
 			received_path = "#{path}#{query}"
 			@device = Device.find_by(:device_ip=>ip_address)	
@@ -172,7 +172,7 @@ private
 			 end
 		    final_path =""
 		    path_array.each do |t|
-		      final_path<<"/"<<t
+		      final_path+"/"+t
 		    end
 			path = final_path.gsub("//","/")
 	end

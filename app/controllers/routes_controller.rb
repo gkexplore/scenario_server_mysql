@@ -100,7 +100,7 @@ class RoutesController < ApplicationController
 			sorted_string =  Hash[hash_string.sort]
 			final_sorted_string = sorted_string.to_query
 			if final_sorted_string.to_s.strip.length != 0
-				final_sorted_string = "?"<<final_sorted_string
+				final_sorted_string = "?"+final_sorted_string
 			end
 			path+final_sorted_string
 		end

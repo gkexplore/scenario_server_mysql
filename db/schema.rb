@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20150428060759) do
     t.text     "host",         limit: 4294967295
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.text     "remote_ip",    limit: 4294967295
   end
 
   add_foreign_key "devices", "scenarios"
