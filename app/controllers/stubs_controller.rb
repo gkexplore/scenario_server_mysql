@@ -20,6 +20,8 @@ class StubsController < ApplicationController
 
   def destroy
     begin
+        @stub = Stub.find(params[:id])
+        @stub.destroy
         alert(AadhiConstants::ALERT_CONFIRMATION, "The selected stub has been deleted successfully!!!", "/stubs", AadhiConstants::ALERT_BUTTON)
     rescue=>e
         alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the stub #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
