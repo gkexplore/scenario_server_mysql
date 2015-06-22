@@ -1,6 +1,5 @@
 <div class="container-fluid">
 <%- model_class = Feature -%>
-<h3>Add a flow:</h3>
 <%= form_for([@feature, @feature.flows.build]) do |f| %>
   <p>
     <%= f.label :flow_name %><br>
@@ -12,21 +11,21 @@
 <% end %>
 
 <div class="page-header">
-  <h3>
-      <%= @feature.feature_name %>
-  </h3>
+  <h4>
+     Feature: <%= @feature.feature_name %>
+  </h4>
 </div>
 
-<table class="table table-striped text-center">
+<table class="table table-striped">
   <thead >
  		<tr>
     <!--	<th class="text-center">
     		Flow Id
     	</th>-->
-    	<th class="text-center">
+    	<th>
     		Flow Name
     	</th>
-      <th class="text-center">
+      <th>
         Actions
       </th>
     </tr>

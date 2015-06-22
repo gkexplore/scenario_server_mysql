@@ -1,8 +1,5 @@
 
 <div class="container-fluid">
-	 <div class="page-header">
-		<h3>Add a scenario</h3>
-    </div>
 	<form class="new_scenario" id="new_scenario" action="/features/<%= @flow[:feature_id] %>/flows/<%= @flow[:id]%>/scenarios" accept-charset="UTF-8" method="post">
 		<input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="pWdvo+npH0P1yK39qBcKacH6aljcMzH4ze8z13XeZAIMqSQuafMWWhR/FC01VwJ7Z9apTq5FeIS+Zqg9yGC6PA==" />
 		  <p>
@@ -14,7 +11,7 @@
 		  </p>
 	</form>
 	<div class="page-header">
-		<h3> <%= @flow.flow_name %></h3>
+		<h4>Flow: <%= @flow.flow_name %></h4>
 	</div>
    <table class="table table-striped">
 	   	<thead>
