@@ -1,15 +1,49 @@
 
 <div class="container-fluid">
-<%- model_class = Stub -%>
-
-    <a class="btn btn-default" href="/">Back</a>
+  <a class="btn btn-default" href="/">Back</a>
 <div class="text-center">
-    <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/clear_logs">Clear Logs</a>
+  <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/clear_logs">Clear Logs</a>
 </div>   
+<div class="text-right">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Create scenario</button>
+</div> 
   <div class="result"></div>
 </div>
-<script>
+  <form class="new_flow" id="new_flow" action="/stubs/save_scenario" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Create scenario</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Feature name:</label>
+            <input type="text" class="form-control" id="recipient-name" name="feature_name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Flow name:</label>
+            <input type="text" class="form-control" id="recipient-name" name="flow_name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Scenario name:</label>
+           <input type="text" class="form-control" id="recipient-name" name="scenario_name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save Scenario</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
 
+
+<script>
 
    url = '/stubs/poll_log';
    
@@ -35,4 +69,5 @@
           }
         });
     })();
+
 </script>
