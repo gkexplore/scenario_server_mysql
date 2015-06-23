@@ -3,6 +3,7 @@ skip_before_filter :verify_authenticity_token
   def index
   	  @features = Feature.all
       @flows = Flow.all
+      @scenarios = Scenario.all
       @stubs = Stub.all.reverse
   end
   
