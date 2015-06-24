@@ -92,10 +92,10 @@ class RoutesController < ApplicationController
     	temp_url = URI.parse("http://localhost:9090"+path_query)
     	query = temp_url.query
     	if query==nil || query=='' || query.blank?
-    		path = temp_url.path.downcase
+    		path = temp_url.path
     	else
 	    	puts "query ***"+query
-	    	path = temp_url.path.downcase
+	    	path = temp_url.path
 			hash_string = qs_to_hash(query)
 			sorted_string =  Hash[hash_string.sort]
 			final_sorted_string = sorted_string.to_query
