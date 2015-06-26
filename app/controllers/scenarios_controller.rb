@@ -59,7 +59,24 @@ class ScenariosController < ApplicationController
 			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)  
 		end
 	end
-
+	def debug
+		@request_ip=request.remote_ip
+		@scenarios=Scenario.all
+	end
+	def set_current_scenario
+		begin
+		   @scenario = Scenario.find_by(:scenario_name=>params[:scenario_name])
+		   if @scenario.blank?
+			    alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while setting #{params[:scenario_name]} scenario. Please set a valid scenario", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+			else
+				@device = Device.find_or_initialize_by(:device_ip=>params[:device_ip])
+		  		@device.update(scenario: @scenario)
+			    alert(AadhiConstants::ALERT_CONFIRMATION, "The selected scenario has been set successfully!!!", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+		    end
+		rescue =>e
+				alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while setting the scenario", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+		end	
+	end
 	private
 	 def scenario_params
 		params.require(:scenario).permit(:scenario_name)

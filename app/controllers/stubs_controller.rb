@@ -17,8 +17,9 @@ skip_before_filter :verify_authenticity_token
         scenarios.update(:scenario_name=>params[:scenario_name])
         @stubs = Stub.all.reverse
         @stubs.each do |route|
+              decoded = URI.decode(route.request_url)
               routes = scenarios.routes.find_or_initialize_by(:path=>route.request_url)
-              routes.update(:route_type=>route.route_type,:path=>sort_query_parameters(route.request_url),:request_body=>route.request_body,:fixture=>route.response,:status=>route.status,:host=>route.host)
+              routes.update(:route_type=>route.route_type,:path=>sort_query_parameters(decoded),:request_body=>route.request_body,:fixture=>route.response,:status=>route.status,:host=>route.host)
        end     
 
           Stub.delete_all

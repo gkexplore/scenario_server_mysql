@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get 'stubs/poll_log'=>'stubs#poll_log'
   delete 'stubs/clear_logs'=>'stubs#clear_logs'
   post 'stubs/save_scenario'=>'stubs#save_scenario'
+  get 'scenarios/debug'=>'scenarios#debug'
+  post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
+
   resources :devices
   resources :stubs
   resources :config

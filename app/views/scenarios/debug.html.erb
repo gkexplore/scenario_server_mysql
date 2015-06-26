@@ -1,0 +1,27 @@
+<div class="container-fluid">
+		 <form class="new_flow" id="new_flow" action="/scenarios/set_current_scenario" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+		
+	         <p>
+	            <label for="feature-name" class="control-label">Enter your machine IP address:</label>
+	            <input type="text" class="form-control" id="recipient-name" name="device_ip" value="<%=@request_ip%>"/>
+	          </p>
+	          <p>
+	            <label for="feature-name" class="control-label">Select scenario:</label>
+	            <input type="text" class="form-control" id="recipient-name" name="scenario_name" list="scenario_name" autocomplete="off"/>
+	             <datalist id="scenario_name">
+	                <%@scenarios.each do |scenario|%>
+	                  <option value="<%=scenario.scenario_name%>">
+	                <%end%>
+	             </datalist>
+	     	</p>
+	   
+	        <button type="submit" class="btn btn-primary">Set Scenario</button>
+	   
+	</form>
+</div> 	
+
+
+
+
+
+	     		   	

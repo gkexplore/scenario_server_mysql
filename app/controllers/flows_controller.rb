@@ -27,6 +27,7 @@ class FlowsController < ApplicationController
 		begin
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:id])
+			@device_ip = request.remote_ip
 		rescue=>e
 			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the flow #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)
 		end
