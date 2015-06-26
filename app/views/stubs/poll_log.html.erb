@@ -2,7 +2,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>id</th>
+      <th></th>
       <th>Request URL</th>
       <th>Route Type</th>
     </tr>
@@ -10,7 +10,7 @@
   <tbody>
     <% @stubs.each do |stub| %>
       <tr>
-        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%=stub.id%>" data-whatever="@mdo"><%=stub.id%></button>
+        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%=stub.id%>" data-whatever="@mdo">View</button>
           <div class="modal fade" id="<%=stub.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
