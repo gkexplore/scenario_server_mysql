@@ -1,27 +1,75 @@
+<style>
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+</style>
 <div class="container-fluid">
-		 <form class="new_flow" id="new_flow" action="/scenarios/set_current_scenario" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
-		
-	         <p>
-	            <label for="feature-name" class="control-label">Enter your machine IP address:</label>
-	            <input type="text" class="form-control" id="recipient-name" name="device_ip" value="<%=@request_ip%>"/>
-	          </p>
-	          <p>
-	            <label for="feature-name" class="control-label">Select scenario:</label>
-	            <input type="text" class="form-control" id="recipient-name" name="scenario_name" list="scenario_name" autocomplete="off"/>
-	             <datalist id="scenario_name">
-	                <%@scenarios.each do |scenario|%>
-	                  <option value="<%=scenario.scenario_name%>">
-	                <%end%>
-	             </datalist>
-	     	</p>
-	   
-	        <button type="submit" class="btn btn-primary">Set Scenario</button>
-	   
+	<form class="new_flow" id="new_flow" action="/scenarios/set_current_scenario" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+
+		<table align="left" style="margin-left:2%">
+	         <tr>
+	         	<td>
+	           		 <label for="feature-name" class="control-label">Enter your machine IP address:</label>
+	         
+	            	<input type="text" class="form-control" id="recipient-name" name="device_ip" value="<%=@request_ip%>" size="50%"/>
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td>
+	           		 <label for="feature-name" class="control-label">Select scenario:</label>
+	           
+	          		<input type="text" class="form-control" id="recipient-name" name="scenario_name" list="scenario_name" autocomplete="off"/>
+	          	</td>
+	        </tr>
+	        <tr>
+	        	<td>
+		             <datalist id="scenario_name">
+		                <%@scenarios.each do |scenario|%>
+		                  <option value="<%=scenario.scenario_name%>">
+		                <%end%>
+		             </datalist>
+		        </td>
+	     	</tr>
+	     	<tr>
+	     		<td>
+	     			 <button type="submit" class="btn btn-primary">Set scenario</button>
+	     		</td>
+	     	<tr>
+	   	</table>
 	</form>
+
 </div> 	
+<div class="container-fluid">
+	<div class="page-header">
+ 		<h3 style="color:black">List of devices/machines with current scenario</h3>
+	</div>
+<table class="table-striped table-bordered table-hover table-condensed" style="margin-left:2%">
+	<thead>
+		<tr>
+			<th>IP address</th>
+			<th>Current scenario</th>
+		</tr>
+	</thead>
+    <tbody>
+    	<%@devices.each do |device|%>
+    		<tr>
+    			<td>
+					<%=device.device_ip%>
+				</td>
+				<td>
+					<%=device.scenario.scenario_name%>
+				</td>
+			<tr>
+		<%end%>
+    </tbody>
+ </table>
+</div>
 
-
-
-
+	
 
 	     		   	
