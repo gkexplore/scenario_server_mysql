@@ -1,5 +1,6 @@
 <div class="container-fluid">
     <%- model_class = Config -%>
+     <%= render :partial => 'common/header' %>
     <div>
       <h4><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h4>
     </div>

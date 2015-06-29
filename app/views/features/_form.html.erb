@@ -1,31 +1,15 @@
 <div class="container-fluid">
+   <%= render :partial => 'common/header' %>
   <%= form_for @feature, :html => { :class => "form-horizontal feature" } do |f| %>
-      <% if @feature.errors.any? %>
-        <div id="error_expl" class="panel panel-danger">
-          <div class="panel-heading">
-            <h3 class="panel-title"><%= pluralize(@feature.errors.count, "error") %> prohibited this feature from being saved:</h3>
-          </div>
-          <div class="panel-body">
-            <ul>
-            <% @feature.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-            </ul>
-          </div>
-        </div>
-    <% end %>
-
-    <table class="table">
+    <table class="table table-striped">
       <tr>
-          <td>
-            <%= f.label :feature_name, :class => 'control-label' %>
-              <%= f.text_field :feature_name, :class => 'form-control' %>
+          <td style="border-top:0px">
+            <%= f.label :feature_name %><br/>
+              <%= f.text_field :feature_name,  :size => "50%" %>
             <%= error_span(@feature[:feature_name]) %>
           </td>
       </tr>
     </table>
-
-
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
               features_path, :class => 'btn btn-default' %>

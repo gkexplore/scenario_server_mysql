@@ -1,18 +1,10 @@
 <div class="container-fluid">
   <%- model_class = Feature -%>
+  <%= render :partial => 'common/header' %>
 <form name="features_export" action="features/export" method="post">
   <table class="table table-striped" style="align:center">
     <thead>
       <tr>
-        <th class="text-right" colspan="3">
-           <a href="stubs/" class="btn btn-primary">View Logs</a>
-           <a href="scenarios/debug" class="btn btn-primary">Debug Scenario</a>
-           <a href="config/" class="btn btn-primary">Config</a>
-           <a href="features/import_json" class="btn btn-primary">Upload Feature</a>
-        </th>
-      </tr>
-      <tr>
-       <!-- <th><%= model_class.human_attribute_name(:id) %></th> -->
         <th><%= model_class.human_attribute_name(:feature_name) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
         <th>Select Feature</th>
@@ -21,7 +13,6 @@
   <tbody>
     <% @features.each do |feature| %>
       <tr>
-        <!--<td><%= link_to feature.id, feature_path(feature) %></td> -->
         <td><%= link_to feature.feature_name, feature_path(feature) %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
