@@ -4,9 +4,7 @@
   <table class="table table-striped" style="align:center">
     <thead>
       <tr>
-        <th colspan="2">
-        </th>
-        <th class="text-right">
+        <th class="text-right" colspan="3">
            <a href="stubs/" class="btn btn-primary">View Logs</a>
            <a href="scenarios/debug" class="btn btn-primary">Debug Scenario</a>
            <a href="config/" class="btn btn-primary">Config</a>
@@ -24,8 +22,8 @@
     <% @features.each do |feature| %>
       <tr>
         <!--<td><%= link_to feature.id, feature_path(feature) %></td> -->
-        <td width="33%"><%= link_to feature.feature_name, feature_path(feature) %></td>
-        <td width="33%">
+        <td><%= link_to feature.feature_name, feature_path(feature) %></td>
+        <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_feature_path(feature), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

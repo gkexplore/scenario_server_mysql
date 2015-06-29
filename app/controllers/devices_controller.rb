@@ -97,17 +97,15 @@ private
 
 private
 	def get_connection(host,config)
+
 		proxy_hash = {
-
  		 uri: config[0].url,
-
   		 user: config[0].user,
-
   		 password: config[0].password
-
  		}
 
 	 conn = nil;
+	 
 	 case config[0].isProxyRequired	
 		 when PROXY::NO
 			  conn = Faraday.new(:url => host) do |c|

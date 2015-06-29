@@ -5,26 +5,23 @@
 </script>
 
 <div class="container-fluid">	
-
-<div id="myModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><%=@message_type%></h4>
-            </div>
-            <div class="modal-body">
-        		<%	if @message.include? "error"%>
-        			<div class="alert alert-danger" role="alert"><%= @message%></div>
-        		<%else%>
-        			<div class="alert alert-success" role="alert"><%= @message%></div>
-        		<%end%>    
-            </div>
-            <div class="modal-footer">
-               <a class="btn btn-default" href="<%= @navigation_url%>"><%= @button%></a>
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><%=@message_type%></h4>
+                </div>
+                <div class="modal-body">
+            		<%	if @message.include? "error"%>
+            			<div class="alert alert-danger" role="alert"><%= @message%></div>
+            		<%else%>
+            			<div class="alert alert-success" role="alert"><%= @message%></div>
+            		<%end%>    
+                </div>
+                <div class="modal-footer">
+                   <a class="btn btn-default" href="<%= @navigation_url%>"><%= @button%></a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
 </div>
