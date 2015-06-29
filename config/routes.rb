@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   post 'stubs/save_scenario'=>'stubs#save_scenario'
   get 'scenarios/debug'=>'scenarios#debug'
   post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
-
+  get 'stubs/server_log'=>'stubs#server_log'
   resources :devices
   resources :stubs
   resources :config

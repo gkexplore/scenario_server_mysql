@@ -1,0 +1,8 @@
+<div class="container-fluid">
+
+	<%= render :partial => 'common/header' %>
+		<%@logs.each do |log|%>
+		<p><%=log%></p>
+		<%end%>
+</div>
+<meta http-equiv="refresh" content="10" />

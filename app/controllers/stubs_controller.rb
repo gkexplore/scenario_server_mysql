@@ -69,6 +69,16 @@ skip_before_filter :verify_authenticity_token
     end
   end
 
+  def server_log
+    @logs = Array.new
+    text=File.open('/var/www/scenario_server_mysql/log/development.log').read
+    text.gsub!(/\r\n?/, "\n")
+      text.each_line do |line|
+        @logs.push(line)
+      end
+    @logs.reverse!
+  end
+
   private
    def qs_to_hash(querystring)
       keyvals = querystring.split('&').inject({}) do |result, q| 
