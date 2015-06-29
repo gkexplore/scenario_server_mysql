@@ -79,6 +79,15 @@ skip_before_filter :verify_authenticity_token
     @logs.reverse!
   end
 
+  def clear_server_log  
+    begin
+           File.truncate('/var/www/scenario_server_mysql/log/development.log', 0)
+            alert(AadhiConstants::ALERT_CONFIRMATION, "The server log has been emptied successfully!!!", "/stubs/server_log", AadhiConstants::ALERT_BUTTON)
+      rescue=>e
+          alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the server log #{e.class.name}: #{e.message}", "/stubs/server_log", AadhiConstants::ALERT_BUTTON)
+      end
+    end
+
   private
    def qs_to_hash(querystring)
       keyvals = querystring.split('&').inject({}) do |result, q| 
