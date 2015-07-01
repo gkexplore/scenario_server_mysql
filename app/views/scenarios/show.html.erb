@@ -63,6 +63,7 @@
 	<thead>
 		<tr>
 			<th>Path</th>
+			<td>Route Type</th>
 			<th >Actions</th>
 		</tr>
 	</thead>
@@ -71,6 +72,9 @@
 		<tr>
 			<td>
 				<a href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
+			</td>
+			<td>
+				<%= route[:route_type] %>
 			</td>
 			<td>
 				<a class="btn btn-default btn-xs" href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>/edit">Edit</a>
