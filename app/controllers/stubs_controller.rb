@@ -46,8 +46,13 @@ skip_before_filter :verify_authenticity_token
   end
 
   def poll_log
-  	@stubs = Stub.all.reverse
-    render layout: false
+      @duplicate_id_list = Array.new
+  	  @stubs = Stub.all.reverse
+      @duplicate_calls = Stub.select(:id).group(:request_url,:route_type,:response).having("count(*) > 1")
+      @duplicate_calls.each do |request|
+        @duplicate_id_list.push(request.id)
+      end
+      render layout: false
   end
  
   def clear_logs

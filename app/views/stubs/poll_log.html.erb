@@ -8,9 +8,20 @@
     </tr>
   </thead>
   <tbody>
+
+
     <% @stubs.each do |stub| %>
       <tr>
-        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%=stub.id%>" data-whatever="@mdo">View</button>
+         <td>
+
+              <%if @duplicate_id_list.include?(stub.id)%>
+                 
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#<%=stub.id%>" data-whatever="@mdo">View</button>
+              <%else%>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%=stub.id%>" data-whatever="@mdo">View</button>
+             <%end%>
+
+         </td>
           <div class="modal fade" id="<%=stub.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -46,7 +57,7 @@
           </div>
         </div>
 
-        </td>
+       
         <td><%= stub.request_url %></td>
         <td><%= stub.route_type %></td>
         <td> <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/<%= stub.id%>">Delete</a></td>
