@@ -81,8 +81,8 @@ def make_request_to_actual_api(method, config)
 
 private
 	def form_request_headers_and_hit_api(req,path,query,body)
-	 req.url path<<"?"<<query   
-        req.headers["Content-Type"]="application/json"
+	 	req.url path<<"?"<<query   
+	 	req.headers["Content-Type"]="application/json"
         self.request.env.each do |header|
         	final_key = header[0].downcase
          	 if (final_key.include?("http_") && !final_key.include?("http_host") && !final_key.include?("http_cookie"))	
@@ -114,7 +114,7 @@ private
 			      c.use Faraday::Adapter::NetHttp     
 			   end
 	     when PROXY::YES
-	     	  conn = Faraday.new(:url => host) do |c|
+	     	  conn = Faraday.new(:url => host, :ssl => {:verify => false} ) do |c|
 	    		  c.use Faraday::Request::UrlEncoded  
 	   			  c.use Faraday::Response::Logger     
 	     		  c.use Faraday::Adapter::NetHttp   
@@ -155,7 +155,7 @@ private
 				end
 			end
 		rescue =>e
-			logger.error "An error has been occurred in respond_to_CMA_client #{e.class.name} : #{e.message}"
+			logger.error "An error has been occurred in respond_to_client #{e.class.name} : #{e.message}"
 			render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 		end	
 	end
