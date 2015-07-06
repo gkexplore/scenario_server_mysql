@@ -108,13 +108,13 @@ private
 	 
 	 case config[0].isProxyRequired	
 		 when PROXY::NO
-			  conn = Faraday.new(:url => host) do |c|
+			   conn = Faraday.new(:url => host, :ssl => {:verify => false} ) do |c|
 			      c.use Faraday::Request::UrlEncoded  
 			      c.use Faraday::Response::Logger     
 			      c.use Faraday::Adapter::NetHttp     
 			   end
 	     when PROXY::YES
-	     	  conn = Faraday.new(:url => host, :ssl => {:verify => false} ) do |c|
+	     	  conn = Faraday.new(:url => host) do |c|
 	    		  c.use Faraday::Request::UrlEncoded  
 	   			  c.use Faraday::Response::Logger     
 	     		  c.use Faraday::Adapter::NetHttp   
