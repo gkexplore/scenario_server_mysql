@@ -16,6 +16,7 @@ class CreateStubs < ActiveRecord::Migration
      change_column :stubs, :response, :text, :limit => 4294967295
      change_column :stubs, :status, :text, :limit => 4294967295
      change_column :stubs, :host, :text, :limit => 4294967295
-      add_column :stubs, :remote_ip, :text, :limit => 4294967295
+     add_column :stubs, :remote_ip, :text, :limit => 4294967295
+     add_column :stubs, :headers, :text, :limit => 4294967295
   end
 end
