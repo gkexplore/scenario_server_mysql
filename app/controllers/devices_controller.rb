@@ -51,27 +51,31 @@ def make_request_to_actual_api(method, config)
    		path = get_path(host_path)
 	    conn = get_connection(host, config)	
 	    response = ""
+	    headers = ""
 	    case method
 		    when METHOD::GET
 		       response = conn.get do |req|
-		       form_request_headers_and_hit_api(req,path,query,body)
+		       headers = form_request_headers req
+		       hit_actual_api(req, path, query, body, headers)
 		    end
 		    when METHOD::POST
-
 		       response = conn.post do |req|
-		       form_request_headers_and_hit_api(req,path,query,body)
+		       headers = form_request_headers req
+		       hit_actual_api(req, path, query, body, headers)
 		    end
 		    when METHOD::PUT
 		       response = conn.put do |req|
-		       form_request_headers_and_hit_api(req,path,query,body)
+		       headers = form_request_headers req
+               hit_actual_api(req, path, query, body, headers)
 		    end
 		    when METHOD::DELETE
 		       response = conn.delete do |req|
-		       form_request_headers_and_hit_api(req,path,query,body)
+		       headers = form_request_headers req
+		       hit_actual_api(req, path, query, body, headers)
 		    end
 	    end
 
-		@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.status, :host=>host, :remote_ip=>request.remote_ip)
+		@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.status, :host=>host, :remote_ip=>request.remote_ip, :headers=>headers)
 	    if @route.save 
 	  		 logger.debug "Stub has been successfully saved in DB"
 		end
@@ -79,21 +83,36 @@ def make_request_to_actual_api(method, config)
 	  render json: response.body, :status => response.status
 	end
 
-private
-	def form_request_headers_and_hit_api(req,path,query,body)
-	 	req.url path<<"?"<<query   
-	 	req.headers["Content-Type"]="application/json"
-        self.request.env.each do |header|
+private 
+	def form_request_headers(req)
+
+		self.request.env.each do |header|
         	final_key = header[0].downcase
-         	 if (final_key.include?("http_") && !final_key.include?("http_host") && !final_key.include?("http_cookie"))	
+         	if (final_key.include?("http_") && !final_key.include?("http_host") && !final_key.include?("http_cookie"))	
            		 final_key.slice!'http_'
-           		 req.headers[final_key]=header[1]
-         	 elsif(final_key.include?("content-type"))
+           		 if final_key.include?("user_agent")
+           		 	req.headers["User-Agent"]=header[1]
+           		 else
+           			 req.headers[final_key]=header[1]
+           		end
+         	elsif(final_key.include?("content-type") || final_key.include?("content_type"))
             	 req.headers["Content-Type"]="#{header[1]}"
-          	 end
-          end
-        req.body = body
+          	end
+        end
+        return req.headers
     end
+
+private 
+    def hit_actual_api(req, path, query, body, headers)
+    	req.url path<<"?"<<query   
+	    headers = form_request_headers(req)
+	 	req.headers = headers.clone
+        req.body = body
+        logger.info "*********************************Headers Start*************************"
+        logger.info request.env
+        logger.info "*********************************Headers End*********************"
+  	end
+
 
 private
 	def get_connection(host,config)
