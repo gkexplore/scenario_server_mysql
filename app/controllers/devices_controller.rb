@@ -98,6 +98,7 @@ private
          	elsif(final_key.include?("content-type") || final_key.include?("content_type"))
             	 req.headers["Content-Type"]="#{header[1]}"
           	end
+
         end
         return req.headers
     end
@@ -133,11 +134,15 @@ private
 			      c.use Faraday::Adapter::NetHttp     
 			   end
 	     when PROXY::YES
-	     	  conn = Faraday.new(:url => host) do |c|
+	     	  bypass_proxy_domains = config[0].bypass_proxy_domains
+	     	  logger.info bypass_proxy_domains
+	     	  conn = Faraday.new(:url => host, :ssl => {:verify => false}) do |c|
 	    		  c.use Faraday::Request::UrlEncoded  
 	   			  c.use Faraday::Response::Logger     
-	     		  c.use Faraday::Adapter::NetHttp   
-	    		  c.proxy(proxy_hash)  
+	     		  c.use Faraday::Adapter::NetHttp
+	     		 unless bypass_proxy_domains.include?(host)   
+	    		  	c.proxy(proxy_hash)  
+	    		 end
 	   		end
 	 end
 	  return conn
