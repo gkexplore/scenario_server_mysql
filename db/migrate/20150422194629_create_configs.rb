@@ -9,5 +9,6 @@ class CreateConfigs < ActiveRecord::Migration
     add_column :configs, :port, :string
     add_column :configs, :user, :string
     add_column :configs, :password, :string
+    add_column :configs, :bypass_proxy_domains, :text
   end
 end

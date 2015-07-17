@@ -24,6 +24,6 @@ class ConfigController < ApplicationController
 	end
 	private
 	 def config_params
-		params.require(:config).permit(:server_mode,:isProxyRequired,:url,:port,:user,:password)
+		params.require(:config).permit(:server_mode,:isProxyRequired,:url,:port,:user,:password,:bypass_proxy_domains)
 	 end
 end

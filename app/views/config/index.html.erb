@@ -35,6 +35,12 @@
                         Password:  <input type="password" name="config[password]" value="<%= config.password%>"/>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        Bypass proxy settings for these Hosts & Domains <br>
+                        <textarea name="config[bypass_proxy_domains]" cols="150"><%= config.bypass_proxy_domains%></textarea>
+                    </td>
+                </tr>
             </tbody>
 
             <% end %>

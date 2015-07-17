@@ -14,14 +14,15 @@
 ActiveRecord::Schema.define(version: 20150428060759) do
 
   create_table "configs", force: :cascade do |t|
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.string   "server_mode",     limit: 7,     default: "default"
-    t.string   "isProxyRequired", limit: 3,     default: "no"
-    t.text     "url",             limit: 65535
-    t.string   "port",            limit: 255
-    t.string   "user",            limit: 255
-    t.string   "password",        limit: 255
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.string   "server_mode",          limit: 7,     default: "default"
+    t.string   "isProxyRequired",      limit: 3,     default: "no"
+    t.text     "url",                  limit: 65535
+    t.string   "port",                 limit: 255
+    t.string   "user",                 limit: 255
+    t.string   "password",             limit: 255
+    t.text     "bypass_proxy_domains", limit: 65535
   end
 
   create_table "devices", force: :cascade do |t|
