@@ -26,7 +26,7 @@ gem 'mysql'
 
 
 gem "therubyracer"
-gem 'libv8' , '3.16.14.3'
+gem 'libv8'
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'faraday'
