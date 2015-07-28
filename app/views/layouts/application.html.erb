@@ -49,6 +49,12 @@
   			window.location = "/";
   		});
   	});
+
+   $(document).on('contextmenu', function (evt) {
+     if (!$(evt.target).is('.context')) {
+         evt.preventDefault();
+     }   
+ });
   </script>
 </body>
 </html>
