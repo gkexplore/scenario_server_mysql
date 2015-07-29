@@ -11,7 +11,7 @@ skip_before_filter :verify_authenticity_token
 include DevicesHelper
 
 	def respond_to_app_client
-		config =  Config.all
+		config =  Aadhiconfig.all
 		case config[0].server_mode
 			when SERVER_MODE::REFRESH	
 				#add refresh implementation here	

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   delete 'stubs/clear_server_log'=>'stubs#clear_server_log'
   resources :devices
   resources :stubs
-  resources :config
+  resources :aadhiconfig
     resources :features do
       resources :flows do
         resources :scenarios do
