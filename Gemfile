@@ -25,8 +25,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'mysql'
 
 
-gem "therubyracer"
-gem 'libv8'
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'faraday'
