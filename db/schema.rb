@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428060759) do
+ActiveRecord::Schema.define(version: 20150729020447) do
 
-  create_table "configs", force: :cascade do |t|
+  create_table "aadhiconfigs", force: :cascade do |t|
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.string   "server_mode",          limit: 7,     default: "default"
