@@ -9,35 +9,20 @@ skip_before_filter :verify_authenticity_token
   
   def save_scenario
       begin
-          begin
-              feature_model = Feature.find_or_initialize_by(:feature_name=>params[:feature_name])
-              feature_model.update(:feature_name=>params[:feature_name])
-          rescue Exception=>e
-              alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while adding the feature #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
-          end
-          begin
-               flows = feature_model.flows.find_or_initialize_by(:flow_name=>params[:flow_name])
-               flows.update(:flow_name=>params[:flow_name])
-          rescue Exception=>e
-              alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while adding the flow #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
-          end
-          begin
-              scenarios = flows.scenarios.find_or_initialize_by(:scenario_name=>params[:scenario_name])
-              scenarios.update(:scenario_name=>params[:scenario_name]) 
-          rescue Exception=>e
-              alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while adding the scenario #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
-          end
-          begin
-              @stubs = Stub.all.reverse
-              @stubs.each do |route|
-                    decoded = URI.decode(route.request_url)
-                    routes = scenarios.routes.find_or_initialize_by(:path=>route.request_url)
-                    routes.update(:route_type=>route.route_type,:path=>sort_query_parameters(decoded),:request_body=>route.request_body,:fixture=>route.response,:status=>route.status,:host=>route.host)
+          feature_model = Feature.find_or_initialize_by(:feature_name=>params[:feature_name])
+          feature_model.update(:feature_name=>params[:feature_name])
+    
+           flows = feature_model.flows.find_or_initialize_by(:flow_name=>params[:flow_name])
+           flows.update(:flow_name=>params[:flow_name])
+  
+          scenarios = flows.scenarios.find_or_initialize_by(:scenario_name=>params[:scenario_name])
+          scenarios.update(:scenario_name=>params[:scenario_name]) 
+          @stubs = Stub.all.reverse
+          @stubs.each do |route|
+             #   decoded = URI.decode(route.request_url)
+                routes = scenarios.routes.find_or_initialize_by(:path=>route.request_url)
+                routes.update(:route_type=>route.route_type,:path=>sort_query_parameters(route.request_url),:request_body=>route.request_body,:fixture=>route.response,:status=>route.status,:host=>route.host)
           end    
-          rescue Exception=>e
-              alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while adding the route #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
-          end 
-
           Stub.delete_all
           alert(AadhiConstants::ALERT_CONFIRMATION, "All the stubs have been saved successfully!!!", "/stubs", AadhiConstants::ALERT_BUTTON)
       rescue Exception=>e
@@ -100,7 +85,7 @@ skip_before_filter :verify_authenticity_token
         if !v.nil?
            result.merge({k => v})
         elsif !result.key?(k)
-          result.merge({k => true})
+          result.merge({k => ''})
         else
           result
         end

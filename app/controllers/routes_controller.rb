@@ -79,7 +79,7 @@ class RoutesController < ApplicationController
 		    if !v.nil?
 		       result.merge({k => v})
 		    elsif !result.key?(k)
-		      result.merge({k => true})
+		      result.merge({k => ''})
 		    else
 		      result
 		    end
