@@ -3,7 +3,7 @@
 	<div class="page-header">
  		<h3>Import Stubs from XML file</h3>
 	</div>
-	<%= form_tag({action: :import_json}, multipart: true) do %>
+	<%= form_tag({action: :import_xml}, multipart: true) do %>
 		<div class="row" style="padding-bottom:15px">
 			<div class="col-xs-6 text-right">Please select a valid xml file:</div>
 	  		<div class="col-xs-6"><%= file_field 'upload', 'datafile' %> </div>
