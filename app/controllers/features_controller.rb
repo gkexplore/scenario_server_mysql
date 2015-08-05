@@ -78,11 +78,22 @@ class FeaturesController < ApplicationController
 		end
 	end
 
-	def import_json_index
+	def export_all
+		begin
+			@features = Feature.all.includes({:flows =>{:scenarios => :routes}}).joins({:flows =>{:scenarios => :routes}})
+			file_name = Time.now.to_s<<".xml"
+			response_xml = @features.to_xml(:include => {:flows => {:include => {:scenarios =>{:include =>:routes}}}})
+			send_data response_xml, :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+		rescue=>e
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while exporting the report!!! #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
+		end
+	end
+
+	def import_xml_index
 
 	end
 
-	def import_json
+	def import_xml
 		begin
 			file = params[:upload]
 			if file['datafile'].content_type=="text/xml"
