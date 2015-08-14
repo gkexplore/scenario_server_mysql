@@ -3,6 +3,11 @@ require 'cgi'
 require 'json'
 require 'faraday'
 
+require "net/http"
+require "uri"
+require "ostruct"
+require "json"
+
 class DevicesController < ApplicationController
 
 use Rack::MethodOverride
@@ -49,40 +54,28 @@ def make_request_to_actual_api(method, config)
 	    path_array.delete_at(0)
 	    host = request.env["rack.url_scheme"]+"://"+path_array[0]
    		path = get_path(host_path)
-	    conn = get_connection(host, config)	
+	    conn = Connection.new(host, config)	
 	    response = ""
 	    headers = ""
 	    case method
 		    when METHOD::GET
-		       response = conn.get do |req|
-		       headers = form_request_headers req
-		       hit_actual_api(req, path, query, body, headers)
-		    end
+		     response = conn.get(path, query, body, self.request)
 		    when METHOD::POST
-		       response = conn.post do |req|
-		       headers = form_request_headers req
-		       hit_actual_api(req, path, query, body, headers)
-		    end
+		      response = conn.post(path, query, body, self.request)
 		    when METHOD::PUT
-		       response = conn.put do |req|
-		       headers = form_request_headers req
-               hit_actual_api(req, path, query, body, headers)
-		    end
+		       response = conn.put(path, query, body, self.request)
 		    when METHOD::DELETE
-		       response = conn.delete do |req|
-		       headers = form_request_headers req
-		       hit_actual_api(req, path, query, body, headers)
-		    end
+		      response = conn.delete(path, query, body, self.request)
 	    end
 
-		@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.status, :host=>host, :remote_ip=>request.remote_ip, :headers=>headers)
+		@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.code, :host=>host, :remote_ip=>request.remote_ip, :headers=>headers)
 	    if @route.save 
 	  		 logger.debug "Stub has been successfully saved in DB"
 		end
 		
-	  render json: response.body, :status => response.status
+	  render json: response.body, :status => response.code
 	end
-
+=begin
 private 
 	def form_request_headers(req)
 
@@ -147,7 +140,7 @@ private
 	 end
 	  return conn
 	end
-
+=end
 private
 	def make_request_to_local_api_server
 		begin
@@ -200,3 +193,112 @@ private
 	end
 
 end
+
+class Connection
+	include DevicesHelper
+
+  VERB_MAP = {
+    :get    => Net::HTTP::Get,
+    :post   => Net::HTTP::Post,
+    :put    => Net::HTTP::Put,
+    :delete => Net::HTTP::Delete
+  }
+
+  def initialize(endpoint, config)
+    @endpoint_uri = URI.parse(endpoint)
+    @proxy_uri = URI.parse(config[0].url)
+    @config = config
+  end
+
+  def get(path, params, body, request)
+    return make_request :get, path, params, body, request
+  end
+
+  def post(path, params, body, request)
+   return make_request :post, path, params, body, request
+  end
+
+  def put(path, params, body, request)
+   return make_request :put, path, params, body, request
+  end
+
+  def delete(path, params, body, request)
+   return make_request :delete, path, params, body, request
+  end
+
+  def make_request(method, path, params, body, request)
+  	Rails.logger.debug "sdfsafsdf3][][][][][][][][][][[][["
+    case method
+    when :get
+      full_path = path<<"?"<<params
+      Rails.logger.debug full_path
+      req = VERB_MAP[method.to_sym].new(full_path)
+      req = form_request_headers(request, req)
+      req.each_header { |header| Rails.logger.debug  header }
+      Rails.logger.debug  req.to_hash
+    when :post
+      full_path = path<<"?"<<params
+      req = VERB_MAP[method.to_sym].new(full_path)
+      req.body = body
+      req = form_request_headers(request, req)
+      Rails.logger.debug  req.to_hash
+    when :put
+      full_path = path<<"?"<<params
+      req = VERB_MAP[method.to_sym].new(full_path)
+      req.body = body
+      req = form_request_headers(request, req)
+      Rails.logger.debug  req.to_hash
+    when :delete
+      full_path = path<<"?"<<params
+      req = VERB_MAP[method.to_sym].new(full_path)
+      req.body = body
+      req = form_request_headers(request, req)
+      Rails.logger.debug  req.to_hash
+    end
+    case @config[0].isProxyRequired 
+		 when PROXY::NO
+		 	http = Net::HTTP.new(@endpoint_uri.host, @endpoint_uri.port) 
+		 	http.use_ssl = (@endpoint_uri.scheme == "https")
+		 	http.start do
+  				response = http.request(req)
+  				Rails.logger.debug response.body
+  			 	return response
+			end
+   		 when PROXY::YES
+   			http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @config[0].user, @config[0].password).start(@endpoint_uri.host, @endpoint_uri.port, :use_ssl =>(@endpoint_uri.scheme == "https"))  do |http|
+   				response = http.request(req)
+  				Rails.logger.debug response.body
+  				return response
+   			end
+     end
+  end
+
+  private 
+	def form_request_headers(request, req)
+
+		request.env.each do |header|
+        	final_key = header[0].downcase
+         	if (final_key.include?("http_") && !final_key.include?("http_host") && !final_key.include?("http_cookie"))	
+           		 final_key.slice!'http_'
+           		 if final_key.include?("user_agent")
+           		 	req.add_field("User-Agent", header[1])
+           		 else
+           			 req.add_field(final_key, header[1])
+           		end
+         	elsif(final_key.include?("content-type") || final_key.include?("content_type"))
+            	 req.content_type="#{header[1]}"
+            	 #req.add_field("content-type","#{header[1]}")
+          	end
+
+        end
+        return req
+    end
+
+end
+
+
+
+
+
+
+
