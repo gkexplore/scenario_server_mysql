@@ -193,13 +193,14 @@ class Connection
 		 when PROXY::NO
 		 	http = Net::HTTP.new(@endpoint_uri.host, @endpoint_uri.port) 
 		 	http.use_ssl = (@endpoint_uri.scheme == "https")
+		 	http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 		 	http.start do
   				response = http.request(req)
   				Rails.logger.debug response.body
   			 	return response
 			end
    		 when PROXY::YES
-   			http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @config[0].user, @config[0].password).start(@endpoint_uri.host, @endpoint_uri.port, :use_ssl =>(@endpoint_uri.scheme == "https"))  do |http|
+   			http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @config[0].user, @config[0].password).start(@endpoint_uri.host, @endpoint_uri.port, :use_ssl =>(@endpoint_uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE)  do |http|
    				response = http.request(req)
   				Rails.logger.debug response.body
   				return response
