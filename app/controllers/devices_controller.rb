@@ -227,7 +227,6 @@ class Connection
   end
 
   def make_request(method, path, params, body, request)
-  	Rails.logger.debug "sdfsafsdf3][][][][][][][][][][[][["
     case method
     when :get
       full_path = path<<"?"<<params
