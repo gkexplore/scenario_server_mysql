@@ -75,72 +75,7 @@ def make_request_to_actual_api(method, config)
 		
 	  render json: response.body, :status => response.code
 	end
-=begin
-private 
-	def form_request_headers(req)
 
-		self.request.env.each do |header|
-        	final_key = header[0].downcase
-         	if (final_key.include?("http_") && !final_key.include?("http_host") && !final_key.include?("http_cookie"))	
-           		 final_key.slice!'http_'
-           		 if final_key.include?("user_agent")
-           		 	req.headers["User-Agent"]=header[1]
-           		 else
-           			 req.headers[final_key]=header[1]
-           		end
-         	elsif(final_key.include?("content-type") || final_key.include?("content_type"))
-            	 req.headers["Content-Type"]="#{header[1]}"
-          	end
-
-        end
-        return req.headers
-    end
-
-private 
-    def hit_actual_api(req, path, query, body, headers)
-    	req.url path<<"?"<<query   
-	    headers = form_request_headers(req)
-	 	req.headers = headers.clone
-        req.body = body
-        logger.info "*********************************Headers Start*************************"
-        logger.info request.env
-        logger.info "*********************************Headers End*********************"
-  	end
-
-
-private
-	def get_connection(host,config)
-
-		proxy_hash = {
- 		 uri: config[0].url,
-  		 user: config[0].user,
-  		 password: config[0].password
- 		}
-
-	 conn = nil;
-	 
-	 case config[0].isProxyRequired	
-		 when PROXY::NO
-			   conn = Faraday.new(:url => host, :ssl => {:verify => false} ) do |c|
-			      c.use Faraday::Request::UrlEncoded  
-			      c.use Faraday::Response::Logger     
-			      c.use Faraday::Adapter::NetHttp     
-			   end
-	     when PROXY::YES
-	     	  bypass_proxy_domains = config[0].bypass_proxy_domains
-	     	  logger.info bypass_proxy_domains
-	     	  conn = Faraday.new(:url => host, :ssl => {:verify => false}) do |c|
-	    		  c.use Faraday::Request::UrlEncoded  
-	   			  c.use Faraday::Response::Logger     
-	     		  c.use Faraday::Adapter::NetHttp
-	     		 unless bypass_proxy_domains.include?(host)   
-	    		  	c.proxy(proxy_hash)  
-	    		 end
-	   		end
-	 end
-	  return conn
-	end
-=end
 private
 	def make_request_to_local_api_server
 		begin
