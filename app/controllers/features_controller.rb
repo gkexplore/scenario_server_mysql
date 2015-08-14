@@ -6,6 +6,7 @@ class FeaturesController < ApplicationController
 	def index
 		begin
 			@features = Feature.all
+			@flows = Flow.all
 		rescue=>e
 			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving all the features #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end

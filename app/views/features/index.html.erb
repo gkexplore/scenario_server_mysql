@@ -5,7 +5,7 @@
   <table class="table table-striped" style="align:center">
     <thead>
       <tr>
-        <th><%= model_class.human_attribute_name(:feature_name) %></th>
+        <th><%= model_class.human_attribute_name(:feature_name) %> (<%=@flows.count%>)</th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
         <th>Select Feature</th>
     </tr>
@@ -13,7 +13,7 @@
   <tbody>
     <% @features.each do |feature| %>
       <tr>
-        <td><%= link_to feature.feature_name, feature_path(feature) %></td>
+        <td><%= link_to feature.feature_name, feature_path(feature) %> (<%=feature.flows.count%>) </td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_feature_path(feature), :class => 'btn btn-default btn-xs' %>
