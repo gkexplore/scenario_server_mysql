@@ -177,7 +177,6 @@ class Connection
 
 			  case @proxy[0].isProxyRequired 
 				when PROXY::NO
-					Rails.logger.debug "Inside proxy no"
 					 Net::HTTP.start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE) do |http|
 		  			 	Rails.logger.debug req.to_hash
 		  			 	response = http.request(req)
@@ -185,7 +184,6 @@ class Connection
 		  			 	return response	
 					 end
 		   		when PROXY::YES
-		   			Rails.logger.debug "Inside proxy yes"
 		   			 http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @proxy[0].user, @proxy[0].password).start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE)  do |http|
 				   		Rails.logger.debug req.to_hash
 				   		response = http.request(req)
