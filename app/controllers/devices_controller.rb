@@ -70,10 +70,6 @@ class DevicesController < ApplicationController
 			    when METHOD::DELETE
 			     	 response = conn.delete(path, query, body, self.request)
 			end
-			@route = Stub.create(:request_url=>host+path, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.code, :host=>host, :remote_ip=>request.remote_ip, :headers=>headers)
-		    if @route.save 
-		  		logger.debug "Stub has been successfully saved in DB"
-			end
 		    render json: response.body, :status => response.code
 		end
 
@@ -138,7 +134,6 @@ class Connection
 		 
 		  def initialize(endpoint, config)
 		  	  @endpoint = endpoint
-		   	  @endpoint_uri = URI.parse(endpoint)
 		   	  @proxy_uri = URI.parse(config[0].url)
 		   	  @proxy = config
 		  end
@@ -183,16 +178,18 @@ class Connection
 			  case @proxy[0].isProxyRequired 
 				when PROXY::NO
 					Rails.logger.debug "Inside proxy no"
-					 Net::HTTP.start(uri.host, uri.port, :use_ssl =>(@endpoint_uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE) do |http|
+					 Net::HTTP.start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE) do |http|
 		  			 	Rails.logger.debug req.to_hash
 		  			 	response = http.request(req)
+		  			 	save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
 		  			 	return response	
 					 end
 		   		when PROXY::YES
 		   			Rails.logger.debug "Inside proxy yes"
-		   			 http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @proxy[0].user, @proxy[0].password).start(@endpoint_uri.host, @endpoint_uri.port, :use_ssl =>(@endpoint_uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE)  do |http|
+		   			 http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @proxy[0].user, @proxy[0].password).start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE)  do |http|
 				   		Rails.logger.debug req.to_hash
 				   		response = http.request(req)
+				   		save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
 						return response
 		  			end
 		      end
@@ -215,6 +212,15 @@ class Connection
 			    end
 			    return req
 		  end
+
+		 private
+		 	def save_stubs(url, method, body, response, host, request, headers)
+		 		@route = Stub.create(:request_url=>url, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.code, :host=>host, :remote_ip=>request.remote_ip, :headers=>headers)
+		   		 if @route.save 
+		  			Rails.logger.debug "Stub has been successfully saved in DB"
+				end
+			end
+
 end
 
 
