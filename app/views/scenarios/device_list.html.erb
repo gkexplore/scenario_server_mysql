@@ -1,0 +1,23 @@
+
+<table class="table-striped table-bordered table-hover table-condensed" style="margin-left:2%">
+	<thead>
+		<tr>
+			<th>IP address</th>
+			<th>Current scenario</th>
+		</tr>
+	</thead>
+    <tbody>
+    	<c:if test="${not empty @devices}">
+    	<%@devices.each do |device|%>
+    		<tr>
+    			<td>
+					<%=device.device_ip%>
+				</td>
+				<td>
+					<%=device.scenario.scenario_name%>
+				</td>
+			<tr>
+		<%end%>
+	</c:if>
+    </tbody>
+ </table>

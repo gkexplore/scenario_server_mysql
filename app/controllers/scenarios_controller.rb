@@ -75,6 +75,24 @@ class ScenariosController < ApplicationController
 		end
 	end
 
+	def device_list
+		begin
+			@devices = Device.all
+			render layout: false
+		rescue=>e
+			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the device and scenario details", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+		end
+	end
+    
+    def clear_device_list
+    	begin
+    		Device.delete_all
+    		alert(AadhiConstants::ALERT_CONFIRMATION, "All the devices have been cleared successfully!!!", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)
+ 	  rescue Exception=>e
+       		alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the device list #{e.class.name}: #{e.message}", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)
+  		end
+    end
+
 	def set_current_scenario
 		begin
 		   @scenario = Scenario.find_by(:scenario_name=>params[:scenario_name])
