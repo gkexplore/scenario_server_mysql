@@ -1,14 +1,8 @@
 require 'socket' 
-
 require 'cgi'
-
 require 'json'
-
 require "net/http"
-
 require "uri"
-
-require "json"
 
 
 class DevicesController < ApplicationController
@@ -184,12 +178,22 @@ class Connection
 		  			 	return response	
 					 end
 		   		when PROXY::YES
-		   			 http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @proxy[0].user, @proxy[0].password).start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE)  do |http|
-				   		Rails.logger.debug req.to_hash
-				   		response = http.request(req)
-				   		save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
-						return response
-		  			end
+		   			 bypass_proxy_domains = @proxy[0].bypass_proxy_domains
+		   			 if bypass_proxy_domains.include?(@endpoint)  
+			   			 	Net::HTTP.start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE) do |http|
+				  			 	Rails.logger.debug req.to_hash
+				  			 	response = http.request(req)
+				  			 	save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
+				  			 	return response	
+						   end
+		   			 else
+			   			 http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @proxy[0].user, @proxy[0].password).start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE)  do |http|
+					   		Rails.logger.debug req.to_hash
+					   		response = http.request(req)
+					   		save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
+							return response
+			  			end
+			  		end
 		      end
 		  end
 
