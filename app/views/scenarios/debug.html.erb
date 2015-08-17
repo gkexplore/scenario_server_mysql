@@ -45,33 +45,45 @@ td {
 	</form>
 
 </div> 	
-<div  style="padding-top:60;">
-	<div class="page-header" style="margin-left:2%">
+<div class="page-header" style="margin-left:2%">
  		<h3 style="color:black">List of devices/machines with current scenario</h3>
-	</div>
-<table class="table-striped table-bordered table-hover table-condensed" style="margin-left:2%">
-	<thead>
-		<tr>
-			<th>IP address</th>
-			<th>Current scenario</th>
-		</tr>
-	</thead>
-    <tbody>
-    	<c:if test="${not empty @devices}">
-    	<%@devices.each do |device|%>
-    		<tr>
-    			<td>
-					<%=device.device_ip%>
-				</td>
-				<td>
-					<%=device.scenario.scenario_name%>
-				</td>
-			<tr>
-		<%end%>
-	</c:if>
-    </tbody>
- </table>
 </div>
+<div style="margin-left:4%; margin-bottom:1%">
+  <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/scenarios/clear_device_list">Clear device list</a>
+</div> 
+<div  style="padding-top:60;" class="result">
+	
+</div>
+
+
+<script>
+
+   url = '/scenarios/device_list';
+   
+    var data_length=0;
+    (function worker() {
+  
+        $.ajax({
+          url: url, 
+          success: function(data) {
+         
+            if(data_length!=data.length)
+            {
+              
+              data_length = data.length
+              $('.result').css("display", "none");
+              $('.result').fadeIn(2000);
+              $('.result').html(data);
+            }
+           
+          },
+          complete: function() {
+            setTimeout(worker, 5000);
+          }
+        });
+    })();
+
+</script>
 
 	
 
