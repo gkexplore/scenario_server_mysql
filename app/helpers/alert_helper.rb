@@ -1,4 +1,5 @@
 module AlertHelper
+	
 	def alert(message_type, message, navigation_url, button)
 		@message_type = message_type
         @message = message
@@ -6,4 +7,5 @@ module AlertHelper
         @button = button
         render :file => "/common/alert"
 	end
+	
 end

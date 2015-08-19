@@ -2,7 +2,9 @@ class FeaturesController < ApplicationController
 
 	#http_basic_authenticate_with name: "dhh", password: "secret", only: :index
 	 skip_before_filter :verify_authenticity_token
-	 include FeaturesHelper
+
+	include FeaturesHelper
+	
 	def index
 		begin
 			@features = Feature.all
@@ -70,10 +72,8 @@ class FeaturesController < ApplicationController
 	
 	def export
 		begin
-			@features = Feature.where(:id=>params[:feature_ids]).includes({:flows =>{:scenarios => :routes}}).joins({:flows =>{:scenarios => :routes}})
 			file_name = Time.now.to_s<<".xml"
-			response_xml = @features.to_xml(:include => {:flows => {:include => {:scenarios =>{:include =>:routes}}}})
-			send_data response_xml, :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+			send_data Feature.export_as_xml(params[:feature_ids]), :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
 		rescue=>e
 			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while exporting the report!!! #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
@@ -81,10 +81,8 @@ class FeaturesController < ApplicationController
 
 	def export_all
 		begin
-			@features = Feature.all.includes({:flows =>{:scenarios => :routes}}).joins({:flows =>{:scenarios => :routes}})
 			file_name = Time.now.to_s<<".xml"
-			response_xml = @features.to_xml(:include => {:flows => {:include => {:scenarios =>{:include =>:routes}}}})
-			send_data response_xml, :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+			send_data Feature.export_all_as_xml, :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
 		rescue=>e
 			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while exporting the report!!! #{e.class.name}: #{e.message}", "/features", AadhiConstants::ALERT_BUTTON)
 		end
