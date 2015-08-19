@@ -12,7 +12,7 @@ class RoutesController < ApplicationController
 	    	@flow = @feature.flows.find(params[:flow_id])
 	    	@scenario = @flow.scenarios.find(params[:scenario_id])
 	    	params = route_params
-	    	@route = Route.save_route(scenario, params)
+	    	@route = Route.save_route(@scenario, params)
 	    	render "scenarios/show"
 	    rescue=>e	
 			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while creating the route #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
