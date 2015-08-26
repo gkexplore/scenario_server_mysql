@@ -44,6 +44,7 @@ class DevicesController < ApplicationController
 
 
 		def make_request_to_actual_api(method, config)
+
 		   	body = request.body.read
 		    host_path = request.host + request.path
 		    query = request.query_string
@@ -65,6 +66,7 @@ class DevicesController < ApplicationController
 			     	 response = conn.delete(path, query, body, self.request)
 			end
 		    render json: response.body, :status => response.code
+		    
 		end
 
 
@@ -95,7 +97,7 @@ class DevicesController < ApplicationController
 					if @route.blank?
 						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 					else
-						render json: @route.fixture, :status => 200
+						render json: @route.fixture, :status => @route.status
 					end
 				end
 			rescue =>e

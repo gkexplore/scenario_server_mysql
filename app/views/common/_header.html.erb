@@ -11,3 +11,13 @@
       </tr>
   </thead>
 </table>
+
+<% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    setTimeout(function(){ $(".alert").css("display","none") }, 5000);
+  });
+</script>
