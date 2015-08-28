@@ -22,7 +22,7 @@ class FeaturesController < ApplicationController
   				redirect_to @feature
   			end
   		rescue=>e
-			flash[:error] = "An error has been occurred while creating the feature!!!"
+			flash.now[:error] = "An error has been occurred while creating the feature!!!"
 	  		render 'new'
   		end
 	end
@@ -55,7 +55,7 @@ class FeaturesController < ApplicationController
 		    redirect_to @feature
 		  end
 		rescue=>e
-			flash[:danger] = "An error has been occurred while updating the feature!!!"
+			flash.now[:danger] = "An error has been occurred while updating the feature!!!"
 			render 'edit'
 		end
 	end
