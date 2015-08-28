@@ -1,62 +1,76 @@
 class ScenariosController < ApplicationController
+
 	skip_before_action :verify_authenticity_token
+
 	def index
 
 	end
+
 	def create
 		begin
 			@feature = Feature.find(params[:feature_id])
 	    	@flow = @feature.flows.find(params[:flow_id])
 	    	@scenario = @flow.scenarios.create(scenario_params)
-	    	render "flows/show"
+	    	flash.now[:success] = "The scenario has been created successfully !!!"
+	    	render 'flows/show'
 	    rescue=>e	
-			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while creating the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
+	    	flash.now[:error] = "An error has been occurred while creating the scenario #{e.class.name}: #{e.message}"
+			render 'flows/show'
 		end
 	end
+
 	def new
 
 	end
+
 	def edit
 		begin
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
 			@scenario = @flow.scenarios.find(params[:id])
-		rescue=>e	
-			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while editing the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON) 
+		rescue=>e
+			flash.now[:error] = "An error has been occurred while retrieving the scenario #{e.class.name}: #{e.message}"	
+			render 'flows/show'
 		end
 	end
+
 	def show
 		begin
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
 			@scenario = @flow.scenarios.find(params[:id])
 		rescue=>e	
-			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)  
+			flash.now[:error] = "An error has been occurred while retrieving the scenario #{e.class.name}: #{e.message}"	
+			render 'flows/show'
 		end
 	end
+
 	def update
 		begin
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
 			@scenario = @flow.scenarios.find(params[:id])
-			  if @scenario.update(scenario_params)
-			    render "flows/show"
-			  else
-			    render 'scenarios/edit'
-			  end
+			if @scenario.update(scenario_params)
+			   flash.now[:success] = "The scenario has been updated successfully !!!"
+			   render 'flows/show'
+			end
 		rescue=>e
-			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while updating the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)  
+			flash.now[:error] = "An error has been occurred while updating the scenario #{e.class.name}: #{e.message}"
+			render 'scenarios/edit'
 		end
 	end
+
 	def destroy
 		begin
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
 			@scenario = @flow.scenarios.find(params[:id])
 			@scenario.destroy
-			render "flows/show"
+			flash.now[:success] = "The scenario has been deleted successfully !!!"
+			render 'flows/show'
 		rescue=>e
-			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the scenario #{e.class.name}: #{e.message}", "", AadhiConstants::ALERT_BUTTON)  
+			flash.now[:error] = "An error has been occurred while deleting the scenario #{e.class.name}: #{e.message}"
+			render 'flows/show'
 		end
 	end
 
@@ -71,7 +85,7 @@ class ScenariosController < ApplicationController
 			@scenarios=Scenario.all
 			@devices = Device.all
 		rescue =>e
-				alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the device and scenario details", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+			flash[:error] = "An error has been occurred while retrieving the device and scenario details"
 		end
 	end
 
@@ -80,16 +94,18 @@ class ScenariosController < ApplicationController
 			@devices = Device.all
 			render layout: false
 		rescue=>e
-			alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while retrieving the device and scenario details", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+			flash[:error] = "An error has been occurred while retrieving the device and scenario details"
 		end
 	end
     
     def clear_device_list
     	begin
     		Device.delete_all
-    		alert(AadhiConstants::ALERT_CONFIRMATION, "All the devices have been cleared successfully!!!", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)
+    		flash[:success] = "All the devices have been cleared successfully!!!"
+    		redirect_to '/scenarios/debug'
  	  rescue Exception=>e
-       		alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the device list #{e.class.name}: #{e.message}", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)
+       		flash[:error] = "An error has been occurred while deleting the device list #{e.class.name}: #{e.message}"
+       		redirect_to '/scenarios/debug'
   		end
     end
 
@@ -97,16 +113,20 @@ class ScenariosController < ApplicationController
 		begin
 		   @scenario = Scenario.find_by(:scenario_name=>params[:scenario_name])
 		   if @scenario.blank?
-			    alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while setting #{params[:scenario_name]} scenario. Please set a valid scenario", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+			    flash[:error] = "An error has been occurred while setting #{params[:scenario_name]} scenario. Please set a valid scenario"
+			    redirect_to '/scenarios/debug'
 			else
 				@device = Device.find_or_initialize_by(:device_ip=>params[:device_ip])
 		  		@device.update(scenario: @scenario)
-			    alert(AadhiConstants::ALERT_CONFIRMATION, "The selected scenario has been set successfully!!!", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+		  		flash[:success] = "The selected scenario has been set successfully!!!"
+			    redirect_to '/scenarios/debug'
 		    end
 		rescue =>e
-				alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while setting the scenario", "/scenarios/debug", AadhiConstants::ALERT_BUTTON)  
+				flash[:error] = "An error has been occurred while setting the scenario"
+				redirect_to '/scenarios/debug' 
 		end	
 	end
+
 	private
 	 def scenario_params
 		params.require(:scenario).permit(:scenario_name)
