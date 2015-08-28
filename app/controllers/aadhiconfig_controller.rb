@@ -10,7 +10,7 @@ class AadhiconfigController < ApplicationController
 				@configs = Aadhiconfig.all
 			end
 		rescue=>e
-			flash[:error] = "An error has been occurred while retrieving the configs #{e.class.name}: #{e.message}"
+			flash.now[:error] = "An error has been occurred while retrieving the configs #{e.class.name}: #{e.message}"
 		end
 	end
 
@@ -19,7 +19,7 @@ class AadhiconfigController < ApplicationController
 			@config = Aadhiconfig.find(params[:id])
 			if @config.update(config_params)
 			   @configs = Aadhiconfig.all
-			   flash[:success] = "The config has been updated successfully!!!"
+			   flash.now[:success] = "The config has been updated successfully!!!"
 			   render 'index'
 			end
 		rescue=>e
