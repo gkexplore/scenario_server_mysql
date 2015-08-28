@@ -13,9 +13,11 @@ skip_before_filter :verify_authenticity_token
       begin
           Stub.save_stubs(params[:feature_name], params[:flow_name], params[:scenario_name])
           Stub.delete_all
-          alert(AadhiConstants::ALERT_CONFIRMATION, "All the stubs have been saved successfully!!!", "/stubs", AadhiConstants::ALERT_BUTTON)
+          flash[:success] = "All the stubs have been saved successfully!!!"
+          redirect_to '/stubs'
       rescue Exception=>e
-         alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while storing the stubs #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
+          flash[:error] = "An error has been occurred while storing the stubs #{e.class.name}: #{e.message}"
+          redirect_to '/stubs'
        end
   end
 
@@ -32,9 +34,11 @@ skip_before_filter :verify_authenticity_token
   def clear_logs
   	begin
   		  Stub.delete_all
-        alert(AadhiConstants::ALERT_CONFIRMATION, "All the stubs have been cleared successfully!!!", "/stubs", AadhiConstants::ALERT_BUTTON)
+        flash[:success] = "All the stubs have been cleared successfully!!!"
+        redirect_to '/stubs'
  	  rescue Exception=>e
-        alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the stubs #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
+        flash[:error] = "An error has been occurred while deleting the stubs #{e.class.name}: #{e.message}"
+        redirect_to '/stubs'
   	end
   end
 
@@ -42,28 +46,32 @@ skip_before_filter :verify_authenticity_token
     begin
         @stub = Stub.find(params[:id])
         @stub.destroy
-        alert(AadhiConstants::ALERT_CONFIRMATION, "The selected stub has been deleted successfully!!!", "/stubs", AadhiConstants::ALERT_BUTTON)
+        flash[:success] = "The selected stub has been deleted successfully!!!"
+        redirect_to '/stubs'
     rescue=>e
-        alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the stub #{e.class.name}: #{e.message}", "/stubs", AadhiConstants::ALERT_BUTTON)
+        flash[:success] = "An error has been occurred while deleting the stub #{e.class.name}: #{e.message}"
+        redirect_to '/stubs'
     end
   end
 
   def server_log
-    @logs = Array.new
-    text=File.open('/var/www/scenario_server_mysql/log/development.log').read
-    text.gsub!(/\r\n?/, "\n")
-      text.each_line do |line|
-        @logs.push(line)
-      end
-    @logs.reverse!
+      @logs = Array.new
+      text=File.open('/var/www/scenario_server_mysql/log/development.log').read
+      text.gsub!(/\r\n?/, "\n")
+        text.each_line do |line|
+          @logs.push(line)
+        end
+      @logs.reverse!
   end
 
   def clear_server_log  
     begin
-           File.truncate('/var/www/scenario_server_mysql/log/development.log', 0)
-            alert(AadhiConstants::ALERT_CONFIRMATION, "The server log has been emptied successfully!!!", "/stubs/server_log", AadhiConstants::ALERT_BUTTON)
+        File.truncate('/var/www/scenario_server_mysql/log/development.log', 0)
+        flash[:success] = "The server log has been emptied successfully!!!"
+        redirect_to '/stubs/server_log'
       rescue=>e
-          alert(AadhiConstants::ALERT_ERROR, "An error has been occurred while deleting the server log #{e.class.name}: #{e.message}", "/stubs/server_log", AadhiConstants::ALERT_BUTTON)
+        flash[:error] = "An error has been occurred while deleting the server log #{e.class.name}: #{e.message}"
+        redirect_to '/stubs/server_log'
       end
     end
 
