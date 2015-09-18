@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  
+  <%= render :partial => 'common/header' %>
+
+  <a class="btn btn-default" href="/">Back</a>
+
+  <div class="text-center">
+    <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/notfound/clear_notfound_list">Clear</a>
+  </div> 
+
+
+	<div class="result"></div>
+
+</div>
+<script>
+
+   url = '/notfound/notfound_list';
+   
+    var data_length=0;
+    (function worker() {
+  
+        $.ajax({
+          url: url, 
+          success: function(data) {
+            if(data_length!=data.length)
+            {
+              
+              data_length = data.length
+              $('.result').css("display", "none");
+              $('.result').fadeIn(2000);
+              $('.result').html(data);
+            }
+           
+          },
+          complete: function() {
+            setTimeout(worker, 5000);
+          }
+        });
+    })();
+
+</script>

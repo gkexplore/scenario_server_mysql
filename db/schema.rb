@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911232130) do
+ActiveRecord::Schema.define(version: 20150918212538) do
 
   create_table "aadhiconfigs", force: :cascade do |t|
     t.datetime "created_at",                                             null: false
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(version: 20150911232130) do
 
   add_index "flows", ["feature_id"], name: "index_flows_on_feature_id", using: :btree
   add_index "flows", ["flow_name"], name: "index_flows_on_flow_name", unique: true, using: :btree
+
+  create_table "notfounds", force: :cascade do |t|
+    t.string   "url",           limit: 255
+    t.string   "scenario_name", limit: 255
+    t.string   "device_ip",     limit: 255
+    t.string   "method",        limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "report_devices", force: :cascade do |t|
     t.string   "device_ip",  limit: 255

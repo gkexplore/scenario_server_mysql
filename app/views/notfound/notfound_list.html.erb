@@ -1,0 +1,42 @@
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>
+					Device IP
+				</th>
+				<th>
+					Scenario Name
+				</th>
+				<th>
+					URL
+				</th>
+				<th>
+					Method
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<c:if test="${not empty @notfound_list}">
+				<%@notfound_list.each do |notfound|%>
+					<tr>
+						<td>
+							<%=notfound.device_ip%>
+						</td>
+						<td>
+							<%=notfound.scenario_name%>
+						</td>
+						<td>
+							<%=notfound.url%>
+						</td>
+						<td>
+							<%=notfound.method%>
+						</td>
+					</tr>
+				<%end%>
+			</c:if>
+		</tbody>
+	</table>
+
+
