@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
   get 'stubs/server_log'=>'stubs#server_log'
   delete 'stubs/clear_server_log'=>'stubs#clear_server_log'
+  put 'report/:device_ip/:testcase_name'=>'report#report'
+  put 'report/testcase_status/:device_ip/:testcase_name/:status'=>'report#testcase_status'
   resources :devices
   resources :stubs
   resources :aadhiconfig
