@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  url: MyString
+  scenario_name: MyString
+  device_ip: MyString
+  method: MyString
+
+two:
+  url: MyString
+  scenario_name: MyString
+  device_ip: MyString
+  method: MyString

@@ -91,10 +91,12 @@ class DevicesController < ApplicationController
 				received_path = "#{path}#{query}"
 				@device = Device.find_by(:device_ip=>ip_address)
 				if @device.blank?
+					Notfound.create(:url=>received_path, :method=>request.method, :device_ip=>ip_address)
 					render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 				else
-					@route = @device.scenario.routes.find_by(:path=>received_path,:route_type=>request.method)
+					@route = @device.scenario.routes.find_by(:path=>received_path, :route_type=>request.method)
 					if @route.blank?
+						Notfound.create(:scenario_name=>@device.scenario.scenario_name, :url=>received_path, :method=>request.method, :device_ip=>ip_address)
 						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 					else
 						render json: @route.fixture, :status => @route.status

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'notfound/notfound'
+
   get 'stub/index'
   get '/'=>'features#index'
   put 'scenario/:scenario_name/:device_ip' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
@@ -18,6 +20,9 @@ Rails.application.routes.draw do
   delete 'stubs/clear_server_log'=>'stubs#clear_server_log'
   put 'report/:device_ip/:testcase_name'=>'report#report'
   put 'report/testcase_status/:device_ip/:testcase_name/:status'=>'report#testcase_status'
+  get 'notfound/notfound_list'=>'notfound#notfound_list'
+  delete 'notfound/clear_notfound_list'=>'notfound#clear_notfound_list'
+  resources :notfound
   resources :devices
   resources :stubs
   resources :aadhiconfig
