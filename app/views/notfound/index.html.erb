@@ -5,37 +5,44 @@
   <a class="btn btn-default" href="/">Back</a>
 
   <div class="text-center">
-    <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/notfound/clear_notfound_list">Clear</a>
-  </div> 
-
+    <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/notfound/clear_notfound_list">Clear log</a>
+  </div> <br>
+  <div class="form-group">
+      <input type="text" class="form-control" id="device_ip" name="flow_name" list="flow_name" autocomplete="off" placeholder="Select device IP">
+       <datalist id="flow_name">
+          <%@notfound_list.each do |device_ip|%>
+            <option value="<%=device_ip%>">
+          <%end%>
+        </datalist>
+  </div>
 
 	<div class="result"></div>
 
 </div>
-<script>
+
+<script type="text/javascript">
 
    url = '/notfound/notfound_list';
-   
-    var data_length=0;
-    (function worker() {
-  
+   var data_length=0;
+
+    (function worker() {  
+        device_ip = $("#device_ip").val();
         $.ajax({
-          url: url, 
+          url: url+"?device_ip="+device_ip, 
           success: function(data) {
             if(data_length!=data.length)
-            {
-              
-              data_length = data.length
+            {          
+              data_length = data.length;
               $('.result').css("display", "none");
               $('.result').fadeIn(2000);
               $('.result').html(data);
             }
-           
           },
           complete: function() {
             setTimeout(worker, 5000);
           }
         });
+
     })();
 
 </script>
