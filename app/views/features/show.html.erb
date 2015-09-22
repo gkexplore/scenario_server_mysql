@@ -1,5 +1,4 @@
-<div class="container-fluid">
-  <%= render :partial => 'common/header' %>
+
     <%- model_class = Feature -%>
         <%= form_for([@feature, @feature.flows.build]) do |f| %>
           <p>
@@ -45,5 +44,5 @@
         </table>
         <%= link_to t('.back', :default => t("helpers.links.back")),
                       features_path, :class => 'btn btn-default'  %>
-</div>
+
 

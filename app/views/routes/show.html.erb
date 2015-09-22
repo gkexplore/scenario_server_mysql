@@ -1,5 +1,4 @@
-<div class="container-fluid">
-  <%= render :partial => 'common/header' %>
+
     <h4>Route</h4>
     <%= @route.path %>
   <table class="table table-striped">
@@ -40,4 +39,3 @@
   </table>
   <a class="btn btn-default" href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%= @scenario[:id]%>">Back</a>
   <a class="btn btn-primary" href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=@route.scenario_id%>/routes/<%=@route.id%>/edit">Edit</a>
-</div>

@@ -1,0 +1,23 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to "Aadhi", '#', id: "logo" %>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "View Request",   '/stubs/' %></li>
+        <li><%= link_to "Debug Scenario",   '/scenarios/debug' %></li>
+        <li><%= link_to "Config", '/aadhiconfig/' %></li>
+        <li><%= link_to "Upload Feature", '/features/import_xml' %></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<% flash.each do |key, value| %>
+      <div style="text-align:center" class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    setTimeout(function(){ $(".alert").css("display","none") }, 3000);
+  });
+</script>
