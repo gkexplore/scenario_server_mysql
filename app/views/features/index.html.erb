@@ -1,6 +1,6 @@
-<div class="container-fluid">
+
   <%- model_class = Feature -%>
-  <%= render :partial => 'common/header' %>
+  
 <form name="features_export" action="features/export" method="post">
   <table class="table table-striped" style="align:center">
     <thead>
@@ -40,4 +40,4 @@
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_feature_path,
             :class => 'btn btn-primary' %>
-  </div>
+
