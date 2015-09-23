@@ -16,7 +16,7 @@ skip_before_filter :verify_authenticity_token
           flash[:success] = "All the stubs have been saved successfully!!!"
           redirect_to '/stubs'
       rescue Exception=>e
-          flash[:error] = "An error has been occurred while storing the stubs #{e.class.name}: #{e.message}"
+          flash[:danger] = "An error has been occurred while storing the stubs #{e.class.name}: #{e.message}"
           redirect_to '/stubs'
        end
   end
@@ -37,7 +37,7 @@ skip_before_filter :verify_authenticity_token
         flash[:success] = "All the stubs have been cleared successfully!!!"
         redirect_to '/stubs'
  	  rescue Exception=>e
-        flash[:error] = "An error has been occurred while deleting the stubs #{e.class.name}: #{e.message}"
+        flash[:danger] = "An error has been occurred while deleting the stubs #{e.class.name}: #{e.message}"
         redirect_to '/stubs'
   	end
   end
@@ -70,7 +70,7 @@ skip_before_filter :verify_authenticity_token
         flash[:success] = "The server log has been emptied successfully!!!"
         redirect_to '/stubs/server_log'
       rescue=>e
-        flash[:error] = "An error has been occurred while deleting the server log #{e.class.name}: #{e.message}"
+        flash[:danger] = "An error has been occurred while deleting the server log #{e.class.name}: #{e.message}"
         redirect_to '/stubs/server_log'
       end
     end

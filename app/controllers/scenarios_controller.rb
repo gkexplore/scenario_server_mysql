@@ -85,7 +85,7 @@ class ScenariosController < ApplicationController
 			@scenarios=Scenario.all
 			@devices = Device.all
 		rescue =>e
-			flash[:error] = "An error has been occurred while retrieving the device and scenario details"
+			flash[:danger] = "An error has been occurred while retrieving the device and scenario details"
 		end
 	end
 
@@ -94,7 +94,7 @@ class ScenariosController < ApplicationController
 			@devices = Device.all
 			render layout: false
 		rescue=>e
-			flash[:error] = "An error has been occurred while retrieving the device and scenario details"
+			flash[:danger] = "An error has been occurred while retrieving the device and scenario details"
 		end
 	end
     
@@ -104,7 +104,7 @@ class ScenariosController < ApplicationController
     		flash[:success] = "All the devices have been cleared successfully!!!"
     		redirect_to '/scenarios/debug'
  	  rescue Exception=>e
-       		flash[:error] = "An error has been occurred while deleting the device list #{e.class.name}: #{e.message}"
+       		flash[:danger] = "An error has been occurred while deleting the device list #{e.class.name}: #{e.message}"
        		redirect_to '/scenarios/debug'
   		end
     end
@@ -113,7 +113,7 @@ class ScenariosController < ApplicationController
 		begin
 		   @scenario = Scenario.find_by(:scenario_name=>params[:scenario_name])
 		   if @scenario.blank?
-			    flash[:error] = "An error has been occurred while setting #{params[:scenario_name]} scenario. Please set a valid scenario"
+			    flash[:danger] = "An error has been occurred while setting #{params[:scenario_name]} scenario. Please set a valid scenario"
 			    redirect_to '/scenarios/debug'
 			else
 				@device = Device.find_or_initialize_by(:device_ip=>params[:device_ip])
@@ -122,7 +122,7 @@ class ScenariosController < ApplicationController
 			    redirect_to '/scenarios/debug'
 		    end
 		rescue =>e
-				flash[:error] = "An error has been occurred while setting the scenario"
+				flash[:danger] = "An error has been occurred while setting the scenario"
 				redirect_to '/scenarios/debug' 
 		end	
 	end

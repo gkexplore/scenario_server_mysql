@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'features/import_xml'=>'features#import_xml_index'
   post 'features/import_xml'=>'features#import_xml'
   get 'features/export_all'=>'features#export_all'
+  delete 'features/delete_all'=>'features#delete_all'
   get 'stubs/poll_log'=>'stubs#poll_log'
   delete 'stubs/clear_logs'=>'stubs#clear_logs'
   post 'stubs/save_scenario'=>'stubs#save_scenario'

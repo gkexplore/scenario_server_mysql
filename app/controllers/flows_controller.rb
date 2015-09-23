@@ -13,7 +13,7 @@ class FlowsController < ApplicationController
 	    	 flash[:success] = "The flow has been created successfully!!!"
 	    	 redirect_to feature_path(@feature)
 	    rescue=>e
-			 flash[:error] = "An error has been occurred while creating the flow #{e.class.name}: #{e.message}"
+			 flash[:danger] = "An error has been occurred while creating the flow #{e.class.name}: #{e.message}"
 			 redirect_to feature_path(@feature)
 		end
 	end
@@ -27,7 +27,7 @@ class FlowsController < ApplicationController
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:id])
 		 rescue=>e
-			flash[:error] = "An error has been occurred while editing the flow #{e.class.name}: #{e.message}"
+			flash[:danger] = "An error has been occurred while editing the flow #{e.class.name}: #{e.message}"
 			redirect_to feature_path(@feature)
 		end
 	end
@@ -38,7 +38,7 @@ class FlowsController < ApplicationController
 			@flow = @feature.flows.find(params[:id])
 			@device_ip = request.remote_ip
 		rescue=>e
-			flash[:error] = "An error has been occurred while retrieving the flow #{e.class.name}: #{e.message}"
+			flash[:danger] = "An error has been occurred while retrieving the flow #{e.class.name}: #{e.message}"
 			redirect_to feature_path(@feature)
 		end
 
@@ -53,7 +53,7 @@ class FlowsController < ApplicationController
 			   render 'features/show'
 			end
 		rescue=>e	
-			flash.now[:error] = "An error has been occurred while updating the flow #{e.class.name}: #{e.message}"
+			flash.now[:danger] = "An error has been occurred while updating the flow #{e.class.name}: #{e.message}"
 			render 'flows/edit'
 		end
 	end
@@ -66,7 +66,7 @@ class FlowsController < ApplicationController
 	   		flash.now[:success] = "The flow has been deleted successfully !!!"
 	   		render 'features/show'
 	   	rescue=>e
-			flash[:error] = "An error has been occurred while destroy the flow #{e.class.name}: #{e.message}"
+			flash[:danger] = "An error has been occurred while destroy the flow #{e.class.name}: #{e.message}"
 			redirect_to feature_path(@feature)
 		end
 	end

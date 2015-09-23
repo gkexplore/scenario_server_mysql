@@ -15,7 +15,7 @@ class NotfoundController < ApplicationController
       end
       render layout: false
   	rescue=>e
-  		flash[:error] = "An error has been occurred while retrieving the device and scenario details"
+  		flash[:danger] = "An error has been occurred while retrieving the device and scenario details"
   	end
   end
 
@@ -25,7 +25,7 @@ class NotfoundController < ApplicationController
     	flash[:success] = "All the record have been cleared successfully!!!"
     	redirect_to '/notfound'
  	  rescue Exception=>e
-       	flash[:error] = "An error has been occurred while deleting the notfound list #{e.class.name}: #{e.message}"
+       	flash[:danger] = "An error has been occurred while deleting the notfound list #{e.class.name}: #{e.message}"
        	redirect_to '/notfound'
   		end
   end
