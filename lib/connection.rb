@@ -49,30 +49,22 @@ class Connection
 			  case @proxy[0].isProxyRequired 
 				when PROXY::NO
 					 Net::HTTP.start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE) do |http|
-		  			 	Rails.logger.debug req.to_hash
 		  			 	response = http.request(req)
 		  			 	save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
-		  			 	Rails.logger.debug("response code:-")
-		  			 	Rails.logger.debug(response.code)
 		  			 	return response	
 					 end
 		   		when PROXY::YES
 		   			 bypass_proxy_domains = @proxy[0].bypass_proxy_domains
 		   			 if bypass_proxy_domains.include?(@endpoint)  
 			   			 	Net::HTTP.start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE) do |http|
-				  			 	Rails.logger.debug req.to_hash
 				  			 	response = http.request(req)
 				  			 	save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
-				  			 	Rails.logger.debug(response.code)
 				  			 	return response	
 						   end
 		   			 else
 			   			 http = Net::HTTP::Proxy(@proxy_uri.host, @proxy_uri.port, @proxy[0].user, @proxy[0].password).start(uri.host, uri.port, :use_ssl =>(uri.scheme == "https"), :verify_mode =>OpenSSL::SSL::VERIFY_NONE)  do |http|
-					   		Rails.logger.debug req.to_hash
 					   		response = http.request(req)
 					   		save_stubs(@endpoint+path<<"?"<<params, method, body, response, @endpoint, request, req.to_hash)
-							Rails.logger.debug("response code:-")
-		  			 		Rails.logger.debug(response.code)
 							return response
 			  			end
 			  		end
