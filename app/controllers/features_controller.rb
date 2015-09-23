@@ -74,10 +74,16 @@ class FeaturesController < ApplicationController
 	
 	def export
 		begin
-			file_name = Time.now.to_s<<".xml"
-			send_data Feature.export_as_xml(params[:feature_ids]), :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+			if params[:commit] == 'Export'
+				file_name = Time.now.to_s<<".xml"
+				send_data Feature.export_as_xml(params[:feature_ids]), :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
+			elsif params[:commit] == 'Delete'
+				 Feature.destroy(params[:feature_ids])
+				 flash[:success] = "The selected features have been deleted successfully!!!"
+				 redirect_to '/features'
+			end
 		rescue=>e
-			flash[:error] = "An error has been occurred while exporting the report!!! #{e.class.name}: #{e.message}"
+			flash[:error] = "An error has been occurred while exporting/deleting the report!!! #{e.class.name}: #{e.message}"
 			redirect_to '/features'
 		end
 	end

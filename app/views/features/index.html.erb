@@ -7,7 +7,7 @@
       <tr>
         <th>Feature (Scenarios: <%=@flows.count%>)</th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
-        <th>Select Feature</th>
+        <th style="text-align:center">Select Feature</th>
     </tr>
   </thead>
   <tbody>
@@ -23,15 +23,15 @@
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
         </td>
-        <td> <%= check_box_tag "feature_ids[]", feature.id %></td>
+        <td style="text-align:center"> <%= check_box_tag "feature_ids[]", feature.id %></td>
       </tr>
     <% end %>
       <tr>
           <td colspan="2">
           </td>
-          <td>
-             <input type="submit" name="commit" value="Export" class="btn btn-primary" />
-             <a class="btn btn-default" href="/features/export_all">Export All</a>
+          <td style="text-align:center">
+             <input type="submit" name="commit" value="Export" class="btn btn-primary">
+             <input type="submit" name="commit" value="Delete" class="btn btn-primary" />
           </td>
       </tr>
     </tbody>
