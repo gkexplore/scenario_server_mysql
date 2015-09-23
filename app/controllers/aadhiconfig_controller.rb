@@ -10,7 +10,7 @@ class AadhiconfigController < ApplicationController
 				@configs = Aadhiconfig.all
 			end
 		rescue=>e
-			flash.now[:error] = "An error has been occurred while retrieving the configs #{e.class.name}: #{e.message}"
+			flash.now[:danger] = "An error has been occurred while retrieving the configs #{e.class.name}: #{e.message}"
 		end
 	end
 
@@ -23,7 +23,7 @@ class AadhiconfigController < ApplicationController
 			   render 'index'
 			end
 		rescue=>e
-			flash[:error] = "An error has been occurred while updating the server mode #{e.class.name}: #{e.message}"
+			flash[:danger] = "An error has been occurred while updating the server mode #{e.class.name}: #{e.message}"
 			redirect_to '/adhiconfig'
 		end
 	end
