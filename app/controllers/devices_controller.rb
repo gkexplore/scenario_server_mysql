@@ -47,7 +47,6 @@
 			   	host, path, query, body = get_request_details
 			    conn = Connection.new(host, config)
 			    response = ""
-			    headers = ""
 			    case method
 				    when METHOD::GET
 				    	 response = conn.get(path, query, body, self.request)
@@ -71,7 +70,6 @@
 			begin
 				@device = Device.find_by(:device_ip=>get_ip_address)
 				if @device.blank?
-					Notfound.create(:url=>get_path_query, :method=>request.method, :device_ip=>get_ip_address)
 					log_notfound_request(get_path_query, request.method, get_ip_address)
 					render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 				else
