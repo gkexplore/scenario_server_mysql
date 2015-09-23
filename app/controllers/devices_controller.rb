@@ -1,16 +1,15 @@
-require 'socket' 
-require 'cgi'
-require 'json'
-require "net/http"
-require "uri"
+	require 'socket' 
+	require 'cgi'
+	require 'json'
+	require "net/http"
+	require "uri"
 
 
-class DevicesController < ApplicationController
+	class DevicesController < ApplicationController
 
 	use Rack::MethodOverride
 	skip_before_filter :verify_authenticity_token
     include DevicesHelper
-
 
 		def respond_to_app_client
 			config =  Aadhiconfig.all
@@ -42,61 +41,43 @@ class DevicesController < ApplicationController
 			end
 		end
 
-
+        private
 		def make_request_to_actual_api(method, config)
-
-		   	body = request.body.read
-		    host_path = request.host + request.path
-		    query = request.query_string
-		    path_array = host_path.split("/")
-		    path_array.delete_at(0)
-		    host = request.env["rack.url_scheme"]+"://"+path_array[0]
-		    path = get_path(host_path)
-		    conn = Connection.new(host, config)
-		    response = ""
-		    headers = ""
-		    case method
-			    when METHOD::GET
-			    	 response = conn.get(path, query, body, self.request)
-			    when METHOD::POST
-			     	 response = conn.post(path, query, body, self.request)
-			    when METHOD::PUT
-			      	 response = conn.put(path, query, body, self.request)
-			    when METHOD::DELETE
-			     	 response = conn.delete(path, query, body, self.request)
-			end
-		    render json: response.body, :status => response.code
-		    
+			begin
+			   	host, path, query, body = get_request_details
+			    conn = Connection.new(host, config)
+			    response = ""
+			    headers = ""
+			    case method
+				    when METHOD::GET
+				    	 response = conn.get(path, query, body, self.request)
+				    when METHOD::POST
+				     	 response = conn.post(path, query, body, self.request)
+				    when METHOD::PUT
+				      	 response = conn.put(path, query, body, self.request)
+				    when METHOD::DELETE
+				     	 response = conn.delete(path, query, body, self.request)
+				end
+			    render json: response.body, :status => response.code
+			rescue=>e
+				logger.error "An error has been occurred while hitting the API server!!! #{e.class.name} : #{e.message}"
+				render :json => { :status => '404', :message => 'Not Found'}, :status => 404
+			end  
 		end
 
 
 		private
 		def make_request_to_local_api_server
 			begin
-		 		 host_path = request.host + request.path
-		   		 query = request.query_string
-		 		 path = get_path(host_path)
-				 remote_ip = request.remote_ip
-				if remote_ip==DEFAULT_LOCALHOST
-				   ip_address = LOCALHOST
-				else
-					ip_address = remote_ip
-				end
-				url = URI.parse(request.url)
-				sorted_string = Hash[request.query_parameters.sort]
-				query = sorted_string.to_query
-				if query.to_s.strip.length != 0
-					query = "?"<<query
-				end
-				received_path = "#{path}#{query}"
-				@device = Device.find_by(:device_ip=>ip_address)
+				@device = Device.find_by(:device_ip=>get_ip_address)
 				if @device.blank?
-					Notfound.create(:url=>received_path, :method=>request.method, :device_ip=>ip_address)
+					Notfound.create(:url=>get_path_query, :method=>request.method, :device_ip=>get_ip_address)
+					log_notfound_request(get_path_query, request.method, get_ip_address)
 					render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 				else
-					@route = @device.scenario.routes.find_by(:path=>received_path, :route_type=>request.method)
+					@route = @device.scenario.routes.find_by(:path=>get_path_query, :route_type=>request.method)
 					if @route.blank?
-						Notfound.create(:scenario_name=>@device.scenario.scenario_name, :url=>received_path, :method=>request.method, :device_ip=>ip_address)
+						log_notfound_request(get_path_query, request.method, get_ip_address, @device.scenario.scenario_name)
 						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 					else
 						render json: @route.fixture, :status => @route.status
@@ -108,6 +89,41 @@ class DevicesController < ApplicationController
 			end
 		end
 
+		private 
+		def get_request_details
+			body = request.body.read
+		    host_path = request.host + request.path
+		    query = request.query_string
+		    path_array = host_path.split("/")
+		    path_array.delete_at(0)
+		    host = request.env["rack.url_scheme"]+"://"+path_array[0]
+		    path = get_path(host_path)
+			[host, path, query, body] 
+		end
+
+		private 
+		def get_ip_address
+			remote_ip = request.remote_ip
+			if remote_ip==DEFAULT_LOCALHOST
+			 ip_address = LOCALHOST
+			else
+			 ip_address = remote_ip
+			end
+		end
+
+		private 
+		def get_path_query
+			host_path = request.host + request.path
+		   	query = request.query_string
+		 	path = get_path(host_path)				
+			url = URI.parse(request.url)
+			sorted_string = Hash[request.query_parameters.sort]
+			query = sorted_string.to_query
+			if query.to_s.strip.length != 0
+				query = "?"<<query
+			end
+			received_path = "#{path}#{query}"
+		end
 
 		private
 		def get_path(host_path)
@@ -123,7 +139,12 @@ class DevicesController < ApplicationController
 		    end
 			path = final_path.gsub("//","/")
 		end
-end
+
+		private 
+		def log_notfound_request(url, method, ip_address, scenario_name="--")
+			Notfound.create(:url=>url, :method=>method, :device_ip=>ip_address, :scenario_name=>scenario_name)
+		end
+	end
 
 
 
