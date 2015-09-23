@@ -12,18 +12,5 @@
      <%= yield %>
     <%= render 'layouts/footer' %>
   </div>
-<script type="text/javascript">
-  $(document).ready(function() {
-  	$(".aadhi-page-header").click(function(){
-  			window.location = "/";
-  		});
-  	});
-
-   $(document).on('contextmenu', function (evt) {
-     if (!$(evt.target).is('.context')) {
-         evt.preventDefault();
-     }   
- });
-  </script>
 </body>
 </html>
