@@ -1,13 +1,13 @@
 
   <%- model_class = Feature -%>
   
-<form name="features_export" action="features/export" method="post">
+<form name="features_export" action="features/export" method="post" onSubmit="if(!confirm('are you sure?')){return false;}">
   <table class="table table-striped" style="align:center">
     <thead>
       <tr>
         <th>Feature (Scenarios: <%=@flows.count%>)</th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
-        <th style="text-align:center">Select Feature</th>
+        <th style="text-align:center">Select Feature <br/> <input type="checkbox" id="selectAll" value="selectAll"></th>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +17,7 @@
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_feature_path(feature), :class => 'btn btn-default btn-xs' %>
+                      
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       feature_path(feature),
                       :method => :delete,
@@ -30,8 +31,8 @@
           <td colspan="2">
           </td>
           <td style="text-align:center">
-             <input type="submit" name="commit" value="Export selected" class="btn btn-default btn-xs">
-             <input type="submit" name="commit" value="Delete selected" class="btn btn-xs btn-danger" />
+             <input type="submit" name="commit" value="Export Selected" class="btn btn-default btn-xs">
+             <input type="submit" name="commit" value="Delete Selected" class="btn btn-xs btn-danger"/>
           </td>
       </tr>
     </tbody>
@@ -40,4 +41,20 @@
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_feature_path,
             :class => 'btn btn-primary' %>
+
+<script type="text/javascript">
+
+   $('#selectAll').click(function() {
+   if (this.checked) {
+       $(':checkbox').each(function() {
+           this.checked = true;                        
+       });
+   } else {
+      $(':checkbox').each(function() {
+           this.checked = false;                        
+       });
+   } 
+});
+
+</script>
 
