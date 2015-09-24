@@ -7,11 +7,12 @@
       <tr>
         <th>Feature (<%=@features.count%>)</th>
         <th></th>
-        <th>Flows</th>
+        <th style="text-align:center">Flows / Scenarios</th>
         <th style="text-align:center">Select Feature <br/> <input type="checkbox" id="selectAll" value="selectAll"></th>
     </tr>
   </thead>
   <tbody>
+    <%scenario_count=0%>
     <% @features.each do |feature| %>
       <tr>
         <td><%= link_to feature.feature_name, feature_path(feature) %>  </td>
@@ -19,8 +20,13 @@
          <td> <%= link_to edit_feature_path(feature), class: 'btn btn-default' do %>
          <span class="glyphicon glyphicon-pencil"></span>
           <% end %>   </td>
-          <td>
-            <%=feature.flows.count%>
+          <td style="text-align:center">
+            <%=feature.flows.count%> /
+            <%feature.flows.each do |flow| 
+              scenario_count+=flow.scenarios.count 
+            end%>
+            <%=scenario_count%>
+            <%scenario_count=0%>
           </td>
        
         <td style="text-align:center"> <%= check_box_tag "feature_ids[]", feature.id %></td>
