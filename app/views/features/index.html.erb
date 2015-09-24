@@ -5,30 +5,29 @@
   <table class="table table-striped" style="align:center">
     <thead>
       <tr>
-        <th>Feature (Scenarios: <%=@flows.count%>)</th>
-        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+        <th>Feature (<%=@features.count%>)</th>
+        <th></th>
+        <th>Flows</th>
         <th style="text-align:center">Select Feature <br/> <input type="checkbox" id="selectAll" value="selectAll"></th>
     </tr>
   </thead>
   <tbody>
     <% @features.each do |feature| %>
       <tr>
-        <td><%= link_to feature.feature_name, feature_path(feature) %> (<%=feature.flows.count%>) </td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_feature_path(feature), :class => 'btn btn-default btn-xs' %>
-                      
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      feature_path(feature),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' %>
-        </td>
+        <td><%= link_to feature.feature_name, feature_path(feature) %>  </td>
+
+         <td> <%= link_to edit_feature_path(feature), class: 'btn btn-default' do %>
+         <span class="glyphicon glyphicon-pencil"></span>
+          <% end %>   </td>
+          <td>
+            <%=feature.flows.count%>
+          </td>
+       
         <td style="text-align:center"> <%= check_box_tag "feature_ids[]", feature.id %></td>
       </tr>
     <% end %>
       <tr>
-          <td colspan="2">
+          <td colspan="3">
           </td>
           <td style="text-align:center">
              <input type="submit" name="commit" value="Export Selected" class="btn btn-default btn-xs">
