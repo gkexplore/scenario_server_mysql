@@ -74,10 +74,10 @@ class FeaturesController < ApplicationController
 	
 	def export
 		begin
-			if params[:commit] == 'Export selected'
+			if params[:commit] == 'Export Selected'
 				file_name = Time.now.to_s<<".xml"
 				send_data Feature.export_as_xml(params[:feature_ids]), :type=>'xml', :disposition => 'attachment', :filename => 'Stubs_'<<file_name
-			elsif params[:commit] == 'Delete selected'
+			elsif params[:commit] == 'Delete Selected'
 				 Feature.destroy(params[:feature_ids])
 				 flash[:success] = "The selected features have been deleted successfully!!!"
 				 redirect_to '/features'
