@@ -7,6 +7,5 @@ class CreateDevices < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :devices, :scenarios
-    add_column :devices, :isReportRequired, "enum('yes','no')", :default => 'no'
   end
 end
