@@ -8,6 +8,8 @@ class FeaturesController < ApplicationController
 	def index
 		begin
 			@features = Feature.all
+			@flows = Flow.all
+			@scenarios = Scenario.all
 		rescue=>e
 			flash[:danger] = "An error has been occurred while retrieving all the features #{e.class.name}: #{e.message}"
 		end

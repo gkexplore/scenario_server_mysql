@@ -33,7 +33,10 @@
       </tr>
     <% end %>
       <tr>
-          <td colspan="3">
+          <td colspan="2">
+          </td>
+          <td style="text-align:center">
+            <%=@flows.count%> / <%=@scenarios.count%>
           </td>
           <td style="text-align:center">
              <input type="submit" name="commit" value="Export Selected" class="btn btn-default btn-xs">
