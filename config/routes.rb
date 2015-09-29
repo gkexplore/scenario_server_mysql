@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
 
   get 'notfound/notfound'
-
   get 'stub/index'
   get '/'=>'features#index'
-  put 'scenario/:scenario_name/:device_ip' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
+  delete 'delete_report'=>'devices#delete_report'
+  put 'scenario/:scenario_name/:device_ip/:isReportRequired' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
   post 'features/export'=>'features#export'
   get 'features/import_xml'=>'features#import_xml_index'
   post 'features/import_xml'=>'features#import_xml'
@@ -19,10 +19,11 @@ Rails.application.routes.draw do
   post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
   get 'stubs/server_log'=>'stubs#server_log'
   delete 'stubs/clear_server_log'=>'stubs#clear_server_log'
-  put 'report/:device_ip/:testcase_name'=>'report#report'
-  put 'report/testcase_status/:device_ip/:testcase_name/:status'=>'report#testcase_status'
+  get 'report'=>'report#report'
   get 'notfound/notfound_list'=>'notfound#notfound_list'
   delete 'notfound/clear_notfound_list'=>'notfound#clear_notfound_list'
+  
+
   resources :notfound
   resources :devices
   resources :stubs
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
        end
     end
   end
+
 
   get '*path'=>'devices#respond_to_app_client'
   post '*path'=>'devices#respond_to_app_client'

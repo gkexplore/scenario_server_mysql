@@ -11,6 +11,17 @@
 	skip_before_filter :verify_authenticity_token
     include DevicesHelper
 
+
+        def delete_report
+			@device = DeviceReport.find_by(:device_ip=>params[:device_ip])
+			unless @device.blank?
+				@device.device_scenarios.each do |device_scenario|
+					device_scenario.destroy
+				end
+			end
+        	render :json => { :status => 'Ok', :message => 'Received'}, :status => 200 
+        end
+
 		def respond_to_app_client
 			config =  Aadhiconfig.all
 			case config[0].server_mode
@@ -19,7 +30,15 @@
 					method =  request.method
 					make_request_to_actual_api(method,config)  
 				else
-					make_request_to_local_api_server
+					@device = Device.find_by(:device_ip=>get_ip_address)
+					unless @device.blank?
+						if @device.isReportRequired=='yes'
+						   make_request_to_local_api_server(true)
+						else
+							make_request_to_local_api_server
+					    end
+					end
+
 			end
 		end
 
@@ -32,7 +51,18 @@
 			    	render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 			  else
 				    @device = Device.find_or_initialize_by(:device_ip=>params[:device_ip])
-  					@device.update(scenario: @scenario)
+				    if params[:isReportRequired] == 'yes'
+				    	@device.update(scenario: @scenario, :isReportRequired=>params[:isReportRequired])
+				    	@device_report = DeviceReport.find_or_initialize_by(:device_ip=>params[:device_ip]) 
+				    	@device_report.update(:device_ip=>params[:device_ip])
+				    	@scenario = @device_report.device_scenarios.create(:scenario_name=>@device.scenario.scenario_name)
+				    	@device.scenario.routes.each do |route|
+				    		@route = @scenario.scenario_routes.create(:path=>route.path, :route_type=>route.route_type, :fixture=>route.fixture, :status=>route.status)
+				    		@route.update(:path=>route.path, :route_type=>route.route_type, :fixture=>route.fixture, :status=>route.status)
+				    	end
+				    else
+				    	@device.update(scenario: @scenario, :isReportRequired=>params[:isReportRequired])
+				    end
   					render :json => { :status => 'Ok', :message => 'Received'}, :status => 200 
     		  end
     		rescue =>e
@@ -66,7 +96,16 @@
 
 
 		private
-		def make_request_to_local_api_server
+		def make_request_to_local_api_server(report = false)
+			if report
+				make_request_report
+			else
+				make_request
+			end
+		end
+
+		private
+		def make_request
 			begin
 				@device = Device.find_by(:device_ip=>get_ip_address)
 				if @device.blank?
@@ -79,6 +118,36 @@
 						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 					else
 						render json: @route.fixture, :status => @route.status
+					end
+				end
+			rescue =>e
+				logger.error "An error has been occurred in respond_to_client #{e.class.name} : #{e.message}"
+				render :json => { :status => '404', :message => 'Not Found'}, :status => 404
+			end
+		end
+
+		private 
+		def make_request_report
+			begin
+				@device = DeviceReport.find_by(:device_ip=>get_ip_address)
+				@scenario = @device.device_scenarios.last
+				if @device.blank?
+					log_notfound_request(get_path_query, request.method, get_ip_address)
+					render :json => { :status => '404', :message => 'Not Found'}, :status => 404
+				else
+					@route = @scenario.scenario_routes.find_by(:path=>get_path_query, :route_type=>request.method)
+					if @route.blank?
+						log_notfound_request(get_path_query, request.method, get_ip_address, @scenario.scenario_name)
+						@scenario.scenario_routes.create(:path=>get_path_query, :route_type=>request.method, :count=>-1)
+						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
+					else
+						if @route.fixture.blank?
+						   @route.update(:count=>@route.count-1)
+						   render :json => { :status => '404', :message => 'Not Found'}, :status => 404
+						else
+							@route.update(:count=>@route.count+1)
+							render json: @route.fixture, :status => @route.status
+						end
 					end
 				end
 			rescue =>e
