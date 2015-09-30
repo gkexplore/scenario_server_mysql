@@ -138,10 +138,10 @@
 					@route = @scenario.scenario_routes.find_by(:path=>get_path_query, :route_type=>request.method)
 					if @route.blank?
 						log_notfound_request(get_path_query, request.method, get_ip_address, @scenario.scenario_name)
-						@scenario.scenario_routes.create(:path=>get_path_query, :route_type=>request.method, :count=>-1)
+						@scenario.scenario_routes.create(:path=>get_path_query, :route_type=>request.method, :count=>-1, :fixture=>"404")
 						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 					else
-						if @route.fixture.blank?
+						if @route.fixture == "404"
 						   @route.update(:count=>@route.count-1)
 						   render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 						else
