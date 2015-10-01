@@ -15,9 +15,8 @@ module AadhiModelUtil
 		  keyvals
 	end
 
-	def sort_query_parameters(path)
-		path_query = path
-    	temp_url = URI.parse(path_query)
+	def sort_query_parameters(url)
+    	temp_url = URI.parse(url)
     	query = temp_url.query
     	if query==nil || query=='' || query.blank?
     		path = temp_url.path
@@ -29,7 +28,7 @@ module AadhiModelUtil
 			if final_sorted_string.to_s.strip.length != 0
 				final_sorted_string = "?"<<final_sorted_string
 			end
-			path+final_sorted_string
+			path+URI.unescape(final_sorted_string)
 		end
 	end
 
