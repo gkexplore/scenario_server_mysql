@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   delete 'scenarios/clear_device_list'=>'scenarios#clear_device_list'
   post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
   get 'stubs/server_log'=>'stubs#server_log'
+  get 'stubs/poll_server_log'=>'stubs#poll_server_log'
   delete 'stubs/clear_server_log'=>'stubs#clear_server_log'
   get 'report'=>'report#report'
   get 'notfound/notfound_list'=>'notfound#notfound_list'
