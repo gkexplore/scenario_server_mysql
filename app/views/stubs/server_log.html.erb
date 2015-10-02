@@ -8,34 +8,50 @@ border-bottom: 1px solid #eaeaea;
   <div class="text-center">
       <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/clear_server_log">Clear Logs</a> 
   </div> </br>
-  <div id="#indicator"><img src="/assets/ajax-loader.gif"></img></div>
+  <div style="padding:10px;"><img id="#indicator" src="/assets/ajax-loader.gif"></img><button class="btn btn-xs btn-danger" id="stop">Stop</button>&nbsp;&nbsp;<button class="btn btn-default btn-xs" id="start">Start</button></div>
   <div class='log'>
   </div>
 </div>
- <script>
+ <script type="text/javascript">
 
- var i = 0;
-    function stop(){
-    clearTimeout(i);
-    }
+$( document ).ready(function() {
 
-   url = '/stubs/poll_server_log';
+  var poll = true;
+  function poll_log(action){
+    poll = action;
+  }
+ 
+  url = '/stubs/poll_server_log';
+  worker();
 
-    var data_length=0;
-    (function worker() {
+ $("#stop").click(function(){
+    poll_log(false)
+    $("img").hide();
+ });
+
+ $("#start").click(function(){
+  $("img").show();
+    poll_log(true)
+    worker();
+ });
+
+  function worker() {
       $("#indicator").show();
         $.ajax({
           url: url, 
           success: function(data) {
               $("#indicator").hide();
               $('.log').html(data);
-
-           
           },
-          complete: function() {
-            i = setTimeout(worker, 5000);
+          complete: function() { 
+            if (poll===true){
+               setTimeout(worker, 9000);
+            }
+
           }
-        });
-    })();
+      });
+    }
+});
+
 
 </script>
