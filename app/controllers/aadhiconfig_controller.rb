@@ -5,10 +5,6 @@ class AadhiconfigController < ApplicationController
   def index
 		begin
 			@configs = Aadhiconfig.all
-			if @configs.blank? || @configs.empty? | @configs.nil? 
-				Aadhiconfig.create(:server_mode=>"default")
-				@configs = Aadhiconfig.all
-			end
 		rescue=>e
 			flash.now[:danger] = "An error has been occurred while retrieving the configs #{e.class.name}: #{e.message}"
 		end

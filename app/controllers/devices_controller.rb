@@ -31,7 +31,9 @@
 					make_request_to_actual_api(method,config)  
 				else
 					@device = Device.find_by(:device_ip=>get_ip_address)
-					unless @device.blank?
+					if @device.blank?
+						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
+					else
 						if @device.isReportRequired=='yes'
 						   make_request_to_local_api_server(true)
 						else
