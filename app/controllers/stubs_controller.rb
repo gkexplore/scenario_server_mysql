@@ -55,13 +55,13 @@ skip_before_filter :verify_authenticity_token
   end
 
   def server_log
-      @logs = Array.new
-      text=File.open('/var/www/scenario_server_mysql/log/development.log').read
-      text.gsub!(/\r\n?/, "\n")
-        text.each_line do |line|
-          @logs.push(line)
-        end
-      @logs.reverse!
+     
+  end
+
+  def poll_server_log
+      log = File.join(Rails.root, "log", "#{ Rails.env }.log")
+      @lines = `tail -1024 #{ log }`.split(/\n/).reverse
+      render layout: false
   end
 
   def clear_server_log  

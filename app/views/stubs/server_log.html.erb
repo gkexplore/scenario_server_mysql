@@ -1,15 +1,41 @@
 <div class="container-fluid">
-	  <div style="margin-bottom: 45px;
+      <div style="margin-bottom: 45px;
 padding-bottom: 5px;
 border-bottom: 1px solid #eaeaea;
 ">
       <h4 >Server Log</h4>
     </div>
-	<div class="text-center">
-  		<a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/clear_server_log">Clear Logs</a>
-	</div> 
-		<%@logs.each do |log|%>
-			<p><%=log%></p>
-		<%end%>
+  <div class="text-center">
+      <a  class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/clear_server_log">Clear Logs</a> 
+  </div> </br>
+  <div id="#indicator"><img src="/assets/ajax-loader.gif"></img></div>
+  <div class='log'>
+  </div>
 </div>
+ <script>
 
+ var i = 0;
+    function stop(){
+    clearTimeout(i);
+    }
+
+   url = '/stubs/poll_server_log';
+
+    var data_length=0;
+    (function worker() {
+      $("#indicator").show();
+        $.ajax({
+          url: url, 
+          success: function(data) {
+              $("#indicator").hide();
+              $('.log').html(data);
+
+           
+          },
+          complete: function() {
+            i = setTimeout(worker, 5000);
+          }
+        });
+    })();
+
+</script>
