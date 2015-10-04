@@ -144,6 +144,7 @@
 						render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 					else
 						if @route.fixture == "404"
+						   log_notfound_request(get_path_query, request.method, get_ip_address, @scenario.scenario_name)
 						   @route.update(:count=>@route.count-1)
 						   render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 						else
