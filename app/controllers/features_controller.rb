@@ -120,7 +120,7 @@ class FeaturesController < ApplicationController
 		begin
 			file = params[:upload]
 			if file['datafile'].content_type=="text/xml"
-				store_json(file)
+				store_xml(file)
 				File.delete("public/#{file['datafile'].original_filename}")
 				flash[:success] = "Your stubs have been uploaded successfully!!!"
 				redirect_to '/features'
