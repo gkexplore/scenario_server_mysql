@@ -119,7 +119,6 @@
 </style>
 <div class="container-fluid">
     <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
-      <h2> Development in progress</h2>
       <h4 >Report</h4>
     </div>
     <div class="css-treeview"
@@ -128,8 +127,9 @@
               <li> 
                 <input type="checkbox" id="item-<%=device.id%>" />
                 <label for="item-<%=device.id%>"> <%=device.device_ip%></label>
+                                        <ul>
                     <%device.device_scenarios.each do |scenario|%>
-                        <ul>
+
                             <li>
                                 <input type="checkbox" id="item-<%=device.id%>-<%=scenario.id%>" />
                                 <label for="item-<%=device.id%>-<%=scenario.id%>"><%=scenario.scenario_name%></label>
@@ -138,9 +138,10 @@
                                     <%end%> 
                                </table> </ul>
                             </li>
-                        </ul>
+                      
                     <%end%> 
-              <li>
+                      </ul>
+              </li>
           </ul> 
         <%end%>
     </div>
