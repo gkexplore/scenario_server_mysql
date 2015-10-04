@@ -118,7 +118,7 @@
         }
 </style>
 <div class="container-fluid">
-    <div style="margin-bottom: 45px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
+    <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
       <h2> Development in progress</h2>
       <h4 >Report</h4>
     </div>
@@ -133,10 +133,10 @@
                             <li>
                                 <input type="checkbox" id="item-<%=device.id%>-<%=scenario.id%>" />
                                 <label for="item-<%=device.id%>-<%=scenario.id%>"><%=scenario.scenario_name%></label>
-                                <ul><%scenario.scenario_routes.each do |route| %>
-                                    <li><%=route.path%><%=route.count%></li>
+                                <ul><table class="table table-striped table-bordered"><%scenario.scenario_routes.each do |route| %>
+                                    <li><tr><td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%></td></tr></li>
                                     <%end%> 
-                                </ul>
+                               </table> </ul>
                             </li>
                         </ul>
                     <%end%> 
@@ -145,4 +145,7 @@
         <%end%>
     </div>
 </div>
+
+
+
  
