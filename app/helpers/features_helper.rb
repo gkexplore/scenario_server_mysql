@@ -1,6 +1,6 @@
 
 module FeaturesHelper
-	def store_json(file)
+	def store_xml(file)
 		directory ="public"
 		path = File.join(directory,file['datafile'].original_filename)
 		File.open(path,"wb"){|f| f.write(file['datafile'].read)}
