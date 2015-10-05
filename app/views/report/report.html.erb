@@ -127,20 +127,45 @@
               <li> 
                 <input type="checkbox" id="item-<%=device.id%>" />
                 <label for="item-<%=device.id%>"> <%=device.device_ip%></label>
-                                        <ul>
+                    <ul>
                     <%device.device_scenarios.each do |scenario|%>
+                        <li>
+                            <input type="checkbox" id="item-<%=device.id%>-<%=scenario.id%>" />
+                            <label for="item-<%=device.id%>-<%=scenario.id%>"><%=scenario.scenario_name%></label>
+                            <ul>
+                                <table class="table table-striped table-bordered"><%scenario.scenario_routes.each do |route| %>
+                                    <li>
+                                        <%if route.count == -1 || route.count == -2%>
+                                            <tr style="color:red">
+                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
+                                                </td>
+                                            </tr>
+  
+                                        <%elsif route.count>1%>
+                                            <tr style="color:orange">
+                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
+                                                </td>
+                                            </tr>
 
-                            <li>
-                                <input type="checkbox" id="item-<%=device.id%>-<%=scenario.id%>" />
-                                <label for="item-<%=device.id%>-<%=scenario.id%>"><%=scenario.scenario_name%></label>
-                                <ul><table class="table table-striped table-bordered"><%scenario.scenario_routes.each do |route| %>
-                                    <li><tr><td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%></td></tr></li>
+                                        <%elsif route.count==0%>
+                                            <tr style="color:orange">
+                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
+                                                </td>
+                                            </tr>    
+
+                                        <%else%>
+                                            <tr style="color:green">
+                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
+                                                </td>
+                                            </tr>
+                                        <%end%>
+                                    </li>
                                     <%end%> 
-                               </table> </ul>
+                                </table>
+                            </ul>
                             </li>
-                      
                     <%end%> 
-                      </ul>
+                    </ul>
               </li>
           </ul> 
         <%end%>
