@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   get 'stubs/server_log'=>'stubs#server_log'
   get 'stubs/poll_server_log'=>'stubs#poll_server_log'
   delete 'stubs/clear_server_log'=>'stubs#clear_server_log'
-  get 'report'=>'report#report'
+  get 'report/index'=>'report#report'
+  get 'report/export'=>'report#export'
   get 'notfound/notfound_list'=>'notfound#notfound_list'
   delete 'notfound/clear_notfound_list'=>'notfound#clear_notfound_list'
   
