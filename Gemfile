@@ -28,7 +28,8 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'bootstrap-sass'
-gem 'faraday'
+gem 'passenger', '5.0.20'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
