@@ -14,8 +14,8 @@ include AadhiModelUtil
         @stubs = Stub.all.reverse
         @stubs.each do |route|
             request_url = route.request_url
-            routes = scenarios.routes.find_or_initialize_by(:path=>sort_query_parameters(request_url))
-            routes.update(:route_type=>route.route_type,:path=>sort_query_parameters(request_url),:request_body=>route.request_body,:fixture=>route.response,:status=>route.status,:host=>route.host)  
+            routes = scenarios.routes.find_or_initialize_by(:path=>sort_query_parameters(request_url), :route_type=>route.route_type)
+            routes.update(:route_type=>route.route_type, :path=>sort_query_parameters(request_url), :request_body=>route.request_body, :fixture=>route.response, :status=>route.status, :host=>route.host)  
         end    
           
 	end
