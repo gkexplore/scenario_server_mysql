@@ -119,7 +119,8 @@ class FeaturesController < ApplicationController
 	def import_xml
 		begin
 			file = params[:upload]
-			if file['datafile'].content_type=="text/xml"
+			logger.debug "content type is:::"+file['datafile'].content_type
+			if file['datafile'].content_type=="text/xml" || file['datafile'].content_type=="application/xml"
 				store_xml(file)
 				File.delete("public/#{file['datafile'].original_filename}")
 				flash[:success] = "Your stubs have been uploaded successfully!!!"
@@ -131,6 +132,23 @@ class FeaturesController < ApplicationController
 		rescue=>e
 				flash.now[:danger] = "An error has been occurred while importing the stubs!!!"
 				render 'import_xml_index'
+		end
+	end
+
+	def upload_stubs
+		begin
+			file = params[:upload]
+			logger.debug "content type is:::"+file['datafile'].content_type
+			if file['datafile'].content_type=="text/xml" || file['datafile'].content_type=="application/xml"
+				store_xml(file)
+				File.delete("public/#{file['datafile'].original_filename}")
+				render :json => { :status => 'Ok', :message => 'Received'}, :status => 200 
+			else
+				flash.now[:warning] = "Please upload a valid xml file!!!"
+				render :json => { :status => '400', :message => 'Please upload a valid xml file'}, :status => 400 
+			end
+		rescue=>e
+				render :json => { :status => '404', :message => 'An error has been occurred while uploading stubs'}, :status => 404 
 		end
 	end
 

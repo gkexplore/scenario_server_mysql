@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'features/export'=>'features#export'
   get 'features/import_xml'=>'features#import_xml_index'
   post 'features/import_xml'=>'features#import_xml'
+  post 'features/upload_stubs'=>'features#upload_stubs'
   get 'features/export_all'=>'features#export_all'
   delete 'features/delete_all'=>'features#delete_all'
   get 'stubs/poll_log'=>'stubs#poll_log'
