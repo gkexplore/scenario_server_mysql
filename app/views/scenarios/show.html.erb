@@ -57,29 +57,56 @@
 		</tr>
     </table>
 </form>
- <div class="page-header"><h4> Scenario: <%= @scenario.scenario_name %></h4></div>
-<table class="table-striped table-bordered table-hover table-condensed">
+<form name="copy_route" action="/scenarios/copy_route" method="post">
+ 	<div class="page-header"><h4> Scenario: <%= @scenario.scenario_name %></h4></div>
+	<table class="table-striped table-bordered table-hover table-condensed">
 	<thead>
 		<tr>
 			<th>Path</th>
 			<td>Route Type</th>
-			<th >Actions</th>
+			<th>Actions</th>
+			<th style="text-align:center">Copy <br/><input type="checkbox" id="selectAll" value="selectAll"></th>
 		</tr>
 	</thead>
     <tbody>
 		<% @scenario.routes.each do |route| %>
-		<tr>
-			<td style="word-break: break-all;">
-				<a href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
-			</td>
-			<td>
-				<%= route[:route_type] %>
-			</td>
-			<td style="white-space:nowrap;">
-				<a class="btn btn-default btn-xs" href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>/edit">Edit</a>
-				 <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>">Delete</a>
-			</td>
+			<tr>
+				<td style="word-break: break-all;">
+					<a href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
+				</td>
+				<td>
+					<%= route[:route_type] %>
+				</td>
+				<td style="white-space:nowrap;">
+					<a class="btn btn-default btn-xs" href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>/edit">Edit</a>
+					 <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/features/<%= @flow[:feature_id] %>/flows/<%= @scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>">Delete</a>
+				</td>
+				<td style="text-align:center"> <%= check_box_tag "route_ids[]", route.id %></td>
+			</tr>
 		<% end %>
+			<tr>
+				<td colspan="3">
+				</td>
+				<td>
+					<input type="submit" class="btn btn-primary" value="Copy to scenario">
+				</td>
+			<tr>
 	</tbody>
 </table>
+</form>
+<script type="text/javascript">
+
+   $('#selectAll').click(function() {
+   if (this.checked) {
+       $(':checkbox').each(function() {
+           this.checked = true;                        
+       });
+   } else {
+      $(':checkbox').each(function() {
+           this.checked = false;                        
+       });
+   } 
+});
+
+</script>
 

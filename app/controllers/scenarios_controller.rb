@@ -36,6 +36,7 @@ class ScenariosController < ApplicationController
 
 	def show
 		begin
+			@scenarios = Scenario.all
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
 			@scenario = @flow.scenarios.find(params[:id])
@@ -126,6 +127,10 @@ class ScenariosController < ApplicationController
 				redirect_to '/scenarios/debug' 
 		end	
 	end
+
+    def copy_route
+    	
+    end
 
 	private
 	 def scenario_params
