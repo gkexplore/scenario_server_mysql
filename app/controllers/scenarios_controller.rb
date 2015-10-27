@@ -129,7 +129,26 @@ class ScenariosController < ApplicationController
 	end
 
     def copy_route
-    	
+    	begin
+	    	@routes = Route.find(params[:route_ids])
+	    	@features = Feature.all
+	    	@flows = Flow.all
+	    	@scenarios = Scenario.all
+	    rescue =>e
+	    	flash[:danger] = "An error has been occurred while copying routes!!!"
+	    end
+    end
+
+    def save_route
+    	begin 
+    		@routes = Route.find(params[:route_ids])
+    		Route.save_routes(params[:feature_name], params[:flow_name], params[:scenario_name], @routes)
+    		flash[:success] = "The selected urls have been copied to #{params[:feature_name]}->#{params[:flow_name]}->#{params[:scenario_name]}!!!"
+    		redirect_to '/'
+    	rescue =>e
+	    	flash[:danger] = "An error has been occurred while copying the scenario!!!"
+	    	redirect_to '/'
+	    end
     end
 
 	private

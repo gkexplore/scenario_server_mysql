@@ -15,12 +15,12 @@ Rails.application.routes.draw do
   delete 'features/delete_all'=>'features#delete_all'
 
 
-
   get 'scenarios/debug'=>'scenarios#debug'
   get 'scenarios/device_list'=>'scenarios#device_list'
   delete 'scenarios/clear_device_list'=>'scenarios#clear_device_list'
   post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
   post 'scenarios/copy_route'=>'scenarios#copy_route'
+  post 'scenarios/save_route'=>'scenarios#save_route'
 
 
   get 'stubs/poll_log'=>'stubs#poll_log'
