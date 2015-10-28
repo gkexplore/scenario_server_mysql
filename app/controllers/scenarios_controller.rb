@@ -129,7 +129,7 @@ class ScenariosController < ApplicationController
 	end
 
     def copy_or_find_route
-
+    	begin 
     		if params[:commit] == "Copy to scenario"
     			@action = "Copy"
 		    	@routes = Route.find(params[:route_ids])
@@ -141,14 +141,16 @@ class ScenariosController < ApplicationController
 		    	@action = "Find"
 		    	@routes = Route.find(params[:route_ids])
 		    	@routes.each do |route|
-		    		identified_routes = Route.where(:path=>route.path)
+		    		identified_routes = Route.where(:path=>route.path, :fixture=>route.fixture)
 		    		  identified_routes.each do |ir|
 		    			scenario_ids.push(ir.scenario_id)
 		    		  end
 		    	end
 		    	@scenarios = Scenario.find(scenario_ids)
-		    end    		
-	   
+		    end 
+		rescue =>e
+			flash[:danger] = "An error has been occurred while retrieving the scenario!!!"
+		end   		
     end
 
     def save_route
@@ -164,12 +166,16 @@ class ScenariosController < ApplicationController
     end
 
     def insert_or_update_routes
-
+        begin 
 	    	@routes = Route.find(params[:route_ids])
 	    	@scenarios = Scenario.find(params[:scenario_ids])
 	    	Route.save_routes_to_scenario(@routes, @scenarios)
 	    	flash[:success] = "The selected urls have been copied/replaced in selected scenarios!!!"
 	        redirect_to '/'
+	    rescue =>e
+	    	flash[:danger] = "An error has been occurred while copying the scenario!!!"
+	    	redirect_to '/'
+	    end
 	    
     end
 

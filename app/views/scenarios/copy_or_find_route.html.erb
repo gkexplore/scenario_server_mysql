@@ -16,7 +16,8 @@
     		<tr>
     			<td style="word-break: break-all;">
     				<input type="hidden" name="route_ids[]" value="<%=route[:id]%>"/>
-					<a href="/routes/<%=route[:id]%>"><%= route[:path] %></a>
+					
+                <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
 				</td>
 				<td>
 					<%= route[:route_type] %>
@@ -80,7 +81,7 @@
            <tr>
               <td style="word-break: break-all;">
                	<input type="hidden" name="route_ids[]" value="<%=route[:id]%>"/>
-          <a href="/routes/<%=route[:id]%>"><%= route[:path] %></a>
+                <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
               </td>
               <td>
                 <%=route.route_type%>
@@ -117,7 +118,7 @@
           <table class="table table-bordered;" style="display:none;" id="<%=scenario.id%>">
               <%scenario.routes.each do |route|%>
                 <tr>
-                    <td style="word-break: break-all; padding-left:30px;"><%=route.path%></td>
+                    <td style="word-break: break-all; padding-left:30px;"> <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a></td>
                     <td><%=route.route_type%></td>
                 </tr>
               <%end%>
