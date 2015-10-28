@@ -128,15 +128,27 @@ class ScenariosController < ApplicationController
 		end	
 	end
 
-    def copy_route
-    	begin
-	    	@routes = Route.find(params[:route_ids])
-	    	@features = Feature.all
-	    	@flows = Flow.all
-	    	@scenarios = Scenario.all
-	    rescue =>e
-	    	flash[:danger] = "An error has been occurred while copying routes!!!"
-	    end
+    def copy_or_find_route
+
+    		if params[:commit] == "Copy to scenario"
+    			@action = "Copy"
+		    	@routes = Route.find(params[:route_ids])
+		    	@features = Feature.all
+		    	@flows = Flow.all
+		    	@scenarios = Scenario.all
+		    elsif params[:commit] == "Find in scenario"
+		    	scenario_ids = Array.new
+		    	@action = "Find"
+		    	@routes = Route.find(params[:route_ids])
+		    	@routes.each do |route|
+		    		identified_routes = Route.where(:path=>route.path)
+		    		  identified_routes.each do |ir|
+		    			scenario_ids.push(ir.scenario_id)
+		    		  end
+		    	end
+		    	@scenarios = Scenario.find(scenario_ids)
+		    end    		
+	   
     end
 
     def save_route

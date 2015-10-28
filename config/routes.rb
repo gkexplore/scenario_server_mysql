@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'scenarios/device_list'=>'scenarios#device_list'
   delete 'scenarios/clear_device_list'=>'scenarios#clear_device_list'
   post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
-  post 'scenarios/copy_route'=>'scenarios#copy_route'
+  post 'scenarios/copy_or_find_route'=>'scenarios#copy_or_find_route'
   post 'scenarios/save_route'=>'scenarios#save_route'
 
 

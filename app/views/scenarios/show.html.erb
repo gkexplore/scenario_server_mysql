@@ -57,7 +57,7 @@
 		</tr>
     </table>
 </form>
-<form name="copy_route" action="/scenarios/copy_route" method="post">
+<form name="copy_or_find_route" action="/scenarios/copy_or_find_route" method="post">
  	<div class="page-header"><h4> Scenario: <%= @scenario.scenario_name %></h4></div>
 	<table class="table-striped table-bordered table-hover table-condensed">
 	<thead>
@@ -88,7 +88,8 @@
 				<td colspan="3">
 				</td>
 				<td>
-					<input type="submit" class="btn btn-primary" value="Copy to scenario">
+					<input type="submit" name="commit" class="btn btn-primary" value="Copy to scenario">
+					<input type="submit" name="commit" class="btn btn-primary" value="Find in scenario">
 				</td>
 			<tr>
 	</tbody>
