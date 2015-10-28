@@ -90,7 +90,7 @@
   <table class="table-striped table-bordered table-hover table-condensed">
    <%@scenarios.each do |scenario|%>
    	<tr>
-      <td>
+      <td style="word-break: break-all;">
         <%=scenario.scenario_name%>
        	<%scenario.routes.each do |route|%>
        		 <br/>&nbsp;&nbsp;<%=route.path%>
