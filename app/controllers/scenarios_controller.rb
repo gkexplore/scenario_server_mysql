@@ -163,6 +163,16 @@ class ScenariosController < ApplicationController
 	    end
     end
 
+    def insert_or_update_routes
+
+	    	@routes = Route.find(params[:route_ids])
+	    	@scenarios = Scenario.find(params[:scenario_ids])
+	    	Route.save_routes_to_scenario(@routes, @scenarios)
+	    	flash[:success] = "The selected urls have been copied/replaced in selected scenarios!!!"
+	        redirect_to '/'
+	    
+    end
+
 	private
 	 def scenario_params
 		params.require(:scenario).permit(:scenario_name)

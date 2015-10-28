@@ -62,7 +62,7 @@
 </form>
 <%end%>
 <%if @action == "Find"%>
-<form name="save_route" action="/scenarios/save_route" method="post">
+<form name="insert_or_update_routes" action="/scenarios/insert_or_update_routes" method="post">
   <div>
     <table class="table-striped table-bordered table-hover table-condensed">
         <thead>
@@ -94,12 +94,26 @@
     <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
       <h4 >The above URL(s) found in below scenario(s)</h4>
     </div>
-    <table>
+    <table class="table table-bordered;">
+      <thead>
+         <tr>
+          <th>
+              Select </br>
+              <input type="checkbox" id="selectAll" value="selectAll">
+          </th>
+          <th>
+              Scenarios
+          </th>
+      </tr>
+      </thead>
+     
      <%@scenarios.each do |scenario|%>
      	<tr>
+        <td width="5%">
+            <input type="checkbox" name="scenario_ids[]" value="<%=scenario.id%>"/>
+        </td>
         <td>
-          <input type="checkbox" name="scenario_ids[]" value="<%=scenario.id%>"/>
-          <a onclick="show_or_hide(<%=scenario.id%>);"><%=scenario.scenario_name%></a>
+          <a onclick="show_or_hide(<%=scenario.id%>);"><%=scenario.flow.feature.feature_name%>-><%=scenario.flow.flow_name%>-><%=scenario.scenario_name%></a>
           <table class="table table-bordered;" style="display:none;" id="<%=scenario.id%>">
               <%scenario.routes.each do |route|%>
                 <tr>
@@ -113,11 +127,25 @@
       </tr>
     </table>
   </div>
+  <div style="text-align:center">
+    <button type="submit" class="btn btn-primary">Replace</button>
+</div>
 </form>
+
 <%end%>
 </div>
 <script type="text/javascript">
-
+    $('#selectAll').click(function() {
+       if (this.checked) {
+           $(':checkbox').each(function() {
+               this.checked = true;                        
+           });
+       } else {
+          $(':checkbox').each(function() {
+               this.checked = false;                        
+           });
+       } 
+    });
     function show_or_hide(id)
     {
       $("#"+id).toggle();

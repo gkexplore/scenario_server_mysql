@@ -23,4 +23,14 @@ class Route < ActiveRecord::Base
             routes.update(:route_type=>route.route_type, :path=>route.path, :request_body=>route.request_body, :fixture=>route.fixture, :status=>route.status, :host=>route.host)  
         end    
   end
+
+  def self.save_routes_to_scenario(routes, scenarios)
+      scenarios.each do |scenario|
+        routes.each do |route|
+            routes = scenario.routes.find_or_initialize_by(:path=>route.path, :route_type=>route.route_type)
+            routes.update(:route_type=>route.route_type, :path=>route.path, :request_body=>route.request_body, :fixture=>route.fixture, :status=>route.status, :host=>route.host)  
+        end 
+      end   
+  end
+
 end

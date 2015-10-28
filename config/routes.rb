@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   post 'scenarios/set_current_scenario'=>'scenarios#set_current_scenario'
   post 'scenarios/copy_or_find_route'=>'scenarios#copy_or_find_route'
   post 'scenarios/save_route'=>'scenarios#save_route'
+  post 'scenarios/insert_or_update_routes'=>'scenarios#insert_or_update_routes'
+  
 
 
   get 'stubs/poll_log'=>'stubs#poll_log'
