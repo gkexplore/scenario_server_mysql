@@ -1,6 +1,6 @@
+<div class="container-fluid">
 <%if @action == "Copy"%>
 <form name="save_route" action="/scenarios/save_route" method="post">
-<div class="container-fluid">
     <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
       <h4 >Copy to Scenario</h4>
     </div>
@@ -58,18 +58,47 @@
           </datalist>
   	  </div>
   	   <button type="submit" class="btn btn-primary">Submit</button>
-</div>
+
 </form>
 <%end%>
 <%if @action == "Find"%>
- <%@routes.each do |route|%>
- 	<%=route.path%>
+<form name="save_route" action="/scenarios/save_route" method="post">
+  <table class="table-striped table-bordered table-hover table-condensed">
+      <thead>
+        <tr>
+            <th>
+              Path
+            </th>
+            <th>
+              Type
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+         <%@routes.each do |route|%>
+         <tr>
+            <td style="word-break: break-all;">
+             	<%=route.path%>
+            </td>
+            <td>
+              <%=route.route_type%>
+            </td>
+         </tr>
+        <%end%>
+      </tbody>
+  </table>
+  <table class="table-striped table-bordered table-hover table-condensed">
+   <%@scenarios.each do |scenario|%>
+   	<tr>
+      <td>
+        <%=scenario.scenario_name%>
+       	<%scenario.routes.each do |route|%>
+       		 <br/>&nbsp;&nbsp;<%=route.path%>
+       	<%end%>
+       <%end%>
+      </td>
+    </tr>
+</table>
+</form>
 <%end%>
-<br><br><br>
- <%@scenarios.each do |scenario|%>
- 	<br><%=scenario.scenario_name%>
- 	<%scenario.routes.each do |route|%>
- 		<br/><%=route.path%>
- 	<%end%>
-<%end%>
-<%end%>
+</div>
