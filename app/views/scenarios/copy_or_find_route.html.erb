@@ -193,10 +193,12 @@
      </div>
       <%end%>
        <%unless @scenarios.blank? && @scenarios_identified_for_replace.blank?%>
+       <%if @scenarios.count>=1%>
         <div style="text-align:center">
           <button type="submit" class="btn btn-primary" name="commit" value="Replace">Submit</button>
           <button type="submit" class="btn btn-primary" name="commit" value="Save to Replace">Mark to Replace</button>
         </div>
+        <%end%>  
       <%end%>
   </form>
 <%end%>

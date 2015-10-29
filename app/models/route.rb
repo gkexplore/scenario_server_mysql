@@ -19,16 +19,16 @@ class Route < ActiveRecord::Base
         scenarios = flows.scenarios.find_or_initialize_by(:scenario_name=>scenario_name)
         scenarios.update(:scenario_name=>scenario_name) 
         routes.each do |route|
-            routes = scenarios.routes.find_or_initialize_by(:path=>route.path, :route_type=>route.route_type)
-            routes.update(:route_type=>route.route_type, :path=>route.path, :request_body=>route.request_body, :fixture=>route.fixture, :status=>route.status, :host=>route.host)  
+            route_found = scenarios.routes.find_or_initialize_by(:path=>route.path, :route_type=>route.route_type)
+            route_found.update(:route_type=>route.route_type, :path=>route.path, :request_body=>route.request_body, :fixture=>route.fixture, :status=>route.status, :host=>route.host)  
         end    
   end
 
   def self.save_routes_to_scenario(routes, scenarios)
       scenarios.each do |scenario|
         routes.each do |route|
-            routes = scenario.routes.find_or_initialize_by(:path=>route.path, :route_type=>route.route_type)
-            routes.update(:route_type=>route.route_type, :path=>route.path, :request_body=>route.request_body, :fixture=>route.fixture, :status=>route.status, :host=>route.host)  
+            route_found = scenario.routes.find_or_initialize_by(:path=>route.path, :route_type=>route.route_type)
+            route_found.update(:route_type=>route.route_type, :path=>route.path, :request_body=>route.request_body, :fixture=>route.fixture, :status=>route.status, :host=>route.host)  
         end 
       end   
   end

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   post 'scenarios/copy_or_find_route'=>'scenarios#copy_or_find_route'
   post 'scenarios/save_route'=>'scenarios#save_route'
   post 'scenarios/insert_or_update_routes'=>'scenarios#insert_or_update_routes'
+  get 'scenarios/revert_marked_scenarios'=>'scenarios#revert_marked_scenarios'
   
 
 
