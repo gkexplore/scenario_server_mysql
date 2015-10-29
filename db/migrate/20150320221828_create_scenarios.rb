@@ -8,5 +8,6 @@ class CreateScenarios < ActiveRecord::Migration
     end
     add_foreign_key :scenarios, :flows
     add_index :scenarios, [:scenario_name], :unique => true
+    add_column :scenarios, :isTemp, "enum('yes','no')", :default => 'no'
   end
 end

@@ -33,4 +33,10 @@ class Route < ActiveRecord::Base
       end   
   end
 
+  def self.save_to_replace(scenarios)
+      scenarios.each do |scenario|
+          scenario.update(:isTemp=>"yes")
+      end   
+  end
+
 end

@@ -58,6 +58,7 @@
     </table>
 </form>
 <form name="copy_or_find_route" action="/scenarios/copy_or_find_route" method="post">
+	  <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
  	<div class="page-header"><h4> Scenario: <%= @scenario.scenario_name %></h4></div>
 	<table class="table-striped table-bordered table-hover table-condensed">
 	<thead>

@@ -36,6 +36,9 @@ class ScenariosController < ApplicationController
 
 	def show
 		begin
+			@redirect_path = request.path
+    		logger.debug "Redirect Path is:{{{{{{{{}{{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{"
+    		logger.debug @redirect_path
 			@scenarios = Scenario.all
 			@feature = Feature.find(params[:feature_id])
 			@flow = @feature.flows.find(params[:flow_id])
@@ -130,6 +133,9 @@ class ScenariosController < ApplicationController
 
     def copy_or_find_route
     	begin 
+    		@redirect_path = params[:redirect_path]
+    		logger.debug "Redirect Path is:{{{{{{{{}{{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{"
+    		logger.debug @redirect_path
     		if params[:commit] == "Copy to scenario"
     			@action = "Copy"
 		    	@routes = Route.find(params[:route_ids])
@@ -147,6 +153,7 @@ class ScenariosController < ApplicationController
 		    		  end
 		    	end
 		    	@scenarios = Scenario.find(scenario_ids)
+		    	@scenarios_identified_for_replace = Scenario.where(:isTemp=>"yes")
 		    end 
 		rescue =>e
 			flash[:danger] = "An error has been occurred while retrieving the scenario!!!"
@@ -158,25 +165,36 @@ class ScenariosController < ApplicationController
     		@routes = Route.find(params[:route_ids])
     		Route.save_routes(params[:feature_name], params[:flow_name], params[:scenario_name], @routes)
     		flash[:success] = "The selected urls have been copied to #{params[:feature_name]}->#{params[:flow_name]}->#{params[:scenario_name]}!!!"
-    		redirect_to '/'
+    		redirect_to params[:redirect_path]
     	rescue =>e
 	    	flash[:danger] = "An error has been occurred while copying the scenario!!!"
-	    	redirect_to '/'
+	    	redirect_to params[:redirect_path]
 	    end
     end
 
     def insert_or_update_routes
-        begin 
-	    	@routes = Route.find(params[:route_ids])
-	    	@scenarios = Scenario.find(params[:scenario_ids])
-	    	Route.save_routes_to_scenario(@routes, @scenarios)
-	    	flash[:success] = "The selected urls have been copied/replaced in selected scenarios!!!"
-	        redirect_to '/'
-	    rescue =>e
-	    	flash[:danger] = "An error has been occurred while copying the scenario!!!"
-	    	redirect_to '/'
-	    end
-	    
+    	begin
+        	if params[:commit] == "Replace"
+		    	@routes = Route.find(params[:route_ids])
+		    	@scenarios = Scenario.find(params[:scenario_ids])
+		    	Route.save_routes_to_scenario(@routes, @scenarios)
+		    	@scenarios_identified_for_replace = Scenario.where(:isTemp=>"yes")
+		    	@scenarios_identified_for_replace.each do |scenario|
+		    		scenario.update(:isTemp=>"no")
+		    	end
+		    	flash[:success] = "The selected urls have been copied/replaced in selected scenarios!!!"
+		        redirect_to params[:redirect_path]
+		    elsif params[:commit] == "Save to Replace"
+		    	@routes = Route.find(params[:route_ids])
+		    	@scenarios = Scenario.find(params[:scenario_ids])
+		    	Route.save_to_replace(@scenarios)
+		    	flash[:success] = "The selected urls have been copied/replaced in selected scenarios!!!"
+		        redirect_to params[:redirect_path]
+		    end
+		rescue =>e
+			flash[:danger] = "An error has been occurred while copying the scenario!!!"
+	    	redirect_to params[:redirect_path]
+		end
     end
 
 	private

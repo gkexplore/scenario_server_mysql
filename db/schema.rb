@@ -108,8 +108,9 @@ ActiveRecord::Schema.define(version: 20150928044955) do
   create_table "scenarios", force: :cascade do |t|
     t.string   "scenario_name", limit: 255
     t.integer  "flow_id",       limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "isTemp",        limit: 3,   default: "no"
   end
 
   add_index "scenarios", ["flow_id"], name: "index_scenarios_on_flow_id", using: :btree

@@ -1,138 +1,199 @@
 <div class="container-fluid">
-<%if @action == "Copy"%>
-<form name="save_route" action="/scenarios/save_route" method="post">
-    <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
-      <h4 >Copy to Scenario</h4>
-    </div>
-    <table class="table-striped table-bordered table-hover table-condensed">
-    	<thead>
-    		<tr>
-    			<th>Path</th>
-    			<th>Type</th>
-    		</tr>
-    	</thead>
-    	<tbody>
-    		<%@routes.each do |route|%>
-    		<tr>
-    			<td style="word-break: break-all;">
-    				<input type="hidden" name="route_ids[]" value="<%=route[:id]%>"/>
-					
-                <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
-				</td>
-				<td>
-					<%= route[:route_type] %>
-				</td>
-    		</tr>
-    		<%end%>
-    	</tbody>
-    </table>
-<div>
-<div style="margin:20px;">
-	<div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
-      <h4>Copy to below scenario</h4>
-    </div>
-    	<div class="form-group">
-        <label for="feature-name" class="control-label">Feature name:</label>
-        <input type="text" class="form-control" id="recipient-name" name="feature_name" list="feature_name" autocomplete="off">
-          <datalist id="feature_name">
-            <%@features.each do |feature|%>
-              <option value="<%=feature.feature_name%>">
-            <%end%>
-          </datalist> 
-      </div>
-      <div class="form-group">
-        <label for="message-text" class="control-label">Flow name:</label>
-        <input type="text" class="form-control" id="recipient-name" name="flow_name" list="flow_name" autocomplete="off">
-         <datalist id="flow_name">
-            <%@flows.each do |flow|%>
-              <option value="<%=flow.flow_name%>">
-            <%end%>
-          </datalist>
-      </div>
-      <div class="form-group">
-        <label for="message-text" class="control-label">Scenario name:</label>
-       <input type="text" class="form-control" id="recipient-name" name="scenario_name" list="scenario_name" autocomplete="off">
-        <datalist id="scenario_name">
-            <%@scenarios.each do |scenario|%>
-              <option value="<%=scenario.scenario_name%>">
-            <%end%>
-          </datalist>
-  	  </div>
-  	   <button type="submit" class="btn btn-primary">Submit</button>
 
-</form>
-<%end%>
-<%if @action == "Find"%>
-<form name="insert_or_update_routes" action="/scenarios/insert_or_update_routes" method="post">
-  <div>
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <thead>
-          <tr>
-              <th>
-                Path
-              </th>
-              <th>
-                Type
-              </th>
-          </tr>
-        </thead>
-        <tbody>
-           <%@routes.each do |route|%>
-           <tr>
-              <td style="word-break: break-all;">
-               	<input type="hidden" name="route_ids[]" value="<%=route[:id]%>"/>
-                <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
-              </td>
-              <td>
-                <%=route.route_type%>
-              </td>
-           </tr>
-          <%end%>
-        </tbody>
-    </table>
-  </div>
-  <div  style="padding-top:50px">
-    <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
-      <h4 >The above URL(s) found in below scenario(s)</h4>
-    </div>
-    <table class="table table-bordered;">
-      <thead>
-         <tr>
-          <th>
-              Select </br>
-              <input type="checkbox" id="selectAll" value="selectAll">
-          </th>
-          <th>
-              Scenarios
-          </th>
-      </tr>
-      </thead>
-     
-     <%@scenarios.each do |scenario|%>
-     	<tr>
-        <td width="5%">
-            <input type="checkbox" name="scenario_ids[]" value="<%=scenario.id%>"/>
-        </td>
-        <td>
-          <a onclick="show_or_hide(<%=scenario.id%>);"><%=scenario.flow.feature.feature_name%>-><%=scenario.flow.flow_name%>-><%=scenario.scenario_name%></a>
-          <table class="table table-bordered;" style="display:none;" id="<%=scenario.id%>">
-              <%scenario.routes.each do |route|%>
-                <tr>
-                    <td style="word-break: break-all; padding-left:30px;"> <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a></td>
-                    <td><%=route.route_type%></td>
-                </tr>
-              <%end%>
+    <%if @action == "Copy"%>
+
+     <form name="save_route" action="/scenarios/save_route" method="post">
+
+       <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
+
+          <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
+            <h4>Copy to Scenario</h4>
+          </div>
+
+          <table class="table-striped table-bordered table-hover table-condensed">
+            	<thead>
+            		<tr>
+            			<th>Path</th>
+            			<th>Type</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<%unless @routes.blank? || @routes.empty? || @routes.nil?%>
+                   <%@routes.each do |route|%>
+                		<tr>
+                  			<td style="word-break: break-all;">
+                  				<input type="hidden" name="route_ids[]" value="<%=route[:id]%>"/>
+                          <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
+              				  </td>
+              				  <td>
+              				  	<%= route[:route_type] %>
+              				  </td>
+                		</tr>
+            		<%end%>
+                <%end%>
+            	</tbody>
           </table>
-         <%end%>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div style="text-align:center">
-    <button type="submit" class="btn btn-primary">Replace</button>
-</div>
-</form>
 
+          <div style="margin:20px;">
+
+          	 <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
+                <h4>Copy to below scenario</h4>
+              </div>
+
+              <div class="form-group">
+                  <label for="feature-name" class="control-label">Feature name:</label>
+                  <input type="text" class="form-control" id="recipient-name" name="feature_name" list="feature_name" autocomplete="off">
+                    <datalist id="feature_name">
+                      <%@features.each do |feature|%>
+                        <option value="<%=feature.feature_name%>">
+                      <%end%>
+                    </datalist> 
+              </div>
+
+              <div class="form-group">
+                <label for="message-text" class="control-label">Flow name:</label>
+                <input type="text" class="form-control" id="recipient-name" name="flow_name" list="flow_name" autocomplete="off">
+                 <datalist id="flow_name">
+                    <%@flows.each do |flow|%>
+                      <option value="<%=flow.flow_name%>">
+                    <%end%>
+                  </datalist>
+              </div>
+
+              <div class="form-group">
+                <label for="message-text" class="control-label">Scenario name:</label>
+               <input type="text" class="form-control" id="recipient-name" name="scenario_name" list="scenario_name" autocomplete="off">
+                <datalist id="scenario_name">
+                    <%@scenarios.each do |scenario|%>
+                      <option value="<%=scenario.scenario_name%>">
+                    <%end%>
+                  </datalist>
+          	  </div>
+
+            	<button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form>
+  <%end%>
+
+
+  <%if @action == "Find"%>
+      <form name="insert_or_update_routes" action="/scenarios/insert_or_update_routes" method="post">
+         <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
+        <div>
+          <table class="table-striped table-bordered table-hover table-condensed">
+              <thead>
+                <tr>
+                    <th>
+                      Path
+                    </th>
+                    <th>
+                      Type
+                    </th>
+                </tr>
+              </thead>
+              <tbody>
+                <%unless @routes.blank? || @routes.empty? || @routes.nil?%>
+                 <%@routes.each do |route|%>
+                 <tr>
+                    <td style="word-break: break-all;">
+                     	<input type="hidden" name="route_ids[]" value="<%=route[:id]%>"/>
+                      <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
+                    </td>
+                    <td>
+                      <%=route.route_type%>
+                    </td>
+                 </tr>
+                <%end%>
+                <%end%>
+              </tbody>
+          </table>
+        </div>
+        <%unless @scenarios.blank? || @scenarios.empty? || @scenarios.nil?%>
+          <%if @scenarios.count>1%>
+             <div  style="padding-top:50px">
+             <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
+                 <h4 >The above URL(s) found in below scenario(s)</h4>
+             </div>
+             <table class="table table-bordered;">
+              <thead>
+                 <tr>
+                    <th>
+                        Select </br>
+                        <input type="checkbox" id="selectAll" value="selectAll">
+                    </th>
+                    <th>
+                        Scenarios
+                    </th>
+                  </tr>
+              </thead>
+              <tbody>
+                <%@scenarios.each do |scenario|%>
+                 	<tr>
+                    <td width="5%">
+                        <input type="checkbox" name="scenario_ids[]" value="<%=scenario.id%>"/>
+                    </td>
+                    <td>
+                      <a onclick="show_or_hide(<%=scenario.id%>);"><%=scenario.flow.feature.feature_name%>-><%=scenario.flow.flow_name%>-><%=scenario.scenario_name%></a>
+                      <table class="table table-bordered;" style="display:none;" id="<%=scenario.id%>">
+                          <%scenario.routes.each do |route|%>
+                            <tr>
+                                <td style="word-break: break-all; padding-left:30px;"> <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a></td>
+                                <td><%=route.route_type%></td>
+                            </tr>
+                          <%end%>
+                      </table>
+                    </td>
+                  </tr>
+                <%end%>
+            </tbody>
+          </table>
+       </div>
+    <%end%>
+  <%end%>
+  <%unless @scenarios_identified_for_replace.blank? || @scenarios_identified_for_replace.empty? || @scenarios_identified_for_replace.nil?%>
+  <div  style="padding-top:50px">
+      <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
+        <h4>Scenarios marked for Replace</h4>
+      </div>
+      <table class="table table-bordered;">
+        <thead>
+           <tr>
+              <th>
+                  Select </br>
+                  <input type="checkbox" id="selectAll" value="selectAll">
+              </th>
+              <th>
+                  Scenarios
+              </th>
+            </tr>
+        </thead>
+         <%@scenarios_identified_for_replace.each do |scenario|%>
+          <tr>
+            <td width="5%">
+                <input type="checkbox" name="scenario_ids[]" value="<%=scenario.id%>"/>
+            </td>
+            <td>
+                <a onclick="show_or_hide(<%=scenario.id%>);"><%=scenario.flow.feature.feature_name%>-><%=scenario.flow.flow_name%>-><%=scenario.scenario_name%></a>
+                <table class="table table-bordered;" style="display:none;" id="<%=scenario.id%>">
+                    <%scenario.routes.each do |route|%>
+                      <tr>
+                          <td style="word-break: break-all; padding-left:30px;"> <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a></td>
+                          <td><%=route.route_type%></td>
+                      </tr>
+                    <%end%>
+                </table>
+             </td>
+          </tr>
+          <%end%>
+
+       </table>
+     </div>
+      <%end%>
+      <div style="text-align:center">
+        <button type="submit" class="btn btn-primary" name="commit" value="Replace">Submit</button>
+        <button type="submit" class="btn btn-primary" name="commit" value="Save to Replace">Save to Replace</button>
+      </div>
+  </form>
 <%end%>
 </div>
 <script type="text/javascript">
