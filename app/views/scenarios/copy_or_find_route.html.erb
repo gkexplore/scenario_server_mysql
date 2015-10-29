@@ -77,9 +77,9 @@
 
 
   <%if @action == "Find"%>
-            <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
-            <h4>Find and Replace</h4>
-          </div>
+  <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
+    <h4>Find and Replace</h4>
+  </div>
       <form name="insert_or_update_routes" action="/scenarios/insert_or_update_routes" method="post">
          <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
         <div>
@@ -195,7 +195,7 @@
        <%unless @scenarios.blank? && @scenarios_identified_for_replace.blank?%>
         <div style="text-align:center">
           <button type="submit" class="btn btn-primary" name="commit" value="Replace">Submit</button>
-          <button type="submit" class="btn btn-primary" name="commit" value="Save to Replace">Save to Replace</button>
+          <button type="submit" class="btn btn-primary" name="commit" value="Save to Replace">Mark to Replace</button>
         </div>
       <%end%>
   </form>
