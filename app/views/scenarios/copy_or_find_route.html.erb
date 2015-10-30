@@ -77,12 +77,12 @@
 
 
   <%if @action == "Find"%>
+   <div style="float:right; padding:10px;">
+   <a href="/scenarios/revert_marked_scenarios">Revert marked scenarios</a>
+  </div>
   <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
     <h4>Find and Replace</h4>
   </div>
-  <div style="float:right; padding:10px;">
-  <a href="/scenarios/revert_marked_scenarios">Revert marked scenarios</a>
-</div>
       <form name="insert_or_update_routes" action="/scenarios/insert_or_update_routes" method="post">
          <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
         <div>
@@ -125,7 +125,7 @@
              <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
                  <h4 >The above URL(s) found in below scenario(s)</h4>
              </div>
-             <table class="table table-bordered;">
+             <table class="table table-bordered;" id="marked">
               <thead>
                  <tr>
                     <th>
@@ -166,7 +166,7 @@
       <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
         <h4>Scenarios marked to Replace</h4>
       </div>
-      <table class="table table-bordered;">
+      <table class="table table-bordered;" id="marked">
         <thead>
            <tr>
               <th>
@@ -217,11 +217,11 @@
 <script type="text/javascript">
     $('#selectAll').click(function() {
        if (this.checked) {
-           $(':checkbox').each(function() {
+           $('#marked input:checkbox').each(function() {
                this.checked = true;                        
            });
        } else {
-          $(':checkbox').each(function() {
+          $('#marked input:checkbox').each(function() {
                this.checked = false;                        
            });
        } 
