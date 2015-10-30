@@ -80,6 +80,9 @@
   <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
     <h4>Find and Replace</h4>
   </div>
+  <div style="float:right; padding:10px;">
+  <a href="/scenarios/revert_marked_scenarios">Revert marked scenarios</a>
+</div>
       <form name="insert_or_update_routes" action="/scenarios/insert_or_update_routes" method="post">
          <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
         <div>
@@ -96,23 +99,28 @@
                 </tr>
               </thead>
               <tbody>
-                <%@routes.each do |route|%>
-                 <tr>
-                    <td style="word-break: break-all;">
-                     	<input type="hidden" name="route_ids[]" value="<%=route[:id]%>"/>
+               
+            <%@scenario.routes.each do |route|%>
+              <tr>
+                  <td>
+                    <%if @route_ids.include?(route.id)%>
+                      <input type="checkbox" name="route_ids[]" value="<%=route.id%>" checked="checked"/>
+                    <%else%>
+                      <input type="checkbox" name="route_ids[]" value="<%=route.id%>"/>
+                    <%end%>
                       <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route[:scenario_id]%>/routes/<%=route[:id]%>"><%= route[:path] %></a>
-                    </td>
-                    <td>
-                      <%=route.route_type%>
-                    </td>
-                 </tr>
-                <%end%>
-              </tbody>
+                  </td>
+                  <td>
+                     <%=route.route_type%>
+                  </td>
+              </tr>
+            <%end%>
+          </tbody>
           </table>
         <%end%>
         </div>
         <%unless @scenarios.blank? || @scenarios.empty? || @scenarios.nil?%>
-          <%if @scenarios.count>1%>
+          <%if @scenarios_identified_for_replace.blank?%>
              <div  style="padding-top:50px">
              <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
                  <h4 >The above URL(s) found in below scenario(s)</h4>
@@ -192,13 +200,16 @@
        </table>
      </div>
       <%end%>
-       <%unless @scenarios.blank? && @scenarios_identified_for_replace.blank?%>
-       <%if @scenarios.count>=1%>
-        <div style="text-align:center">
-          <button type="submit" class="btn btn-primary" name="commit" value="Replace">Submit</button>
-          <button type="submit" class="btn btn-primary" name="commit" value="Save to Replace">Mark to Replace</button>
-        </div>
-        <%end%>  
+       <%if @scenarios.blank? && @scenarios_identified_for_replace.blank?%>
+
+       <%elsif @scenarios_identified_for_replace.blank? && @scenarios.count>1%>
+           <div style="text-align:center">
+              <button type="submit" class="btn btn-primary" name="commit" value="Save to Replace">Mark to Replace</button>
+          </div>  
+        <%elsif !@scenarios_identified_for_replace.blank?%>
+           <div style="text-align:center">
+              <button type="submit" class="btn btn-primary" name="commit" value="Replace">Submit</button>
+          </div>  
       <%end%>
   </form>
 <%end%>

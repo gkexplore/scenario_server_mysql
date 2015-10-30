@@ -57,7 +57,7 @@
 		</tr>
     </table>
 </form>
-<form name="copy_or_find_route" action="/scenarios/copy_or_find_route" method="post">
+<form name="copy_or_find_route" action="/scenarios/copy_or_find_route" method="get">
 	  <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
  	<div class="page-header"><h4> Scenario: <%= @scenario.scenario_name %></h4></div>
 	<table class="table-striped table-bordered table-hover table-condensed">
@@ -96,9 +96,6 @@
 	</tbody>
 </table>
 </form>
-<div style="float:right; padding:10px;">
-	<a href="/scenarios/revert_marked_scenarios">Revert marked scenarios</a>
-</div>
 <script type="text/javascript">
 
    $('#selectAll').click(function() {

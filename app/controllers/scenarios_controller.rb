@@ -140,14 +140,17 @@ class ScenariosController < ApplicationController
 		    	@scenarios = Scenario.all
 		    elsif params[:commit] == "Find in scenario"
 		    	scenario_ids = Array.new
+		    	@route_ids = Array.new
 		    	@action = "Find"
 		    	@routes = Route.find(params[:route_ids])
 		    	@routes.each do |route|
+		    		@route_ids.push(route.id)
 		    		identified_routes = Route.where(:path=>route.path, :fixture=>route.fixture)
 		    		  identified_routes.each do |ir|
 		    			scenario_ids.push(ir.scenario_id)
 		    		  end
 		    	end
+		    	@scenario = @routes[0].scenario
 		    	@scenarios = Scenario.find(scenario_ids)
 		    	@scenarios_identified_for_replace = Scenario.where(:isTemp=>"yes")
 		    end 
@@ -161,16 +164,14 @@ class ScenariosController < ApplicationController
     		@routes = Route.find(params[:route_ids])
     		Route.save_routes(params[:feature_name], params[:flow_name], params[:scenario_name], @routes)
     		flash[:success] = "The selected urls have been copied to #{params[:feature_name]}->#{params[:flow_name]}->#{params[:scenario_name]}!!!"
-    		redirect_to params[:redirect_path]
+    		redirect_to :back
     	rescue =>e
 	    	flash[:danger] = "An error has been occurred while copying the scenario!!!"
-	    	redirect_to params[:redirect_path]
+	    	redirect_to :back
 	    end
     end
 
     def insert_or_update_routes
-    	logger.debug "Redirect path:{}{}{}{}{}{}{}{}{}{}{}{}{}{"
-    	logger.debug params[:redirect_path]
         begin
         	if params[:commit] == "Replace"
 		    	@routes = Route.find(params[:route_ids])
@@ -181,17 +182,17 @@ class ScenariosController < ApplicationController
 		    		scenario.update(:isTemp=>"no")
 		    	end
 		    	flash[:success] = "The selected urls have been copied/replaced in selected scenarios!!!"
-		        redirect_to params[:redirect_path]
+		        redirect_to :back
 		    elsif params[:commit] == "Save to Replace"
 		    	@routes = Route.find(params[:route_ids])
 		    	@scenarios = Scenario.find(params[:scenario_ids])
 		    	Route.save_to_replace(@scenarios)
 		    	flash[:success] = "The selected urls have been marked to replace.!!!"
-		        redirect_to params[:redirect_path]
+		        redirect_to :back
 		    end
 		rescue =>e
 	    	flash[:danger] = "An error has been occurred while copying the scenario!!!"
-	    	redirect_to params[:redirect_path]
+	    	redirect_to :back
 	    end
 
     end
