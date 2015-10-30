@@ -87,11 +87,11 @@
          <input type="hidden" name="redirect_path" value="<%=@redirect_path%>"/>
         <div>
         <%unless @routes.blank? || @routes.empty? || @routes.nil?%>
-          <table class="table-striped table-bordered table-hover table-condensed">
+          <table class="table table-bordered;">
               <thead>
                 <tr>
                     <th>
-                      Path (<%=@routes[0].scenario.flow.feature.feature_name%>-><%=@routes[0].scenario.flow.flow_name%>-><%=@routes[0].scenario.scenario_name%>)
+                      Path (Scenario: <a href="/features/<%= @routes[0].scenario.flow[:feature_id] %>/flows/<%= @routes[0].scenario[:flow_id]%>/scenarios/<%=@routes[0][:scenario_id]%>"><%=@routes[0].scenario.flow.feature.feature_name%>-><%=@routes[0].scenario.flow.flow_name%>-><%=@routes[0].scenario.scenario_name%></a>)
                     </th>
                     <th>
                       Type
