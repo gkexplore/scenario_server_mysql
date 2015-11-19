@@ -1,0 +1,20 @@
+<div class="container-fluid">
+
+  <div class="page-header">
+    <h3>Import Report from XML file</h3>
+  </div>
+  <%= form_tag({action: :upload_report}, multipart: true) do %>
+      <div class="row" style="padding-bottom:15px">
+        <div class="col-xs-6 text-right">Please select a valid xml file:</div>
+        <div class="col-xs-6"><%= file_field 'upload', 'datafile' %> </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6"></div>
+        <div class="col-xs-6">
+          <input type="submit" name="commit" value="Import Report" class="btn btn-primary" />
+        </div>
+      </div>
+  <% end %>
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              features_path, :class => 'btn btn-default'  %>
+</div>

@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
   get 'report/index'=>'report#report'
   get 'report/export'=>'report#export'
+  get 'report/import_report'=>'report#import_report'
+  post 'report/upload_report'=>'report#upload_report'
 
 
   get 'notfound/notfound_list'=>'notfound#notfound_list'

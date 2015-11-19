@@ -18,7 +18,7 @@
 		</thead>
 
 		<tbody>
-			<c:if test="${not empty @notfound_list}">
+      <%unless @notfound_list.blank? || @notfound_list.empty? || @notfound_list.nil?%>
 				<%@notfound_list.each do |notfound|%>
 					<tr>
 						<td>
@@ -35,7 +35,7 @@
 						</td>
 					</tr>
 				<%end%>
-			</c:if>
+      <%end%>
 		</tbody>
 	</table>
 

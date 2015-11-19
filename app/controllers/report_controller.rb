@@ -1,4 +1,5 @@
 class ReportController < ApplicationController
+  include ReportsHelper
 
   def report
   	  @device_list = DeviceReport.all
@@ -16,6 +17,27 @@ class ReportController < ApplicationController
 	  			 send_data DeviceReport.export_as_xml(params[:device_ip]), :type=>'xml', :disposition => 'attachment', :filename => 'Reports_'<<file_name	
  	  		end
  	  end
-  end
+	end
+
+	def import_report
+
+	end
+
+	def upload_report
+		begin
+        file = params[:upload]
+        logger.debug "content type is:::"+file['datafile'].content_type
+        if file['datafile'].content_type=="text/xml" || file['datafile'].content_type=="application/xml"
+          upload_report_xml(file)
+          File.delete("public/#{file['datafile'].original_filename}")
+          render :json => { :status => 'Ok', :message => 'Received'}, :status => 200
+        else
+          flash.now[:warning] = "Please upload a valid xml file!!!"
+          render :json => { :status => '400', :message => 'Please upload a valid xml file'}, :status => 400
+        end
+    rescue=>e
+			render :json => { :status => '404', :message => 'An error has been occurred while uploading stubs'}, :status => 404
+		end
+	end
 
 end
