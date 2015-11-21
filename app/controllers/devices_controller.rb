@@ -4,15 +4,19 @@
 	require "net/http"
 	require "uri"
 
-
-	class DevicesController < ApplicationController
+  class DevicesController < ApplicationController
 
 	use Rack::MethodOverride
+
 	skip_before_filter :verify_authenticity_token
+
     include DevicesHelper
 
+    def status
+      render :json => { :status => 'Ok', :message => 'Received'}, :status => 200
+    end
 
-        def delete_report
+	  def delete_report
 			@device = DeviceReport.find_by(:device_ip=>params[:device_ip])
 			unless @device.blank?
 				@device.device_scenarios.each do |device_scenario|
@@ -20,7 +24,7 @@
 				end
 			end
         	render :json => { :status => 'Ok', :message => 'Received'}, :status => 200 
-        end
+	  end
 
 		def respond_to_app_client
 			config =  Aadhiconfig.all

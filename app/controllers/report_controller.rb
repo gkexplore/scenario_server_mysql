@@ -30,13 +30,15 @@ class ReportController < ApplicationController
         if file['datafile'].content_type=="text/xml" || file['datafile'].content_type=="application/xml"
           upload_report_xml(file)
           File.delete("public/#{file['datafile'].original_filename}")
-          render :json => { :status => 'Ok', :message => 'Received'}, :status => 200
+          flash[:success] = "The report has been uploaded successfully!!!"
+          redirect_to '/report/index'
         else
           flash.now[:warning] = "Please upload a valid xml file!!!"
           render :json => { :status => '400', :message => 'Please upload a valid xml file'}, :status => 400
         end
     rescue=>e
-			render :json => { :status => '404', :message => 'An error has been occurred while uploading stubs'}, :status => 404
+        flash[:success] = 'An error has been occurred while uploading the report!!!'
+        redirect_to '/report/index'
 		end
 	end
 

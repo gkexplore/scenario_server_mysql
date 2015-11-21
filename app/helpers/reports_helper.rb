@@ -1,32 +1,31 @@
 
 module ReportsHelper
-  def upload_report_xml(file)
-    directory ="public"
-    path = File.join(directory,file['datafile'].original_filename)
-    File.open(path,"wb"){|f| f.write(file['datafile'].read)}
-    xdoc = Nokogiri::XML(File.read("#{directory}/#{file['datafile'].original_filename}"))
-    ( xdoc/'/features/feature' ).each {|feature|
 
-      feature_model = Feature.find_or_initialize_by(:feature_name=>(feature/'./feature-name').text)
-      feature_model.update(:feature_name=>(feature/'./feature-name').text)
+    def upload_report_xml(file)
 
-      (feature/'flows/flow').each {|flow|
-        flows = feature_model.flows.find_or_initialize_by(:flow_name=>(flow/'./flow-name').text)
-        flows.update(:flow_name=>(flow/'./flow-name').text)
+      directory ="public"
+      path = File.join(directory,file['datafile'].original_filename)
+      File.open(path,"wb"){|f| f.write(file['datafile'].read)}
+      xdoc = Nokogiri::XML(File.read("#{directory}/#{file['datafile'].original_filename}"))
 
+      ( xdoc/'/device-reports/device-report' ).each {|report|
 
-        (flow/'scenarios/scenario').each {|scenario|
-          scenarios = flows.scenarios.find_or_initialize_by(:scenario_name=>(scenario/'./scenario-name').text)
-          scenarios.update(:scenario_name=>(scenario/'./scenario-name').text)
+        device = DeviceReport.where(:device_ip=>(report/'./device-ip').text)
 
-          (scenario/'routes/route').each {|route|
-            routes = scenarios.routes.find_or_initialize_by(:path=>(route/'./path').text, :route_type=>(route/'./route-type').text)
-            routes.update(:route_type=>(route/'./route-type').text,:path=>(route/'./path').text,:request_body=>(route/'./request-body').text,:fixture=>(route/'./fixture').text,:status=>(route/'./status').text,:host=>(route/'./host').text)
+        unless device.blank?
+          device[0].destroy
+        end
 
+        device_report_model= DeviceReport.create(:device_ip=>(report/'./device-ip').text)
 
+        (report/'device-scenarios/device-scenario').each {|scenario|
+          scenario_model =  device_report_model.device_scenarios.create(:scenario_name=>(scenario/'./scenario-name').text)
+            (scenario/'scenario-routes/scenario-route').each {|route|
+               scenario_model.scenario_routes.create(:count=>route.count,:route_type=>(route/'./route-type').text,:path=>(route/'./path').text,:fixture=>(route/'./fixture').text,:status=>(route/'./status').text)
+            }
           }
         }
-      }
-    }
-  end
+
+    end
+
 end

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'stub/index'
   get '/'=>'features#index'
   delete 'delete_report'=>'devices#delete_report'
+  get 'status'=>'devices#status'
+
 
   put 'scenario/:scenario_name/:device_ip/:isReportRequired' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
   
