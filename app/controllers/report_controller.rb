@@ -37,7 +37,7 @@ class ReportController < ApplicationController
           render :json => { :status => '400', :message => 'Please upload a valid xml file'}, :status => 400
         end
     rescue=>e
-        flash[:success] = 'An error has been occurred while uploading the report!!!'
+        flash[:danger] = 'An error has been occurred while uploading the report!!!'
         redirect_to '/report/index'
 		end
 	end
