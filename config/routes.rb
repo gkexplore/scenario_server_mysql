@@ -1,14 +1,9 @@
 Rails.application.routes.draw do
 
-  get 'notfound/notfound'
-  get 'stub/index'
   get '/'=>'features#index'
-  delete 'delete_report'=>'devices#delete_report'
   get 'status'=>'devices#status'
 
 
-  put 'scenario/:scenario_name/:device_ip/:isReportRequired' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
-  
   post 'features/export'=>'features#export'
   get 'features/import_xml'=>'features#import_xml_index'
   post 'features/import_xml'=>'features#import_xml'
@@ -25,7 +20,7 @@ Rails.application.routes.draw do
   post 'scenarios/save_route'=>'scenarios#save_route'
   post 'scenarios/insert_or_update_routes'=>'scenarios#insert_or_update_routes'
   get 'scenarios/revert_marked_scenarios'=>'scenarios#revert_marked_scenarios'
-  
+  put 'scenario/:scenario_name/:device_ip/:isReportRequired' =>'devices#set_scenario',:constraints => { :device_ip => /[0-z\.]+/ }
 
 
   get 'stubs/poll_log'=>'stubs#poll_log'
@@ -43,6 +38,12 @@ Rails.application.routes.draw do
 
   get 'notfound/notfound_list'=>'notfound#notfound_list'
   delete 'notfound/clear_notfound_list'=>'notfound#clear_notfound_list'
+
+
+  get 'search/search_scenario_index'=>'search#search_scenario_index'
+  get 'search/search_route_index'=>'search#search_route_index'
+  get 'search/search_scenario'=>'search#search_scenario'
+  get 'search/search_route'=>'search#search_route'
   
 
   resources :notfound
@@ -57,7 +58,7 @@ Rails.application.routes.draw do
     end
   end
 
-
+  delete 'delete_report'=>'devices#delete_report'
   get '*path'=>'devices#respond_to_app_client'
   post '*path'=>'devices#respond_to_app_client'
   delete '*path'=>'devices#respond_to_app_client'

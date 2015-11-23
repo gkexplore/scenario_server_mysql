@@ -4,4 +4,9 @@ class Scenario < ActiveRecord::Base
   has_many:routes, dependent: :destroy
   has_many:devices, dependent: :destroy
   belongs_to :flow
+
+  def self.search(query)
+    where("scenario_name like ?", "%#{query}%")
+  end
+
 end

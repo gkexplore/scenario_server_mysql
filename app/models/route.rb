@@ -39,4 +39,8 @@ class Route < ActiveRecord::Base
       end   
   end
 
+  def self.search(query)
+    where("path like ?", "%#{query}%")
+  end
+
 end
