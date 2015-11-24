@@ -1,6 +1,6 @@
 <h4>Search Scenario</h4>
 <div class="form-group">
-  <input type="text" class="form-control" name="query"  id="search-field"/>
+  <input type="text" class="form-control" name="query"  id="search-field" placeholder="Type at least 2 characters to begin search"/>
 </div>
 <div id="result"></div>
 
@@ -9,13 +9,17 @@
     url = '/search/search_scenario';
      $("#search-field").keyup(function(){
        var query_string = $("#search-field").val();
-       $.ajax({
-         type: "GET",
-         url: url+"?query="+query_string,
-         success: function(result){
-            $("#result").html(result);
-         }
-       });
+        if(query_string.length>1){
+           $.ajax({
+             type: "GET",
+             url: url+"?query="+query_string,
+             success: function(result){
+                $("#result").html(result);
+             }
+           });
+        }else{
+          $("#result").html(" ");
+        }
      });
   });
 </script>

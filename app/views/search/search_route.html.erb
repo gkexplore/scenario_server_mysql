@@ -1,0 +1,11 @@
+
+<table class="table table-bordered;">
+  <%@search_result.each do |route| %>
+      <tr>
+        <td>
+          <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route.scenario[:id]%>/routes/<%=route[:id]%>"><%=route.path%></a> - <%=route.route_type%> </br> </br>
+          <a style="color: darkgreen" href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route.scenario[:id]%>"><%=route.scenario.flow.feature.feature_name%>-><%=route.scenario.flow.flow_name%>-><%=route.scenario.scenario_name%></a>
+        </td>
+      </tr>
+  <%end%>
+</table>

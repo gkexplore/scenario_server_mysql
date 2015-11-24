@@ -1,1 +1,26 @@
 <h4>Search Route</h4>
+<div class="form-group">
+  <input type="text" class="form-control" name="query"  id="search-field" placeholder="Type at least 3 characters to begin search"/>
+</div>
+<div id="result"></div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    url = '/search/search_route';
+    $("#search-field").keyup(function(){
+      var query_string = $("#search-field").val();
+      if(query_string.length>2) {
+        $.ajax({
+          type: "GET",
+          url: url + "?query=" + query_string,
+          success: function (result) {
+            $("#result").html(result);
+          }
+        });
+      }
+      else{
+        $("#result").html(" ");
+      }
+    });
+  });
+</script>
