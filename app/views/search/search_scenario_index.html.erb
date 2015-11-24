@@ -1,2 +1,21 @@
-<h1>Search#search</h1>
-<p>Find me in app/views/search/search.html.erb</p>
+<h4>Search Scenario</h4>
+<div class="form-group">
+  <input type="text" class="form-control" name="query"  id="search-field"/>
+</div>
+<div id="result"></div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    url = '/search/search_scenario';
+     $("#search-field").keyup(function(){
+       var query_string = $("#search-field").val();
+       $.ajax({
+         type: "GET",
+         url: url+"?query="+query_string,
+         success: function(result){
+            $("#result").html(result);
+         }
+       });
+     });
+  });
+</script>

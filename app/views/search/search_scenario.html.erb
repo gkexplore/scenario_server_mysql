@@ -1,0 +1,10 @@
+
+<table class="table table-bordered;">
+    <%@search_result.each do |scenario| %>
+        <tr>
+          <td>
+            <a href="/features/<%= scenario.flow[:feature_id] %>/flows/<%= scenario[:flow_id]%>/scenarios/<%=scenario[:id]%>"><%=scenario.flow.feature.feature_name%>-><%=scenario.flow.flow_name%>-><%=scenario.scenario_name%></a>
+          </td>
+        </tr>
+    <%end%>
+</table>
