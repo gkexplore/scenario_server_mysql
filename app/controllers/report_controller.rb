@@ -19,6 +19,18 @@ class ReportController < ApplicationController
  	  end
 	end
 
+	def scenarios_by_device
+			@device = DeviceReport.find_by(:id=>params[:device_id])
+			@device_scenarios = @device.device_scenarios
+			render layout: false
+	end
+
+	def routes_by_scenario
+			@device_scenario = DeviceScenario.find_by(:id=>params[:scenario_id])
+			@scenario_routes = @device_scenario.scenario_routes
+			render layout: false
+	end
+
 	def import_report
 
 	end

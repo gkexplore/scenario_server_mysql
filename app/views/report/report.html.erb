@@ -1,122 +1,3 @@
-
-<style type="text/css">
-
-        .css-treeview ul,
-        .css-treeview li
-        {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-
-        .css-treeview input
-        {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .css-treeview
-        {
-            font: normal 11px "Segoe UI", Arial, Sans-serif;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        .css-treeview a
-        {
-            color: #00f;
-            text-decoration: none;
-        }
-
-        .css-treeview a:hover
-        {
-            text-decoration: underline;
-        }
-
-        .css-treeview input + label + ul
-        {
-            margin: 0 0 0 22px;
-        }
-
-        .css-treeview input ~ ul
-        {
-            display: none;
-        }
-
-        .css-treeview label,
-        .css-treeview label::before
-        {
-            cursor: pointer;
-        }
-
-        .css-treeview input:disabled + label
-        {
-            cursor: default;
-            opacity: .6;
-        }
-
-        .css-treeview input:checked:not(:disabled) ~ ul
-        {
-            display: block;
-        }
-
-        .css-treeview label,
-        .css-treeview label::before
-        {
-            background: url("/assets/icons.png") no-repeat;
-        }
-
-        .css-treeview label,
-        .css-treeview a,
-        .css-treeview label::before
-        {
-            display: inline-block;
-            height: 16px;
-            line-height: 16px;,
-            vertical-align: middle;
-        }
-
-        .css-treeview label
-        {
-            background-position: 18px 0;
-        }
-
-        .css-treeview label::before
-        {
-            content: "";
-            width: 16px;
-            margin: 0 22px 0 0;
-            vertical-align: middle;
-            background-position: 0 -32px;
-        }
-
-        .css-treeview input:checked + label::before
-        {
-            background-position: 0 -16px;
-        }
-
-        /* webkit adjacent element selector bugfix */
-        @media screen and (-webkit-min-device-pixel-ratio:0)
-        {
-            .css-treeview 
-            {
-                -webkit-animation: webkit-adjacent-element-selector-bugfix infinite 1s;
-            }
-            
-            @-webkit-keyframes webkit-adjacent-element-selector-bugfix 
-            {
-                from 
-                { 
-                    padding: 0;
-                } 
-                to 
-                { 
-                    padding: 0;
-                }
-            }
-        }
-</style>
 <div class="container-fluid">
     <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
       <h4 >Report</h4>
@@ -124,50 +5,13 @@
     <div style="text-align:right">
         <a href="/report/import_report">Import Report</a>
     </div>
-    <div class="css-treeview"
+    <div class="report-treeview">
         <%@device_list.each do |device|%>
-          <ul>  
+          <ul class="device-ip">
               <li> 
-                <input type="checkbox" id="item-<%=device.id%>" />
-                <label for="item-<%=device.id%>"> <%=device.device_ip%></label>
-                    <ul>
-                    <%device.device_scenarios.each do |scenario|%>
-                        <li>
-                            <input type="checkbox" id="item-<%=device.id%>-<%=scenario.id%>" />
-                            <label for="item-<%=device.id%>-<%=scenario.id%>"><%=scenario.scenario_name%></label>
-                            <ul>
-                                <table class="table table-striped table-bordered"><%scenario.scenario_routes.each do |route| %>
-                                    <li>
-                                        <%if route.count == -1 || route.count == -2%>
-                                            <tr style="color:red">
-                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
-                                                </td>
-                                            </tr>
-  
-                                        <%elsif route.count>1%>
-                                            <tr style="color:orange">
-                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
-                                                </td>
-                                            </tr>
-
-                                        <%elsif route.count==0%>
-                                            <tr style="text-decoration:line-through">
-                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
-                                                </td>
-                                            </tr>    
-
-                                        <%else%>
-                                            <tr style="color:green">
-                                                <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
-                                                </td>
-                                            </tr>
-                                        <%end%>
-                                    </li>
-                                    <%end%> 
-                                </table>
-                            </ul>
-                            </li>
-                    <%end%> 
+                <a  id="<%=device.id%>"> <%=device.device_ip%></a>
+                    <ul id="device-scenario-<%=device.id%>" class="device-scenario">
+                    
                     </ul>
               </li>
           </ul> 
@@ -175,6 +19,39 @@
     </div>
 </div>
 
+<script type="text/javascript">
+  scenarios_by_device_url = '/report/scenarios_by_device';
+  routes_by_scenario_url = '/report/routes_by_scenario'
 
+  $(document).ready(function(){
+      $('.report-treeview .device-ip a').click(function(){
+        device_id = this.id;
+        $.ajax({
+          url: scenarios_by_device_url+"?device_id="+device_id,
+          success: function(response) {
+            $("#device-scenario-"+device_id).html(response);
+          }
+       });
+      });
 
+    $('.report-treeview .device-ip .device-scenario a').click(function(){
+      scenario_id = this.id;
+      alert('got it');
+      $.ajax({
+        url: routes_by_scenario_url+"?scenario_id="+scenario_id,
+        success: function(response) {
+          $("#scenario-route-"+scenario_id).html(response);
+        }
+      });
+    });
+
+  });
+</script>
+
+<style>
+  ul
+  {
+    list-style-type: none;
+  }
+</style>
  

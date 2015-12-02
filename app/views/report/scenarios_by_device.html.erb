@@ -1,0 +1,25 @@
+<%@device_scenarios.each do |scenario|%>
+    <li>
+        <a id="<%=scenario.id%>"><%=scenario.scenario_name%></a>
+        <ul id="scenario-route-<%=scenario.id%>">
+                
+        </ul>
+    </li>
+<%end%>
+
+<script type="text/javascript">
+
+  routes_by_scenario_url = '/report/routes_by_scenario'
+
+  $(document).ready(function(){
+    $('.report-treeview .device-ip .device-scenario a').click(function(){
+      scenario_id = this.id;
+      $.ajax({
+        url: routes_by_scenario_url+"?scenario_id="+scenario_id,
+        success: function(response) {
+          $("#scenario-route-"+scenario_id).html(response);
+        }
+      });
+    });
+  });
+</script>
