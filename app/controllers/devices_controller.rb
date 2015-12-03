@@ -17,14 +17,14 @@
     end
 
 	  def delete_report
-			@device = DeviceReport.find_by(:device_ip=>params[:device_ip])
-			unless @device.blank?
-				@device.device_scenarios.each do |device_scenario|
-					device_scenario.destroy
-				end
+		@device = DeviceReport.find_by(:device_ip=>params[:device_ip])
+		unless @device.blank?
+			@device.device_scenarios.each do |device_scenario|
+				device_scenario.destroy
 			end
 			@device.destroy
-			render :json => { :status => 'Ok', :message => 'Received'}, :status => 200
+		end
+		render :json => { :status => 'Ok', :message => 'Received'}, :status => 200
 	  end
 
 		def respond_to_app_client
