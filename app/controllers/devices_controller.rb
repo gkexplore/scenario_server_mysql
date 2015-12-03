@@ -64,8 +64,8 @@
 				    	@device_report.update(:device_ip=>params[:device_ip])
 				    	@scenario = @device_report.device_scenarios.create(:scenario_name=>@device.scenario.scenario_name)
 				    	@device.scenario.routes.each do |route|
-				    		@route = @scenario.scenario_routes.create(:path=>route.path, :route_type=>route.route_type, :status=>route.status)
-				    		@route.update(:path=>route.path, :route_type=>route.route_type, :status=>route.status)
+				    		@route = @scenario.scenario_routes.create(:path=>route.path, :fixture=>route.fixture, :route_type=>route.route_type, :status=>route.status)
+				    		@route.update(:path=>route.path, :fixture=>route.fixture, :route_type=>route.route_type, :status=>route.status)
 				    	end
 				    else
 				    	@device.update(scenario: @scenario, :isReportRequired=>params[:isReportRequired])
