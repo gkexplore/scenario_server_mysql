@@ -54,4 +54,21 @@ class ReportController < ApplicationController
 		end
 	end
 
+  def delete_report
+    begin
+      @device = DeviceReport.find_by(:device_ip=>params[:device_ip])
+      unless @device.blank?
+        @device.device_scenarios.each do |device_scenario|
+          device_scenario.destroy
+        end
+      end
+      @device.destroy
+      flash[:success] = "The report has been deleted successfully!!!"
+      redirect_to '/report/index'
+    rescue =>e
+      flash[:danger] = 'An error has been occurred while uploading the report!!!'
+      redirect_to '/report/index'
+    end
+  end
+
 end

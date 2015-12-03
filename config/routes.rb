@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   post 'report/upload_report'=>'report#upload_report'
   get 'report/scenarios_by_device'=>'report#scenarios_by_device'
   get 'report/routes_by_scenario'=>'report#routes_by_scenario'
+  delete 'report/delete_report'=>'report#delete_report'
 
 
   get 'notfound/notfound_list'=>'notfound#notfound_list'
