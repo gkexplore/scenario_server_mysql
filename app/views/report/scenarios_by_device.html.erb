@@ -1,7 +1,7 @@
 <%@device_scenarios.each do |scenario|%>
     <li>
         <a id="<%=scenario.id%>"><%=scenario.scenario_name%></a>
-        <ul id="scenario-route-<%=scenario.id%>">
+        <ul id="scenario-route-<%=scenario.id%>" style="display: none">
                 
         </ul>
     </li>
@@ -14,12 +14,18 @@
   $(document).ready(function(){
     $('.report-treeview .device-ip .device-scenario a').click(function(){
       scenario_id = this.id;
-      $.ajax({
-        url: routes_by_scenario_url+"?scenario_id="+scenario_id,
-        success: function(response) {
-          $("#scenario-route-"+scenario_id).html(response);
-        }
-      });
+      $flag = $(".report-treeview .device-ip .device-scenario #scenario-route-"+scenario_id).is(':visible');
+      if($flag){
+        $(".report-treeview #scenario-route-"+scenario_id).hide();
+      }else{
+        $.ajax({
+          url: routes_by_scenario_url+"?scenario_id="+scenario_id,
+          success: function(response) {
+            $(".report-treeview #scenario-route-"+scenario_id).show();
+            $("#scenario-route-"+scenario_id).html(response);
+          }
+        });
+      }
     });
   });
 </script>

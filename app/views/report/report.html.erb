@@ -1,3 +1,12 @@
+<style>
+  ul
+  {
+    list-style-type: none;
+  }
+  a{
+    cursor: pointer;
+  }
+</style>
 <div class="container-fluid">
     <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
       <h4 >Report</h4>
@@ -9,8 +18,8 @@
         <%@device_list.each do |device|%>
           <ul class="device-ip">
               <li> 
-                <a  id="<%=device.id%>"> <%=device.device_ip%></a>
-                    <ul id="device-scenario-<%=device.id%>" class="device-scenario">
+                <a  id="<%=device.id%>"> <%=device.device_ip%></a> <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/delete_report/?device_ip=<%=device.device_ip%>">Delete</a>
+                    <ul id="device-scenario-<%=device.id%>" class="device-scenario" style="display: none">
                     
                     </ul>
               </li>
@@ -21,37 +30,24 @@
 
 <script type="text/javascript">
   scenarios_by_device_url = '/report/scenarios_by_device';
-  routes_by_scenario_url = '/report/routes_by_scenario'
-
   $(document).ready(function(){
       $('.report-treeview .device-ip a').click(function(){
         device_id = this.id;
-        $.ajax({
-          url: scenarios_by_device_url+"?device_id="+device_id,
-          success: function(response) {
-            $("#device-scenario-"+device_id).html(response);
-          }
-       });
-      });
-
-    $('.report-treeview .device-ip .device-scenario a').click(function(){
-      scenario_id = this.id;
-      alert('got it');
-      $.ajax({
-        url: routes_by_scenario_url+"?scenario_id="+scenario_id,
-        success: function(response) {
-          $("#scenario-route-"+scenario_id).html(response);
+        $flag = $(".report-treeview #device-scenario-"+device_id).is(':visible');
+        if($flag){
+           $(".report-treeview .device-ip #device-scenario-"+device_id).hide();
+        }else{
+            $.ajax({
+              url: scenarios_by_device_url+"?device_id="+device_id,
+              success: function(response) {
+                $(".report-treeview #device-scenario-"+device_id).show();
+                $("#device-scenario-"+device_id).html(response);
+              }
+           });
         }
       });
-    });
-
   });
 </script>
 
-<style>
-  ul
-  {
-    list-style-type: none;
-  }
-</style>
+
  

@@ -23,7 +23,8 @@
 					device_scenario.destroy
 				end
 			end
-        	render :json => { :status => 'Ok', :message => 'Received'}, :status => 200 
+			@device.destroy
+			render :json => { :status => 'Ok', :message => 'Received'}, :status => 200
 	  end
 
 		def respond_to_app_client
