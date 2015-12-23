@@ -1,3 +1,8 @@
+<script type="text/javascript">
+    function highlight_scenario_with_duplicate(scenario_id){
+        $("#"+scenario_id).css("color","orange")
+    }
+  </script>
 <li>
     <table class="table table-striped table-bordered"><%@scenario_routes.each do |route| %>
 
@@ -8,6 +13,9 @@
                 </tr>
 
             <%elsif route.count>1%>
+            <script>    
+                    highlight_scenario_with_duplicate(<%=route.device_scenario.id%>)
+            </script>
                 <tr style="color:orange">
                     <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
                     </td>
@@ -29,3 +37,4 @@
         <%end%>
     </table>
   </li>
+  

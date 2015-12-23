@@ -20,8 +20,16 @@ class ReportController < ApplicationController
 	end
 
 	def scenarios_by_device
+      @scenario_ids = Array.new
 			@device = DeviceReport.find_by(:id=>params[:device_id])
 			@device_scenarios = @device.device_scenarios
+      @device_scenarios.each do |scenario| 
+          scenario.scenario_routes.each do |route|
+              if route.count>1
+                 @scenario_ids.push(route.device_scenario.id)
+              end
+          end
+      end
 			render layout: false
 	end
 

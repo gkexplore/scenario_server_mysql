@@ -1,6 +1,10 @@
 <%@device_scenarios.each do |scenario|%>
     <li>
-        <a id="<%=scenario.id%>"><%=scenario.scenario_name%></a>
+        <%if @scenario_ids.include?(scenario.id)%>
+           <a style="color:orange" id="<%=scenario.id%>"><%=scenario.scenario_name%></a>
+        <%else%>
+           <a id="<%=scenario.id%>"><%=scenario.scenario_name%></a>
+        <%end%>
         <ul id="scenario-route-<%=scenario.id%>" style="display: none">
                 
         </ul>

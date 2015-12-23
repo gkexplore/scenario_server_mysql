@@ -7,16 +7,10 @@ class NotfoundController < ApplicationController
   end
 
   def notfound_list
-  	begin
-      if params[:device_ip].empty? || params[:device_ip].blank?
-      	 @notfound_list = Notfound.all.reverse 
-      else
-         @notfound_list = Notfound.where(:device_ip=>params[:device_ip]) 
+      unless params[:device_ip].empty? || params[:device_ip].blank?
+          @notfound_list = Notfound.where(:device_ip=>params[:device_ip]) 
       end
       render layout: false
-  	rescue=>e
-  		flash[:danger] = "An error has been occurred while retrieving the device and scenario details"
-  	end
   end
 
   def clear_notfound_list
