@@ -8,6 +8,7 @@
   }
 
 </style>
+
 <div class="container-fluid">
     <div style="margin-bottom: 20px;padding-bottom: 5px;border-bottom: 1px solid #eaeaea;">
       <h4 >Report</h4>
@@ -29,7 +30,9 @@
                         </td>
                       </tr>
                       <tr>
+
                         <td colspan="2" style="border-top: 0px;padding: 0px;">
+                          <img id="indicator-<%=device.id%>" style="display:none" src="/assets/ajax-loader.gif">
                           <ul id="device-scenario-<%=device.id%>" class="device-scenario" style="display: none">
 
                           </ul>
@@ -48,13 +51,16 @@
   $(document).ready(function(){
       $('.report-treeview .device-ip a').click(function(){
         device_id = this.id;
+        $("#indicator-"+device_id).css("display","block")
         $flag = $(".report-treeview #device-scenario-"+device_id).is(':visible');
         if($flag){
-           $(".report-treeview .device-ip #device-scenario-"+device_id).hide();
+          $("#indicator-"+device_id).css("display","none")
+          $(".report-treeview .device-ip #device-scenario-"+device_id).hide();
         }else{
             $.ajax({
               url: scenarios_by_device_url+"?device_id="+device_id,
               success: function(response) {
+                $("#indicator-"+device_id).css("display","none")
                 $(".report-treeview #device-scenario-"+device_id).show();
                 $("#device-scenario-"+device_id).html(response);
               }

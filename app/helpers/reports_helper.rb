@@ -21,7 +21,7 @@ module ReportsHelper
         (report/'device-scenarios/device-scenario').each {|scenario|
           scenario_model =  device_report_model.device_scenarios.create(:scenario_name=>(scenario/'./scenario-name').text)
             (scenario/'scenario-routes/scenario-route').each {|route|
-               scenario_model.scenario_routes.create(:count=>route.count,:route_type=>(route/'./route-type').text,:path=>(route/'./path').text,:fixture=>(route/'./fixture').text,:status=>(route/'./status').text)
+               scenario_model.scenario_routes.create(:count=>(route/'./count').text,:route_type=>(route/'./route-type').text,:path=>(route/'./path').text,:fixture=>(route/'./fixture').text,:status=>(route/'./status').text)
             }
           }
         }
