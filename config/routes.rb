@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   get '/'=>'features#index'
   get 'status'=>'devices#status'
+  delete 'clear_all_logs'=>'devices#clear_all_logs'
+  put 'set_default_mode'=>'devices#set_default_mode'
 
 
   post 'features/export'=>'features#export'
