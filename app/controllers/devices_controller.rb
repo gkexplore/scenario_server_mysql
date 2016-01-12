@@ -71,6 +71,8 @@
 
 	def set_scenario
 	    begin
+	      @configs = Aadhiconfig.all
+	      @configs[0].update(:server_mode=>"default")
 		  @scenario = Scenario.find_by(:scenario_name=>params[:scenario_name])
 		  if @scenario.blank?
 		  		logger.debug "Invalid scenario: #{params[:scenario_name]}"
