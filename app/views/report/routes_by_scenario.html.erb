@@ -6,7 +6,7 @@
 <li>
     <table class="table table-striped table-bordered"><%@scenario_routes.each do |route| %>
 
-            <%if route.count == -1 || route.count == -2%>
+            <%if route.count<0%>
                 <tr style="color:red">
                     <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
                     </td>
@@ -27,7 +27,7 @@
                     </td>
                 </tr>
 
-            <%else%>
+            <%elsif route.count==1%>
                 <tr style="color:green">
                     <td style="word-break: break-all;" width="95%"><%=route.path%></td><td width="5%"><%=route.count%>
                     </td>
