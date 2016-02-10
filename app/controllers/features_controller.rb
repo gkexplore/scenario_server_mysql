@@ -7,7 +7,7 @@ class FeaturesController < ApplicationController
 	
 	def index
 		begin
-			@features = Feature.all
+			@features = Feature.order("feature_name ASC")
 			@flows = Flow.all
 			@scenarios = Scenario.all
 		rescue=>e
