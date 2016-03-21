@@ -1,12 +1,12 @@
 AADHI(Scenario Server)
 
-Please follow the below DOC to install aadhi using setup script
+Please follow the below Doc. to install aadhi using setup script
 
 https://github.com/gkexplore/AadhiSetup/blob/master/README.md
 
 *OR*
 
-Please follow the below DOC to install aadhi manually
+Please follow the below Doc. to install aadhi manually
 
 Aadhi can be used to setup a quick local api server. 
 PFB the list features available in the scenario server:-
