@@ -1,6 +1,14 @@
-Scenario Server
+AADHI(Scenario Server)
 
-Scenario Server can be used to setup a quick local api server. 
+Please follow the below DOC to install aadhi using setup script
+
+https://github.com/gkexplore/AadhiSetup/blob/master/README.md
+
+__OR__
+
+Please follow the below DOC to install aadhi manually
+
+Aadhi can be used to setup a quick local api server. 
 PFB the list features available in the scenario server:-
        1.Eliminate dependency with actual production environment
             Using actual production/test environment for automation would be cumbersome as there are more chances of false failures due to network latency and change in data setup. Scenario server will help us to run the automation in stable environment and would eliminate  false failures.
