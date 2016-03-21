@@ -4,7 +4,7 @@ Please follow the below DOC to install aadhi using setup script
 
 https://github.com/gkexplore/AadhiSetup/blob/master/README.md
 
-                               *(OR)*
+                               **(OR)**
 
 Please follow the below DOC to install aadhi manually
 
