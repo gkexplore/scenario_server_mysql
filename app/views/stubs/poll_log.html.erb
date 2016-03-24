@@ -5,6 +5,7 @@
       <th></th>
       <th>Request URL</th>
       <th>Route Type</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
@@ -66,6 +67,7 @@
        
         <td style="word-break: break-all;"><%= stub.request_url %></td>
         <td><%= stub.route_type %></td>
+        <td><%= stub.status%>
         <td> <a data-confirm="Are you sure?" class="btn btn-xs btn-danger" rel="nofollow" data-method="delete" href="/stubs/<%= stub.id%>">Delete</a></td>
       </tr>
       <%end%>

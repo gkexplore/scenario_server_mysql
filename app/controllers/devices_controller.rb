@@ -75,7 +75,7 @@
 	      @configs[0].update(:server_mode=>"default")
 		  @scenario = Scenario.find_by(:scenario_name=>params[:scenario_name])
 		  if @scenario.blank?
-		  		logger.debug "Invalid scenario: #{params[:scenario_name]}"
+		  		logger.fatal "Invalid scenario: #{params[:scenario_name]} \n"
 		    	render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 		  else
 			    @device = Device.find_or_initialize_by(:device_ip=>params[:device_ip])
@@ -94,7 +94,7 @@
 					render :json => { :status => 'Ok', :message => 'Received'}, :status => 200 
 		  end
 		rescue =>e
-				logger.error "An error has been occurred in Set_Scenario #{e.class.name} : #{e.message}"
+				logger.fatal "An error has been occurred in Set_Scenario #{e.class.name} : #{e.message} \n"
 				render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 		end
 	end
@@ -117,7 +117,7 @@
 			end
 		    render json: response.body, :status => response.code
 		rescue=>e
-			logger.error "An error has been occurred while hitting the API server!!! #{e.class.name} : #{e.message}"
+			logger.fatal "An error has been occurred while hitting the API server!!! URL:#{host}#{path}/?#{query} ERROR: #{e.class.name} : #{e.message} \n"
 			render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 		end  
 	end
@@ -149,7 +149,7 @@
 				end
 			end
 		rescue =>e
-			logger.error "An error has been occurred in respond_to_client #{e.class.name} : #{e.message}"
+			logger.fatal "An error has been occurred in respond_to_client #{e.class.name} : #{e.message} \n"
 			render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 		end
 	end
@@ -180,7 +180,7 @@
 				end
 			end
 		rescue =>e
-			logger.error "An error has been occurred in respond_to_client #{e.class.name} : #{e.message}"
+			logger.fatal "An error has been occurred in respond_to_client #{e.class.name} : #{e.message}\n"
 			render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 		end
 	end
