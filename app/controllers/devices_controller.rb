@@ -112,6 +112,8 @@
 			     	 response = conn.post(path, query, body, self.request)
 			    when METHOD::PUT
 			      	 response = conn.put(path, query, body, self.request)
+			    when METHOD::PATCH
+			      	 response = conn.patch(path, query, body, self.request)
 			    when METHOD::DELETE
 			     	 response = conn.delete(path, query, body, self.request)
 			end

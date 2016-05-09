@@ -21,6 +21,10 @@ class Connection
 		      return make_request :put, path, params, body, request
 		  end
 
+		  def patch(path, params, body, request)
+		      return make_request :patch, path, params, body, request
+		  end
+
 		  def delete(path, params, body, request)
 		      return make_request :delete, path, params, body, request
 		  end
@@ -38,6 +42,10 @@ class Connection
 				       req = form_request_headers(request, req)
 			    when :put
 				       req = Net::HTTP::Put.new uri
+				       req.body = body
+				       req = form_request_headers(request, req)
+				when :patch
+				       req = Net::HTTP::Patch.new uri
 				       req.body = body
 				       req = form_request_headers(request, req)
 			    when :delete
