@@ -68,5 +68,6 @@ Rails.application.routes.draw do
   post '*path'=>'devices#respond_to_app_client'
   delete '*path'=>'devices#respond_to_app_client'
   put '*path'=>'devices#respond_to_app_client'
+  patch '*path'=>'devices#respond_to_app_client'
   
 end
