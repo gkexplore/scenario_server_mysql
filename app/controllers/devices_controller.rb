@@ -137,6 +137,7 @@
 	private
 	def make_request
 		begin
+			logger.fatal "Device IP:"+get_ip_address.to_s
 			@device = Device.find_by(:device_ip=>get_ip_address)
 			if @device.blank?
 				log_notfound_request(get_path_query, request.method, get_ip_address)
@@ -159,6 +160,7 @@
 	private 
 	def make_request_report
 		begin
+			logger.fatal "Device IP:"+get_ip_address.to_s
 			@device = DeviceReport.find_by(:device_ip=>get_ip_address)
 			@scenario = @device.device_scenarios.last
 			if @device.blank?
