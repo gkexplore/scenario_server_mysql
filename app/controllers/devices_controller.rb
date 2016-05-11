@@ -101,10 +101,11 @@
 
     private
 	def make_request_to_actual_api(method, config)
-		begin
-		   	host, path, query, body = get_request_details
-		    conn = Connection.new(host, config)
-		    response = ""
+		
+	   	host, path, query, body = get_request_details
+	    conn = Connection.new(host, config)
+	    response = ""
+	    t = Thread.new{
 		    case method
 			    when METHOD::GET
 			    	 response = conn.get(path, query, body, self.request)
@@ -117,11 +118,11 @@
 			    when METHOD::DELETE
 			     	 response = conn.delete(path, query, body, self.request)
 			end
-		    render json: response.body, :status => response.code
-		rescue=>e
-			logger.fatal "An error has been occurred while hitting the API server!!! URL:#{host}#{path}/?#{query} ERROR: #{e.class.name} : #{e.message} \n"
-			render :json => { :status => '404', :message => 'Not Found'}, :status => 404
-		end  
+		}
+		t.join
+		save_stubs(host+path<<"?"<<query, method, body, t.value[0], host, request, t.value[1].to_hash)
+	    render json: t.value[0].body, :status => t.value[0].code
+		
 	end
 
 
@@ -190,60 +191,68 @@
 	end
 
 	private 
-	def get_request_details
-		body = request.body.read
-	    host_path = request.host + request.path
-	    query = request.query_string
-	    path_array = host_path.split("/")
-	    path_array.delete_at(0)
-	    host = request.env["rack.url_scheme"]+"://"+path_array[0]
-	    path = get_path(host_path)
-		[host, path, query, body] 
-	end
+		def get_request_details
+			body = request.body.read
+		    host_path = request.host + request.path
+		    query = request.query_string
+		    path_array = host_path.split("/")
+		    path_array.delete_at(0)
+		    host = request.env["rack.url_scheme"]+"://"+path_array[0]
+		    path = get_path(host_path)
+			[host, path, query, body] 
+		end
 
 	private 
-	def get_ip_address
-		remote_ip = request.remote_ip
-		if remote_ip==DEFAULT_LOCALHOST
-		 ip_address = LOCALHOST
-		else
-		 ip_address = remote_ip
+		def get_ip_address
+			remote_ip = request.remote_ip
+			if remote_ip==DEFAULT_LOCALHOST
+			 ip_address = LOCALHOST
+			else
+			 ip_address = remote_ip
+			end
 		end
-	end
 
 	private 
-	def get_path_query
-		host_path = request.host + request.path
-	   	query = request.query_string
-	 	path = get_path(host_path)				
-		url = URI.parse(request.url)
-		sorted_string = Hash[request.query_parameters.sort]
-		query = sorted_string.to_query
-		if query.to_s.strip.length != 0
-			query = "?"<<query
+		def get_path_query
+			host_path = request.host + request.path
+		   	query = request.query_string
+		 	path = get_path(host_path)				
+			url = URI.parse(request.url)
+			sorted_string = Hash[request.query_parameters.sort]
+			query = sorted_string.to_query
+			if query.to_s.strip.length != 0
+				query = "?"<<query
+			end
+			received_path = "#{path}#{query}"
 		end
-		received_path = "#{path}#{query}"
-	end
 
 	private
-	def get_path(host_path)
-		path_array = host_path.split("/")
-		path_array.delete_at(0)
-		path_array.delete_at(0)
-		if path_array.include? "http"
-	       path_array.delete("http")
+		def get_path(host_path)
+			path_array = host_path.split("/")
+			path_array.delete_at(0)
+			path_array.delete_at(0)
+			if path_array.include? "http"
+		       path_array.delete("http")
+			end
+		    final_path = ""
+		    path_array.each do |t|
+		      final_path<<"/"<<t
+		    end
+			path = final_path.gsub("//","/")
 		end
-	    final_path = ""
-	    path_array.each do |t|
-	      final_path<<"/"<<t
-	    end
-		path = final_path.gsub("//","/")
-	end
 
 	private 
 		def log_notfound_request(url, method, ip_address, scenario_name="--")
-			Notfound.create(:url=>url, :method=>method, :device_ip=>ip_address, :scenario_name=>scenario_name)
+				Notfound.create(:url=>url, :method=>method, :device_ip=>ip_address, :scenario_name=>scenario_name)
 		end
+
+	 private
+		def save_stubs(url, method, body, response, host, request, headers)
+			@route = Stub.create(:request_url=>url, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.code, :host=>host, :remote_ip=>request.remote_ip, :headers=>headers)
+			 if @route.save 
+				Rails.logger.debug "Stub has been successfully saved in DB"
+		end
+	end
 end
 
 
