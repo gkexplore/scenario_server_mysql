@@ -66,7 +66,8 @@ skip_before_filter :verify_authenticity_token
 
   def clear_server_log  
     begin
-        File.truncate('/var/www/scenario_server_mysql/log/development.log', 0)
+       log = File.join(Rails.root, "log", "#{ Rails.env }.log")
+        File.truncate(log, 0)
         flash[:success] = "The server log has been emptied successfully!!!"
         redirect_to '/stubs/server_log'
       rescue=>e

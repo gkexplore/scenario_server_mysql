@@ -48,6 +48,7 @@
     end
 
 	def respond_to_app_client
+		logger.fatal "Device IP:"+get_ip_address.to_s
 		config =  Aadhiconfig.all
 		case config[0].server_mode
 			when SERVER_MODE::REFRESH
