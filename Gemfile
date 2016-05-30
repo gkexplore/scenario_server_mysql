@@ -28,6 +28,13 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'bootstrap-sass'
+
+
+
+gem 'rack-cache'
+gem 'dalli'
+gem 'kgio'
+
 #gem 'passenger', '5.0.28'
 
 # Use ActiveModel has_secure_password

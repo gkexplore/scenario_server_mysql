@@ -145,7 +145,7 @@
 				log_notfound_request(get_path_query, request.method, get_ip_address)
 				render :json => { :status => '404', :message => 'Not Found'}, :status => 404
 			else
-				@route = @device.scenario.routes.find_by(:path=>get_path_query, :route_type=>request.method)
+				@route = @device.find_route(get_path_query, request.method)
 				if @route.blank?
 					log_notfound_request(get_path_query, request.method, get_ip_address, @device.scenario.scenario_name)
 					render :json => { :status => '404', :message => 'Not Found'}, :status => 404

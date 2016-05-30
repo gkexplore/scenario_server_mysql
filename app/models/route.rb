@@ -1,5 +1,6 @@
 class Route < ActiveRecord::Base
   belongs_to :scenario
+  after_update :flush_route_hash
 
   def self.save_route(scenario, params)
 	  params[:path] = sort_query_parameters("http://localhost"+params[:path])
@@ -41,6 +42,10 @@ class Route < ActiveRecord::Base
 
   def self.search(query)
     where("path like ?", "%#{query}%")
+  end
+
+  def flush_route_hash
+     Rails.cache.delete([:scenario, scenario_id, path])
   end
 
 end
