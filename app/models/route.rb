@@ -45,7 +45,7 @@ class Route < ActiveRecord::Base
   end
 
   def flush_route_hash
-     Rails.cache.delete([:scenario, scenario_id, path])
+     Rails.cache.delete([:scenario, scenario_id, path, route_type.upcase])
   end
 
 end
