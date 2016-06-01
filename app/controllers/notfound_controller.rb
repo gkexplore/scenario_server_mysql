@@ -7,7 +7,7 @@ class NotfoundController < ApplicationController
   end
 
   def notfound_list
-      unless params[:device_ip].empty? || params[:device_ip].blank?
+      unless params[:device_ip].nil? || params[:device_ip].blank?
           @notfound_list = Notfound.where(:device_ip=>params[:device_ip]) 
       end
       render layout: false
