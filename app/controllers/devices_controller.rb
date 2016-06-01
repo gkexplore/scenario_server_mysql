@@ -11,6 +11,7 @@
 	skip_before_filter :verify_authenticity_token
 
     include DevicesHelper
+    include AadhiModelUtil
 
     def status
      	render :json => { :status => 'Ok', :message => 'Received'}, :status => 200
@@ -218,13 +219,8 @@
 			host_path = request.host + request.path
 		   	query = request.query_string
 		 	path = get_path(host_path)				
-			url = URI.parse(request.url)
-			sorted_string = Hash[request.query_parameters.sort]
-			query = sorted_string.to_query
-			if query.to_s.strip.length != 0
-				query = "?"<<query
-			end
-			received_path = "#{path}#{query}"
+			sorted_path = sort_query_parameters("http://localhost"+path+"?"+query)
+			received_path = sorted_path
 		end
 
 	private
