@@ -2,6 +2,10 @@ class Route < ActiveRecord::Base
   belongs_to :scenario
   after_update :flush_route_hash
 
+  searchable do
+    text :path
+  end
+
   def self.save_route(scenario, params)
 	  params[:path] = sort_query_parameters("http://localhost"+params[:path])
 	  route = scenario.routes.create(params)
@@ -41,7 +45,7 @@ class Route < ActiveRecord::Base
   end
 
   def self.search(query)
-    where("path like ?", "%#{query}%")
+     where("path like ?", "%#{query}%")
   end
 
   def flush_route_hash
