@@ -50,7 +50,7 @@
     end
 
 	def respond_to_app_client
-		logger.fatal "Device IP:"+get_ip_address.to_s
+		log_device_ip
 		config =  Aadhiconfig.all
 		case config[0].server_mode
 			when SERVER_MODE::REFRESH
@@ -141,7 +141,7 @@
 	private
 	def make_request
 		begin
-			logger.fatal "Device IP:"+get_ip_address.to_s
+			log_device_ip
 			@device = Device.find_by(:device_ip=>get_ip_address)
 			if @device.blank?
 				log_notfound_request(get_path_query, request.method, get_ip_address)
@@ -164,7 +164,7 @@
 	private 
 	def make_request_report
 		begin
-			logger.fatal "Device IP:"+get_ip_address.to_s
+			log_device_ip
 			@device = DeviceReport.find_by(:device_ip=>get_ip_address)
 			@scenario = @device.device_scenarios.last
 			if @device.blank?
@@ -248,9 +248,13 @@
 		def save_stubs(url, method, body, response, host, request, headers)
 			@route = Stub.create(:request_url=>url, :route_type=>method, :request_body=>body, :response=>response.body, :status=>response.code, :host=>host, :remote_ip=>request.remote_ip, :headers=>headers)
 			 if @route.save 
-				Rails.logger.debug "Stub has been successfully saved in DB"
+				logger.fatal "Stub has been successfully saved in DB"
+		     end
 		end
-	end
+	private 
+	    def log_device_ip
+             logger.fatal "Device IP:"+get_ip_address.to_s
+	    end
 end
 
 
