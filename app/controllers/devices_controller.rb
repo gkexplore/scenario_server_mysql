@@ -32,6 +32,7 @@
     	begin
     		Notfound.delete_all
     		File.truncate('/var/www/scenario_server_mysql/log/development.log', 0)
+    		File.truncate('/var/www/scenario_server_mysql/log/production.log', 0)
     		render :json => { :status => 'Ok', :message => 'All the logs have been cleared successfully!!!'}, :status => 200
     	rescue=>e
     		render :json => { :status => '404', :message => 'An error has been occurred while clearing the logs!!!'}, :status => 404
