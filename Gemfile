@@ -30,6 +30,7 @@ gem 'dalli'
 
 #solr indexing
 gem 'sunspot_rails'
+gem 'sunspot_solr'
 
 group :development, :test do
  

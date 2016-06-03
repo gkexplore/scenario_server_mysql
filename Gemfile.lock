@@ -166,6 +166,7 @@ GEM
       nokogiri
       rails (>= 3)
       sunspot (= 2.2.5)
+    sunspot_solr (2.2.5)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -207,6 +208,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   spring
   sunspot_rails
+  sunspot_solr
   therubyracer
   turbolinks
   twitter-bootstrap-rails

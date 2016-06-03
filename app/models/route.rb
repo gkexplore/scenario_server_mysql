@@ -4,6 +4,7 @@ class Route < ActiveRecord::Base
 
   searchable do
     text :path
+    text :route_type
   end
 
   def self.save_route(scenario, params)
@@ -44,9 +45,9 @@ class Route < ActiveRecord::Base
       end   
   end
 
-  def self.search(query)
-     where("path like ?", "%#{query}%")
-  end
+ # def self.search(query)
+  #   where("path like ?", "%#{query}%")
+  #end
 
   def flush_route_hash
      Rails.cache.delete([:scenario, scenario_id, path, route_type.upcase])
