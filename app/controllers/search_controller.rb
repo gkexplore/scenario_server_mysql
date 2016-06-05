@@ -1,11 +1,18 @@
 class SearchController < ApplicationController
 
   def search_scenario_index
-
+     
   end
 
   def search_route_index
-
+     @search_result = Route.search do
+        fulltext params[:query]
+        with(:path, params[:path]) unless params[:path].blank?
+        with(:route_type, params[:route_type]) unless params[:route_type].blank?
+        facet :path
+        facet :route_type
+        paginate :page => params[:page], :per_page => 20
+     end
   end
 
   def search_scenario

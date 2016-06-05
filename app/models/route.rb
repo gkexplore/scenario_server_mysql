@@ -4,8 +4,9 @@ class Route < ActiveRecord::Base
 
   searchable do
     text :path
-    text :route_type
+    text :route_type, :fixture
     string :path
+    string :route_type
   end
 
   def self.save_route(scenario, params)

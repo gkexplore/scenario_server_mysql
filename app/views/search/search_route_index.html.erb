@@ -1,26 +1,72 @@
 <h4>Search Route</h4>
 <div class="form-group">
-  <input type="text" class="form-control" name="query"  id="search-field" placeholder="Type at least 3 characters to begin search"/>
+<%= form_tag search_search_route_index_path, :method => :get do %>
+  <p>
+    <%= text_field_tag :query, params[:query] %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+ 
 </div>
-<div id="result"></div>
 
-<script type="text/javascript">
-  $(document).ready(function(){
-    url = '/search/search_route';
-    $("#search-field").keyup(function(){
-      var query_string = $("#search-field").val();
-      if(query_string.length>2) {
-        $.ajax({
-          type: "GET",
-          url: url + "?query=" + query_string,
-          success: function (result) {
-            $("#result").html(result);
-          }
-        });
-      }
-      else{
-        $("#result").html(" ");
-      }
-    });
-  });
-</script>
+<div class="text-right">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Filter</button>
+</div> 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Filter</h4>
+      </div>
+       <div class="modal-body">
+       <h4 class="modal-title" id="exampleModalLabel">By Route</h4>
+          <table class="table table-bordered;">
+            <% for row in @search_result.facet(:path).rows %>
+              <tr><td>
+                <% if params[:path].blank? %>
+                  <%= link_to row.value, :path => row.value %> (<%= row.count %>)
+                <% else %>
+                  <strong><%= row.value %></strong> (<%= link_to "remove", :path => nil %>)
+                <% end %>
+              </td></tr>
+            <% end %>
+          </table>
+          <h4 class="modal-title" id="exampleModalLabel">By Method</h4>
+          <table class="table table-bordered;">
+              <% for row in @search_result.facet(:route_type).rows %>
+                <tr><td>
+                  <% if params[:route_type].blank? %>
+                    <%= link_to row.value, params.merge(:route_type => row.value)%> (<%= row.count %>)
+                  <% else %>
+                    <strong><%= row.value %></strong> (<%= link_to "remove", :route_type => nil %>)
+                  <% end %>
+                </td></tr>
+              <% end %>
+          </table>
+       </div>
+      </div>
+      </div>
+    </div>
+
+  
+  <h3>Path (<%=@search_result.total%>)</h3>
+
+
+<table class="table table-bordered;">
+  <%@search_result.results.each do |route| %>
+      <tr>
+        <td>
+          <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route.scenario[:id]%>/routes/<%=route[:id]%>"><%=route.path%></a> - <%=route.route_type%> </br> </br>
+          <a style="color: darkgreen" href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route.scenario[:id]%>"><%=route.scenario.flow.feature.feature_name%>-><%=route.scenario.flow.flow_name%>-><%=route.scenario.scenario_name%></a>
+        </td>
+      </tr>
+  <%end%>
+</table>
+
+<%=paginate @search_result.hits%>
+
+
+
+

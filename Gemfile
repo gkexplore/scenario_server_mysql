@@ -31,6 +31,7 @@ gem 'dalli'
 #solr indexing
 gem 'sunspot_rails'
 gem 'sunspot_solr'
+gem 'kaminari'
 
 group :development, :test do
  
