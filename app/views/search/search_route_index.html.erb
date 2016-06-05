@@ -1,3 +1,4 @@
+
 <h4>Search Route</h4>
 <div class="form-group">
 <%= form_tag search_search_route_index_path, :method => :get do %>
@@ -14,7 +15,7 @@
 </div> 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -26,7 +27,8 @@
             <% for row in @search_result.facet(:path).rows %>
               <tr><td>
                 <% if params[:path].blank? %>
-                  <%= link_to row.value, :path => row.value %> (<%= row.count %>)
+                  <%= link_to row.value, :path => row.value, :style => 'overflow-wrap: break-word;
+  word-wrap: break-word;' %> (<%= row.count %>)
                 <% else %>
                   <strong><%= row.value %></strong> (<%= link_to "remove", :path => nil %>)
                 <% end %>
