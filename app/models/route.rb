@@ -5,6 +5,7 @@ class Route < ActiveRecord::Base
   searchable do
     text :path
     text :route_type
+    string :path
   end
 
   def self.save_route(scenario, params)

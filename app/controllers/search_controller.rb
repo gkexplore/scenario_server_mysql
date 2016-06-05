@@ -15,12 +15,13 @@ class SearchController < ApplicationController
 
   def search_route
      # @search_result = Route.search(params[:query])
-      @routes = Route.search do
+      @search_result = Route.search do
           fulltext params[:query]
-           keywords params[:query]
+          with(:path, params[:path]) unless params[:path].blank?
+          facet :path
        end
 
-       logger.debug @routes.results
+      # logger.debug @routes.results
       render layout: false
   end
 

@@ -1,6 +1,20 @@
+<div id="facets">
+  <h3>Path</h3>
+  <ul style="list-style-type: none;">
+    <% for row in @search_result.facet(:path).rows %>
+      <li>
+        <% if params[:path].blank? %>
+          <%= link_to row.value, :path => row.value %> (<%= row.count %>)
+        <% else %>
+          <strong><%= row.value %></strong> (<%= link_to "remove", :path => nil %>)
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
 
 <table class="table table-bordered;">
-  <%@search_result.each do |route| %>
+  <%@search_result.results.each do |route| %>
       <tr>
         <td>
           <a href="/features/<%= route.scenario.flow[:feature_id] %>/flows/<%= route.scenario[:flow_id]%>/scenarios/<%=route.scenario[:id]%>/routes/<%=route[:id]%>"><%=route.path%></a> - <%=route.route_type%> </br> </br>
