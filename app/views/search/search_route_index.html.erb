@@ -13,6 +13,9 @@
 <div class="text-right">
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Filter</button>
 </div> 
+<div class="text-center">
+  <%=paginate @search_result.hits%>
+</div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog modal-lg" role="document" style="width:100%">
@@ -67,7 +70,7 @@
   <%end%>
 </table>
 
-<%=paginate @search_result.hits%>
+
 
 
 

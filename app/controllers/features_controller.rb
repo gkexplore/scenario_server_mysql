@@ -7,9 +7,7 @@ class FeaturesController < ApplicationController
 	
 	def index
 		begin
-			@features = Feature.order("feature_name ASC")
-			@flows = Flow.all
-			@scenarios = Scenario.all
+			@features = Feature.order("feature_name ASC").page(params[:page]).per(30)
 		rescue=>e
 			flash[:danger] = "An error has been occurred while retrieving all the features #{e.class.name}: #{e.message}"
 		end
