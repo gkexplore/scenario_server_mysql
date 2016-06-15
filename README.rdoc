@@ -1,9 +1,9 @@
 AADHI(Scenario Server)
 
-Aadhi can be used to setup a quick local api server. 
+Usage: 
 
        1.Eliminate dependency with actual production environment
-            Using actual production/test environment for automation would be cumbersome as there are more chances of false failures due to network latency and change in data setup. Scenario server will help us to run the automation in stable environment and would eliminate  false failures.
+            Using actual production/test environment for automation would be cumbersome as there are more chances of false failures due to network latency and change in data setup. Aadhi will help us to run the automation in stable environment and would eliminate false failures.
        2. Multiple Device support
                 It has the capability to give response to multiple devices simultaneously
         3. Export and Import feature
