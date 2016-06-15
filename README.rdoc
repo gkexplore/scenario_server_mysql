@@ -1,13 +1,5 @@
 AADHI(Scenario Server)
 
-Please follow the below Doc. to install aadhi using setup script
-
-https://github.com/gkexplore/AadhiSetup/blob/master/README.md
-
-*OR*
-
-Please follow the below Doc. to install aadhi manually
-
 Aadhi can be used to setup a quick local api server. 
 PFB the list features available in the scenario server:-
        1.Eliminate dependency with actual production environment
@@ -18,137 +10,20 @@ PFB the list features available in the scenario server:-
               Multiple users can work on the same feature without any conflicts
         4. Refreshing the stubs using the scenario server is easy as the model has been designed to capture  all the required data's for hitting the actual production API.
         5. Displaying the JSON responses in pretty JSON format
+        
+        
+Please follow the below steps to install aadhi using setup script
 
-Section 1: Configure scenario server in webrick server
+https://github.com/gkexplore/AadhiSetup/blob/master/README.md
 
-Step1: Clone the new scenario server from github
-                  git clone https://github.com/gkexplore/scenario_server_mysql.git
-Step 2: Make sure you have rvm 2.2.0 version. One can check that by running rvm list command 
-                   rvm install 2.2.0
-Step 3: Install rails 
-                   gem install rails
-                    if above command fails due to missing command line tools, then run : xcode-select —install  to install command line tools
-                    Run the below command again and it would take around 10mins
-                   gem install rails 
-Step 4: Navigate to cloned scenario server code base and run the following commands
-                   To install MySQL server
-                   brew install mysql    
-                   To install all the required gems for scenario server
-                   bundle install
 
-Step 5: Setup mysql
 
-                   To Start MySQL
- 
-                    mysql.server start
-                    
-                    To set root password, run
-                    mysql_secure_installation
-                               Enter current password for root (enter for none): simply press enter
-                               Set root password? [Y/n]  - type y
-                               New password: auto@123
-                               Re-enter new password: auto@123
-                               Password updated successfully!
-                               Remove anonymous users? [Y/n] - type n
-                               Disallow root login remotely? [Y/n] - type n
-                               Remove test database and access to it? [Y/n] - type n
-                               Reload privilege tables now? [Y/n] - type y
-                     To create db 
-                               Login into mysql 
-                                        mysql -uroot -pauto@123
-                               Run below command to create database
-                                        create database stubs;
-                       Create tables by running the below command from scenario_server folder
-                                        bin/rake db:migrate RAILS_ENV=development
-Step 6: To start scenario server on port 9090
-                  rails s -p 9090
-                  Open any browser and access the below URL
-                  http://localhost:9090
-Now you should be able to see the home screen of scenario server in your machine
-
-Section 2: Configuring Rails server in Passenger Apache
-
-Step 1. Skip this step if you have already done it
-        Complete the Step 2,3,4 and 5 in Section 1
-Step 2: Install Passenger Gem
-             gem install passenger
-Step 3: Install Apache module using passenger
-             rvmsudo passenger-install-apache2-module
-Step 4: Modify the below mentioned config file of apache
-           a) Copy and Paste the below piece of code in /etc/apache2/httpd.conf.Make sure you replace <username> with your user name and also the passenger version should be the version(passenger-4.0.59) which you installed in your machine
-                 LoadModule passenger_module /Users/<username>/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59/buildout/apache2/mod_passenger.so
-                <IfModule mod_passenger.c>
-                    PassengerRoot /Users/<username>/.rvm/gems/ruby-2.2.0/gems/passenger-4.0.59
-                    PassengerDefaultRuby /Users/<username>/.rvm/gems/ruby-2.2.0/wrappers/ruby
-                </IfModule>
-          b) Uncomment the below line in httpd.conf file
-                 Include /private/etc/apache2/extra/httpd-vhosts.conf
-                 LoadModule ssl_module libexec/apache2/mod_ssl.so
-          c) Edit httpd-vhosts.conf file of apache as below
-              NameVirtualHost *:80
-              NameVirtualHost *:443
-              Listen 443
-             <VirtualHost *:80>
-                   ServerName localhost
-                     DocumentRoot "/var/www/scenario_server_mysql/public"
-                    <Directory /var/www/scenario_server_mysql/public>
-                          <IfVersion < 2.4>
-                                Allow from all
-                         </IfVersion>
-                         <IfVersion >= 2.4>
-                            Require all granted
-                         </IfVersion> 
-                              Options Indexes FollowSymLinks Includes ExecCGI
-                              # This relaxes Apache security settings.
-                             AllowOverride None
-                             # MultiViews must be turned off.
-                             Allow from all
-                            RailsEnv production
-                 </Directory>
-             </VirtualHost>
-              <VirtualHost *:443>
-                     ServerName localhost
-                     DocumentRoot "/var/www/scenario_server_mysql/public"
-                    <Directory /var/www/scenario_server_mysql/public>
-             <IfVersion < 2.4>
-                   Allow from all
-            </IfVersion>
-           <IfVersion >= 2.4>
-                    Require all granted
-           </IfVersion> 
-                    Options Indexes FollowSymLinks Includes ExecCGI
-                    # This relaxes Apache security settings.
-                    AllowOverride None
-                    # MultiViews must be turned off.
-                    Allow from all
-                   RailsEnv production
-        </Directory>
-       SSLEngine on
-       SSLCertificateFile /var/www/scenario_server_mysql/cert/server.crt
-       SSLCertificateKeyFile /var/www/scenario_server_mysql/cert/server.key
-       </VirtualHost>
        
-Step 5: Clone scenario server in /var/www/  location. To do this, please follow the below steps
-       Open terminal and run the below commands
-       cd /var
-       sudo mkdir www
-       sudo chmod 777 /var/www/
-       cd www
-       git clone https://github.com/gkexplore/scenario_server_mysql.git
-       cd scenario_server_mysql
-       sudo chmod 777 /var/www/scenario_server_mysql
-       bin/rake db:migrate RAILS_ENV=development
-       rvmsudo rake assets:precompile
-       cd /var/www/scenario_server_mysql
-       sudo chmod -R 777 public/assets
-       sudo chmod -R 777 tmp
-       
-Step 6: Start the apache server
-       sudo apachectl start
+Useful commands:
+
+       To start the apache server sudo apachectl -k start
+       To start the mysql server mysql.server start
        To view the log run (tail -f -n+100 /var/log/apache2/error_log)
        To stop the apache server  (sudo apachectl stop)
-       To stop the apache server  (sudo apachectl restart)
-       To start the apache server in debug mode (sudo apachectl -k restart)
+       To restart the apache server in debug mode (sudo apachectl -k restart)
        
- 
-   Now you should be able to access the scenario server in both http and https schemes. Also, the server would start during system startup itself. So no need to manually start the server.
